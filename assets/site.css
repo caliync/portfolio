@@ -180,7 +180,10 @@ h1, h2, h3 { font-weight: 400; }
 /* Experience */
 .job + .job { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--line); }
 .job .kind { margin: -8px 0 14px; }
-.job-photo { margin: 20px 0 0; max-width: 680px; }
+.job-split { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); grid-template-areas: "photo text"; gap: 32px; align-items: start; }
+.job-split .job-text { grid-area: text; padding-left: 32px; border-left: 1px solid var(--line); }
+.job-photos { grid-area: photo; display: grid; gap: 20px; }
+.job-photo { margin: 0; }
 .job-photo img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); }
 .job-photo figcaption { margin-top: 8px; color: var(--muted); font-size: .95rem; font-style: italic; }
 .job-link { margin: 14px 0 0; font-weight: 600; }
@@ -230,6 +233,9 @@ h1, h2, h3 { font-weight: 400; }
 .foot .reach-icons a { width: 40px; height: 40px; font-size: 1.15rem; }
 
 @media (max-width: 760px) {
+  .job-split { grid-template-columns: 1fr; grid-template-areas: "photo" "text"; gap: 18px; }
+  .job-split .job-text { padding-left: 0; border-left: 0; }
+  .job-photos { max-width: 480px; }
   .card { grid-template-columns: 1fr; }
   .card-img { min-height: 0; aspect-ratio: 16 / 10; border-right: 0; border-bottom: 1px solid var(--line); }
   .rows > div { grid-template-columns: 1fr; }
