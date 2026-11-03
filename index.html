@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Casey Yncierto</title>
+<meta name="description" content="Casey Allison R. Yncierto, web and mobile developer. Builder of Baylo, Lakbay Lokal and Wildwood Farm. Looking for a frontend or full-stack internship.">
+<meta property="og:title" content="Casey Yncierto, web and mobile developer">
+<meta property="og:description" content="Baylo, Lakbay Lokal and Wildwood Farm: web apps and games from wireframe to deployed backend.">
+<meta name="theme-color" content="#E9EEF2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1B2D" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23132238'/%3E%3Crect x='6' y='20' width='20' height='5' fill='%23F3B61F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,300..900&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar">
+  <a class="mark" href="#top" aria-label="Casey Yncierto, back to top">CY</a>
+  <nav aria-label="Sections">
+    <a href="#about">About</a>
+    <a href="#work">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero" id="top" aria-labelledby="name">
+    <h1 id="name" class="name" aria-label="Casey Yncierto">
+      <span class="line" data-word>Casey</span>
+      <span class="line" data-word>Yncierto</span>
+    </h1>
+    <div class="hero-body">
+      <p class="role">Web and mobile developer</p>
+      <p class="lede">I build web apps from the first wireframe to a deployed backend. My capstone platform, Baylo, earned a 4.89/5 rating from 100 respondents, and Lakbay Lokal, the trip planner I built on my own, is live. I'm looking for a frontend or full-stack internship.</p>
+      <div class="actions">
+        <a class="btn btn-solid" href="#work">See my work</a>
+        <a class="btn" href="#contact">Get in touch</a>
+        <a class="btn" href="casey-cv.pdf" data-optional-file hidden>Download CV</a>
+        <a class="btn" href="casey-ats-resume.pdf" data-optional-file hidden>ATS resume</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="about" aria-labelledby="about-h">
+    <h2 id="about-h">About</h2>
+    <div class="sec-body prose">
+      <p>I'm Casey Allison R. Yncierto, a fourth-year IT student at Far Eastern University&nbsp;- Alabang, specializing in web and mobile development. Most of what I know comes from building things: a capstone web platform, a Roblox game with a team, a trip planner of my own, and a lot of trial and error with Firebase.</p>
+      <p>I like the parts of a project other people skip: the research behind a design decision, the wireframe before the code, and the data cleanup underneath. I'm looking for a frontend or full-stack internship on a team where I can keep learning.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="work" aria-labelledby="work-h">
+    <h2 id="work-h">Projects</h2>
+    <div class="sec-body">
+
+      <article class="proj">
+        <header class="proj-head">
+          <h3>Baylo</h3>
+          <p class="proj-path">cd baylo/capstone</p>
+        </header>
+        <p class="proj-sum">A barter trading platform. Capstone project with a 4-person team; I built the web platform, and my teammates built the mobile app.</p>
+        <p class="score"><span class="score-n">4.89<span class="score-of">/5</span></span> <span class="score-t">from 100 respondents in the ISO/IEC 25010 evaluation I led</span></p>
+        <ul class="points">
+          <li>Built Baylo's web platform alone: a FastAPI backend with 9 route modules over a 13-table PostgreSQL database, and a React, TypeScript and Tailwind frontend where users post and trade items.</li>
+          <li>Added Gemini to estimate an item's value and category from its photos, screen listings for prohibited items, and score how well two items match for a trade (value, category, condition, interest).</li>
+          <li>Wired up Firebase for sign-in, real-time chat and notifications, and built an admin dashboard for users, listings, reports and trades.</li>
+          <li>Deployed the backend to Google Cloud Run in a Docker container.</li>
+        </ul>
+        <p class="stack">FastAPI, PostgreSQL, React, TypeScript, Tailwind, Firebase, Gemini API, Docker, Cloud Run</p>
+      </article>
+
+      <article class="proj">
+        <header class="proj-head">
+          <h3>Lakbay Lokal</h3>
+          <p class="proj-path">cd lakbay-lokal</p>
+        </header>
+        <p class="proj-sum">A free trip planner for the Philippines. Personal project, live.</p>
+        <ul class="points">
+          <li>Turns where you are staying and how far you will go into a timed day of local stops, with travel time between each.</li>
+          <li>Wrote the planning engine: it filters places by budget, group, opening hours and interests, scores them, and builds each day outward from the stay.</li>
+          <li>Limited every recommendation to a real place in its own dataset of about 220, so Gemini only rewords stored facts and never invents a venue.</li>
+          <li>Added editable plans, a rainy-day swap to indoor places, a day map, calendar and Markdown exports, and an offline day guide.</li>
+          <li>Added an owner sign-up form with review before anything goes live, tested the engine with unit tests, and deployed it on Render.</li>
+        </ul>
+        <p class="stack">Python, FastAPI, JavaScript, SQLite, Gemini API, Leaflet, Render</p>
+        <p class="links"><a href="https://lakbay-lokal.onrender.com/">Open the live site</a></p>
+      </article>
+
+      <article class="proj">
+        <header class="proj-head">
+          <h3>Wildwood Farm</h3>
+          <p class="proj-path">cd wildwood-farm</p>
+        </header>
+        <p class="proj-sum">A 3D browser game where players befriend animals, grow and cook crops, fish and forge weapons.</p>
+        <ul class="points">
+          <li>Programmed night wolf raids that players fend off with gates, watchtowers and spike traps.</li>
+          <li>Added a walking buddy: any barn animal can follow the player, dig up treats and warn about wolves.</li>
+          <li>Made it playable on keyboard, mouse or touch, with progress saved in the browser.</li>
+        </ul>
+        <p class="stack">three.js, JavaScript</p>
+        <p class="links"><a href="https://caliync.github.io/wildwood-farm/">Play the game</a> <a href="https://github.com/caliync/wildwood-farm">View the code</a></p>
+      </article>
+
+      <article class="proj">
+        <header class="proj-head">
+          <h3>Wildwood Site</h3>
+          <p class="proj-path">cd wildwood-site</p>
+        </header>
+        <p class="proj-sum">The game's website. It opens on a 3D forest with a smoking campfire, fireflies and ground mist.</p>
+        <ul class="points">
+          <li>Built a rotatable 3D field guide with day, dusk and night lighting.</li>
+          <li>Built a 3D map of six regions where picking a region flies the camera there.</li>
+        </ul>
+        <p class="stack">three.js, GSAP</p>
+        <p class="links"><a href="https://caliync.github.io/wildwood-site/">Visit the site</a> <a href="https://github.com/caliync/wildwood-site">View the code</a></p>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="sec" id="experience" aria-labelledby="exp-h">
+    <h2 id="exp-h">Experience</h2>
+    <div class="sec-body">
+      <article class="job">
+        <h3>Capstone Project Developer &amp; Researcher</h3>
+        <p class="job-meta">Baylo, student project, 4-person team</p>
+        <p>Built the web platform and backend described under Projects, and led the survey and evaluation under ISO/IEC 25010, where 100 respondents rated the platform 4.89/5.</p>
+      </article>
+      <article class="job">
+        <h3>Roblox Game Developer, UI/UX Designer and Gameplay Scripter</h3>
+        <!-- Add dates and the team name, then remove the comment marks:
+        <p class="job-meta">Team or studio name, Start to End</p>
+        -->
+        <ul class="points">
+          <li>Worked with a team of Roblox developers and designed the game's UI/UX.</li>
+          <li>Created 3D models in Blender and animated a character.</li>
+          <li>Wrote Luau gameplay scripts and debugged errors in them.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec" id="skills" aria-labelledby="skills-h">
+    <h2 id="skills-h">Skills</h2>
+    <div class="sec-body">
+      <dl class="skills">
+        <div><dt>Languages</dt><dd>Python, JavaScript, TypeScript, HTML and CSS, Java, PHP, Kotlin, Luau, SQL</dd></div>
+        <div><dt>Web and mobile</dt><dd>React, Tailwind, FastAPI, three.js, GSAP, Firebase, Android Studio</dd></div>
+        <div><dt>Data and cloud</dt><dd>PostgreSQL, SQLite, Google Cloud Run, Docker, Render</dd></div>
+        <div><dt>Design and research</dt><dd>UI/UX design, wireframing, Blender, Canva, research and documentation</dd></div>
+        <div><dt>Tools</dt><dd>Git, Roblox Studio, Google Gemini API</dd></div>
+        <div><dt>Working style</dt><dd>Time management, attention to detail, teamwork and collaboration</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec" id="certifications" aria-labelledby="cert-h">
+    <h2 id="cert-h">Certifications</h2>
+    <div class="sec-body">
+      <ul class="certs">
+        <li><time datetime="2026-07">July 2026</time><span><strong>Cisco CyberOps Associate</strong>Cisco Networking Academy, FEU Alabang</span></li>
+        <li><time datetime="2025-11">November 2025</time><span><strong>Linux Essentials</strong>Cisco Networking Academy</span></li>
+        <li><time datetime="2025-03">March 2025</time><span><strong>IT Specialist: Networking</strong>Certiport, a Pearson VUE business</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec contact" id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <div class="sec-body">
+      <p class="contact-line">I'm open to frontend and full-stack internships.</p>
+      <dl class="reach">
+        <!-- Fill these in, then remove the comment marks:
+        <div><dt>Email</dt><dd><a href="mailto:you@example.com">you@example.com</a></dd></div>
+        <div><dt>Phone</dt><dd><a href="tel:+630000000000">+63 000 000 0000</a></dd></div>
+        <div><dt>Location</dt><dd>City, Philippines</dd></div>
+        <div><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/your-handle">linkedin.com/in/your-handle</a></dd></div>
+        -->
+        <div><dt>GitHub</dt><dd><a href="https://github.com/caliync">github.com/caliync</a></dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>© 2026 Casey Allison R. Yncierto</p>
+</footer>
+
+<script src="main.js" defer></script>
+</body>
+</html>
