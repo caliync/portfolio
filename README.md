@@ -1,6 +1,15 @@
 # Casey Yncierto, portfolio
 
-Static site: `index.html`, `styles.css`, `main.js`. No build step.
+A static site with no build step:
+
+| Page | File |
+| --- | --- |
+| Home (name, Student or Developer, contact icons) | `index.html` |
+| Student (school, coursework, research interests, certifications) | `student.html` |
+| Developer (projects, arsenal, experience, contact) | `developer.html` |
+| One page per project | `projects/*.html` |
+
+`assets/site.css` holds the styles, `assets/site.js` the theme switch and the hero name effect, and `assets/sea.js` the 3D background. The background is a sea of lights drawn with plain WebGL. It stops moving for visitors who have reduced motion turned on.
 
 ## Run it locally
 
@@ -15,14 +24,18 @@ Then open http://localhost:8000.
 Settings → Pages → Deploy from a branch → pick the branch and `/ (root)`.
 The site will be at https://caliync.github.io/portfolio/.
 
-## Things to fill in
+## Images to add
 
-- **Contact details:** in `index.html`, under `id="contact"`, replace the commented-out email, phone, location and LinkedIn rows and remove the comment marks. Rows you leave commented out don't show.
-- **Roblox role:** add the team name and dates in the commented line under that job.
-- **CV and ATS resume:** add `casey-cv.pdf` and `casey-ats-resume.pdf` to the repo root. The two download buttons stay hidden until the files exist.
+Missing images are hidden on the page until the file exists, so nothing looks broken.
 
-## Type and color
+- `images/baylo/home.jpg`: the Baylo home page
+- `images/baylo/browse.jpg`: the Baylo listings page
+- `images/baylo/defense.jpg`: the team photo at the capstone presentation
+- `images/certs/cyberops.jpg`, `images/certs/linux-essentials.jpg`, `images/certs/it-specialist-networking.jpg`: the three certificates
+- `casey-cv.pdf` and `casey-ats-resume.pdf` at the repo root: the Download CV and ATS resume buttons on the Developer page show up once these exist
 
-- Display: Anybody, a variable grotesk. The hero name widens near the pointer, using its width axis.
-- Body: Newsreader.
-- Colors: harbor mist `#E9EEF2`, night sea `#132238`, slate `#3F5873`, jeepney yellow `#F3B61F`, mangrove `#22685B`. Dark mode follows the system setting.
+The project screenshots in `images/projects/` were taken from each project running locally.
+
+## Still to fill in
+
+- Roblox role: add the team name and dates in the commented line in `developer.html`.
