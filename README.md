@@ -6,8 +6,9 @@ A static site with no build step.
 - `projects/*.html`: a "How I built it" page for each project
 - `student.html` and `developer.html`: old links that now redirect to the matching section of `index.html`
 - `assets/site.css`: styles, with light and dark mode
-- `assets/site.js`: the theme switch and menu highlighting
-- `assets/capiz.js`: the background, a capiz-shell window drawn with plain WebGL. It holds still for visitors who have reduced motion turned on.
+- `assets/site.js`: the light/dark switch and menu highlighting
+- `assets/waves.js`: the background, 3D flowing lines drawn with plain WebGL. They hold still for visitors who have reduced motion turned on.
+- `assets/logo.svg`: the neon CY logo, used in the navbar and as the browser-tab icon
 
 ## Run it locally
 
