@@ -10,7 +10,7 @@
 <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg?v=15d51f07">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:ital,wght@0,400..700;1,400&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=af415311">
+<link rel="stylesheet" href="assets/site.css?v=edbfa277">
 </head>
 <body data-bg="intro">
 <a class="skip" href="#main">Skip to content</a>
@@ -37,8 +37,7 @@
     <h2 id="about-h">About me</h2>
     <div class="prose">
       <p>I'm a student at Far Eastern University - Alabang, taking a Bachelor of Science in Information Technology with a specialization in web and mobile applications. I expect to graduate in September 2027.</p>
-      <p>I work on web and mobile development, system design, UI and UX design, and machine learning. Most of what I know comes from building things: a capstone web platform, a Roblox game with a team, a trip planner of my own, and a lot of trial and error with Firebase.</p>
-      <p>I like the parts of a project other people skip: the research behind a design decision, the wireframe before the code, and the data cleanup underneath.</p>
+      <p>I focus on web and mobile development, system design, UI/UX design and machine learning. Most of what I know comes from building real projects: the web platform for my capstone, gameplay systems for a Roblox team, Java plugins for a Minecraft server with thousands of players, and Lakbay Lokal, a trip planner I built and deployed on my own.</p>
     </div>
     <div class="two-col">
       <div>
@@ -86,29 +85,47 @@
           <li>Led the research: ran the survey and the ISO/IEC 25010 evaluation, where 100 respondents rated the platform 4.89/5.</li>
           <li>Presented and defended Baylo with the team at our capstone presentation.</li>
         </ul>
-        <p class="job-link"><a href="projects/baylo.html">How I built Baylo</a></p>
       </div>
     </article>
-    <article class="job">
-      <h3>Roblox Game Developer, UI/UX Designer and Gameplay Scripter</h3>
-      <!-- Add the team name and dates, then remove the comment marks:
-      <p class="kind">Team or studio name, Start to End</p>
-      -->
-      <ul class="list">
-        <li>Worked with a team of Roblox developers and designed the game's UI/UX.</li>
-        <li>Created 3D models in Blender and animated a character.</li>
-        <li>Wrote Luau gameplay scripts and debugged errors in them.</li>
-      </ul>
+    <article class="job job-split">
+      <div class="job-photos">
+        <figure class="job-photo">
+          <img src="images/corestudio/live-feed.png" alt="The anti-exploit admin dashboard's live feed, listing recent detections such as teleport, fly and walkspeed with the action taken for each" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">
+          <figcaption>The admin dashboard's live feed of detections.</figcaption>
+        </figure>
+      </div>
+      <div class="job-text">
+        <h3>UI/UX Designer and Gameplay Scripter</h3>
+        <p class="kind">CoreStudio, Roblox game team, 2026</p>
+        <ul class="list">
+          <li>Joined CoreStudio's Roblox team to design the game's UI/UX and write gameplay scripts in Luau.</li>
+          <li>Built a modular, server-authoritative anti-exploit system that catches speed hacks, teleporting, flying, jump cheats, humanoid tampering and remote spam.</li>
+          <li>Added an in-game admin dashboard, saved bans, optional Discord webhook alerts, and a configurable strike system that kicks and then bans repeat offenders.</li>
+        </ul>
+      </div>
     </article>
-    <article class="job">
-      <h3>Server Admin and Plugin Developer</h3>
-      <p class="kind">BattleAsya Minecraft server, 2019 to 2022</p>
-      <ul class="list">
-        <li>Helped run BattleAsya as an admin and developer, a server with about 5,000 players and up to 2,000 online at once.</li>
-        <li>Built custom Java plugins with the Spigot API, so they ran on Spigot, Paper and Bukkit servers.</li>
-        <li>Built a report and ticket system: when a player reports a cheater in-game, a Discord bot I made with JDA and DiscordSRV opens a ticket channel on the server's Discord, so staff can review it.</li>
-        <li>Wrote plugins that fixed bugs and blocked exploits, keeping the server stable for a large live player base.</li>
-      </ul>
+    <article class="job job-split">
+      <div class="job-photos">
+        <figure class="job-photo">
+          <a href="images/battleasya/ticket-discord.webp" target="_blank" rel="noopener"><img src="images/battleasya/ticket-discord.webp" alt="The Discord ticket channel: a staff member tells the player who stole their diamonds, the player answers from in-game through the plugin, the staff member warns the other player, and the ticket is closed" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true"></a>
+          <figcaption>Replies typed in-game appear in the Discord ticket.</figcaption>
+        </figure>
+        <figure class="job-photo">
+          <a href="images/battleasya/ticket-transcript.webp" target="_blank" rel="noopener"><img src="images/battleasya/ticket-transcript.webp" alt="The saved transcript of the same ticket, dated August 2026" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true"></a>
+          <figcaption>The saved transcript, from August 2026. Names are hidden; select an image to view it full size.</figcaption>
+        </figure>
+      </div>
+      <div class="job-text">
+        <h3>Server Admin and Plugin Developer</h3>
+        <p class="kind">BattleAsya Minecraft server, 2019 to 2022</p>
+        <ul class="list">
+          <li>Helped run BattleAsya as an admin and developer. The server had about 14,000 players, with up to 5,000 online at once, and kept that player base for several years.</li>
+          <li>Built custom Java plugins with the Spigot API, so they ran on Spigot, Paper and Bukkit servers.</li>
+          <li>Built a report and ticket system: when a player reports a cheater in-game, a Discord bot I made with JDA and DiscordSRV opens a ticket channel on the server's Discord, so staff can review it.</li>
+          <li>Wrote plugins that fixed bugs and blocked exploits, keeping the server stable for a large live player base.</li>
+          <li>The server still runs my ticket and report plugin today, years after I built it.</li>
+        </ul>
+      </div>
     </article>
   </section>
 
@@ -183,7 +200,7 @@
     <h2 id="cert-h">Certifications</h2>
     <ul class="certs">
         <li class="cert">
-          <figure class="cert-img"><img src="images/certs/cyberops.jpg" alt="Cisco CyberOps Associate certificate" loading="lazy" onerror="this.closest('figure').hidden=true"></figure>
+          <figure class="cert-img"><a href="images/certs/cyberops.jpg" target="_blank" rel="noopener"><img src="images/certs/cyberops.jpg" alt="Cisco CyberOps Associate certificate" loading="lazy" onerror="this.closest('figure').hidden=true"></a></figure>
           <div class="cert-text">
             <h3>Cisco CyberOps Associate</h3>
             <p>Cisco Networking Academy, FEU Alabang</p>
@@ -191,7 +208,7 @@
           </div>
         </li>
         <li class="cert">
-          <figure class="cert-img"><img src="images/certs/linux-essentials.jpg" alt="Linux Essentials certificate" loading="lazy" onerror="this.closest('figure').hidden=true"></figure>
+          <figure class="cert-img"><a href="images/certs/linux-essentials.jpg" target="_blank" rel="noopener"><img src="images/certs/linux-essentials.jpg" alt="Linux Essentials certificate" loading="lazy" onerror="this.closest('figure').hidden=true"></a></figure>
           <div class="cert-text">
             <h3>Linux Essentials</h3>
             <p>Cisco Networking Academy</p>
@@ -199,7 +216,7 @@
           </div>
         </li>
         <li class="cert">
-          <figure class="cert-img"><img src="images/certs/it-specialist-networking.jpg" alt="IT Specialist: Networking certificate" loading="lazy" onerror="this.closest('figure').hidden=true"></figure>
+          <figure class="cert-img"><a href="images/certs/it-specialist-networking.jpg" target="_blank" rel="noopener"><img src="images/certs/it-specialist-networking.jpg" alt="IT Specialist: Networking certificate" loading="lazy" onerror="this.closest('figure').hidden=true"></a></figure>
           <div class="cert-text">
             <h3>IT Specialist: Networking</h3>
             <p>Certiport, a Pearson VUE business</p>
