@@ -110,7 +110,19 @@ h1, h2, h3 { font-weight: 400; }
   transition: color .2s, border-color .2s;
 }
 .reach-icons a:hover { color: var(--accent-text); border-color: var(--accent); }
-.reach-hero { margin-top: 28px; }
+.reach-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 28px; }
+.dl { display: flex; gap: 10px; flex-wrap: wrap; }
+.dl-btn {
+  display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 18px; border-radius: 12px;
+  font-weight: 700; font-size: .98rem; text-decoration: none; color: var(--ink);
+  background: var(--box); border: 1px solid var(--line); transition: border-color .2s, background-color .2s, color .2s;
+}
+.dl-btn svg { font-size: 1.1rem; color: var(--accent-text); }
+.dl-btn:hover { border-color: var(--accent); }
+.dl-solid { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.dl-solid svg { color: var(--on-accent); }
+.dl-solid:hover { background: transparent; color: var(--ink); }
+.dl-solid:hover svg { color: var(--accent-text); }
 .cv { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0 0; }
 .cv:not(:has(.btn:not([hidden]))) { display: none; }
 
