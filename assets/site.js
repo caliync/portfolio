@@ -164,10 +164,35 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
       if (swipe && link) { var nav = link.parentNode; nav.scrollTo({ left: link.offsetLeft - nav.offsetLeft - (nav.clientWidth - link.offsetWidth) / 2, behavior: 'smooth' }); }
     }
   }
+  // On computers every move between sections is one eased glide.
+  var anim = null, lastWheel = 0, wheelSum = 0, gestureUsed = false, idleTimer = 0;
+  function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function glide(top) {
+    var from = window.scrollY, dist = top - from;
+    if (Math.abs(dist) < 1) return;
+    var dur = Math.min(1100, 650 + Math.abs(dist) / vw * 120), t0 = performance.now();
+    if (anim) cancelAnimationFrame(anim.raf);
+    anim = { target: top };
+    root.style.scrollBehavior = 'auto';
+    (function step(now) {
+      var k = Math.min(1, (now - t0) / dur);
+      window.scrollTo(0, from + dist * ease(k));
+      if (k < 1) anim.raf = requestAnimationFrame(step);
+      else { anim = null; root.style.scrollBehavior = ''; }
+    })(t0);
+  }
   function goTo(i, smooth) {
     i = Math.max(0, Math.min(panels.length - 1, i));
     if (state.mode === 'swipe') track.scrollTo({ left: i * vw, behavior: smooth ? 'smooth' : 'auto' });
-    else window.scrollTo({ top: base() + i * vw, behavior: smooth ? 'smooth' : 'auto' });
+    else if (smooth) { current = i; glide(base() + i * vw); }
+    else window.scrollTo({ top: base() + i * vw, behavior: 'auto' });
+  }
+  function target() { return anim ? Math.round((anim.target - base()) / vw) : current; }
+  // A box with more to read scrolls first; the page only moves at its top or bottom.
+  function boxCanScroll(el, dy) {
+    var box = el && el.closest && el.closest('.panel-box');
+    if (!box || box.scrollHeight <= box.clientHeight + 2) return false;
+    return dy > 0 ? box.scrollTop + box.clientHeight < box.scrollHeight - 2 : box.scrollTop > 2;
   }
 
   document.addEventListener('click', function (e) {
@@ -188,17 +213,47 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   });
   window.addEventListener('wheel', function (e) {
     if (state.mode !== 'wide' || e.ctrlKey) return;
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.preventDefault(); window.scrollBy(0, e.deltaX); }
+    if (document.querySelector('.viewer:not([hidden])')) return;
+    var dy = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (e.deltaMode === 1) dy *= 32;
+    if (boxCanScroll(e.target, dy)) return;
+    e.preventDefault();
+    var now = performance.now();
+    // A new gesture starts after a short pause; trackpad momentum never skips two sections.
+    if (now - lastWheel > 220) { wheelSum = 0; gestureUsed = false; }
+    lastWheel = now;
+    if (gestureUsed) return;
+    wheelSum += dy;
+    if (Math.abs(wheelSum) >= 40) {
+      gestureUsed = true;
+      goTo(target() + (wheelSum > 0 ? 1 : -1), true);
+    }
   }, { passive: false });
   document.addEventListener('keydown', function (e) {
     if (!state.active || e.altKey || e.metaKey || e.ctrlKey) return;
     if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
     if (document.querySelector('.viewer:not([hidden])')) return;
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1, true); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1, true); }
+    var fwd = ['ArrowRight', 'PageDown'].indexOf(e.key) >= 0 || (e.key === ' ' && !e.shiftKey) || (e.key === 'ArrowDown' && state.mode === 'wide');
+    var back = ['ArrowLeft', 'PageUp'].indexOf(e.key) >= 0 || (e.key === ' ' && e.shiftKey) || (e.key === 'ArrowUp' && state.mode === 'wide');
+    if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && boxCanScroll(document.activeElement, e.key === 'ArrowDown' ? 1 : -1)) return;
+    if (/^(A|BUTTON)$/.test(document.activeElement.tagName) && e.key === ' ') return;
+    if (fwd) { e.preventDefault(); goTo(target() + 1, true); }
+    else if (back) { e.preventDefault(); goTo(target() - 1, true); }
+    else if (e.key === 'Home' && state.mode === 'wide') { e.preventDefault(); goTo(0, true); }
+    else if (e.key === 'End' && state.mode === 'wide') { e.preventDefault(); goTo(panels.length - 1, true); }
   });
 
-  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('scroll', function () {
+    update();
+    // Dragging the scroll bar or a touch screen on a big tablet: settle on the nearest section.
+    if (state.mode !== 'wide' || anim) return;
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function () {
+      if (anim || state.mode !== 'wide') return;
+      var x = window.scrollY - base(), i = Math.round(x / vw);
+      if (x > 0 && x < (panels.length - 1) * vw && Math.abs(x - i * vw) > 2) goTo(i, true);
+    }, 160);
+  }, { passive: true });
   track.addEventListener('scroll', update, { passive: true });
   var lastW = window.innerWidth;
   window.addEventListener('resize', function () {
