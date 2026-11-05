@@ -38,7 +38,7 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
       var a = links[en.target.id];
-      if (a && en.isIntersecting) {
+      if (a && en.isIntersecting && !document.documentElement.classList.contains('hs-on')) {
         Object.values(links).forEach(function (l) { l.removeAttribute('aria-current'); });
         a.setAttribute('aria-current', 'true');
       }
@@ -96,4 +96,106 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   btn.addEventListener('click', close);
   box.addEventListener('click', function (e) { if (e.target === box) close(); });
   document.addEventListener('keydown', function (e) { if (!box.hidden && e.key === 'Escape') close(); });
+})();
+
+
+// Sideways scrolling on the home page: scrolling down moves along the shelves,
+// and each section fades in as it reaches the middle of the screen.
+(function () {
+  var hs = document.querySelector('.hs');
+  if (!hs) return;
+  var root = document.documentElement;
+  var track = hs.querySelector('.hs-track');
+  var panels = Array.prototype.slice.call(track.querySelectorAll('.panel'));
+  var bar = hs.querySelector('.hs-progress span');
+  var navLinks = {};
+  document.querySelectorAll('.bar nav a[href^="#"]').forEach(function (a) { navLinks[a.hash.slice(1)] = a; });
+  var wide = window.matchMedia('(min-width: 900px) and (min-height: 560px)');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var state = window.shelfScroll = { active: false, p: 0, span: (panels.length - 1) * 7 };
+  var vw = window.innerWidth, current = -1;
+
+  function base() { return hs.getBoundingClientRect().top + window.scrollY; }
+  function setup() {
+    var on = wide.matches && !reduce.matches;
+    root.classList.toggle('hs-on', on);
+    state.active = on;
+    vw = window.innerWidth;
+    if (on) {
+      hs.style.height = ((panels.length - 1) * vw + window.innerHeight) + 'px';
+    } else {
+      hs.style.height = '';
+      track.style.transform = '';
+      panels.forEach(function (p) { var b = p.firstElementChild; b.style.opacity = ''; b.style.transform = ''; });
+    }
+    update();
+  }
+  function update() {
+    if (!state.active) return;
+    var max = (panels.length - 1) * vw;
+    var y = Math.min(max, Math.max(0, window.scrollY - base()));
+    state.p = max ? y / max : 0;
+    track.style.transform = 'translate3d(' + (-y).toFixed(1) + 'px,0,0)';
+    if (bar) bar.style.transform = 'scaleX(' + state.p.toFixed(4) + ')';
+    panels.forEach(function (p, i) {
+      var d = (i * vw - y) / vw, a = Math.abs(d), b = p.firstElementChild;
+      var o = Math.max(0, Math.min(1, 1 - (a - 0.08) * 1.7));
+      b.style.opacity = o.toFixed(3);
+      b.style.transform = 'translate3d(' + (d * 18).toFixed(1) + 'vw,' + (a * 26).toFixed(1) + 'px,0) scale(' + (1 - Math.min(a, 1) * 0.05).toFixed(4) + ')';
+      p.toggleAttribute('inert', a > 0.6);
+    });
+    var idx = Math.round(y / vw);
+    if (idx !== current) {
+      current = idx;
+      var key = (panels[idx].id || '').split('-')[0];
+      Object.keys(navLinks).forEach(function (k) { navLinks[k].toggleAttribute('aria-current', k === key); if (k === key) navLinks[k].setAttribute('aria-current', 'true'); });
+    }
+  }
+  function goTo(i, smooth) {
+    i = Math.max(0, Math.min(panels.length - 1, i));
+    window.scrollTo({ top: base() + i * vw, behavior: smooth ? 'smooth' : 'auto' });
+  }
+
+  document.addEventListener('click', function (e) {
+    if (!state.active) return;
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var target = document.getElementById(a.hash.slice(1));
+    var p = target && target.closest('.panel');
+    if (!p) return;
+    e.preventDefault();
+    goTo(panels.indexOf(p), true);
+    history.replaceState(null, '', a.hash);
+  });
+  document.addEventListener('focusin', function (e) {
+    if (!state.active) return;
+    var p = e.target.closest && e.target.closest('.panel');
+    if (p && panels.indexOf(p) !== current) goTo(panels.indexOf(p), false);
+  });
+  window.addEventListener('wheel', function (e) {
+    if (!state.active || e.ctrlKey) return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.preventDefault(); window.scrollBy(0, e.deltaX); }
+  }, { passive: false });
+  document.addEventListener('keydown', function (e) {
+    if (!state.active || e.altKey || e.metaKey || e.ctrlKey) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
+    if (document.querySelector('.viewer:not([hidden])')) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1, true); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1, true); }
+  });
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', function () {
+    var keep = current;
+    setup();
+    if (state.active && keep > 0) goTo(keep, false);
+  });
+  wide.addEventListener('change', setup);
+  reduce.addEventListener('change', setup);
+  setup();
+  if (state.active && location.hash) {
+    var t = document.getElementById(location.hash.slice(1));
+    var tp = t && t.closest('.panel');
+    if (tp) goTo(panels.indexOf(tp), false);
+  }
 })();
