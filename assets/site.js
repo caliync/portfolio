@@ -38,7 +38,7 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
       var a = links[en.target.id];
-      if (a && en.isIntersecting && !document.documentElement.classList.contains('hs-on')) {
+      if (a && en.isIntersecting && !window.shelfScroll?.active) {
         Object.values(links).forEach(function (l) { l.removeAttribute('aria-current'); });
         a.setAttribute('aria-current', 'true');
       }
@@ -99,8 +99,9 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
 })();
 
 
-// Sideways scrolling on the home page: scrolling down moves along the shelves,
-// and each section fades in as it reaches the middle of the screen.
+// Sideways scrolling on the home page. On computers, scrolling down moves along the
+// shelves; on phones, you swipe left and right between sections and scroll up and down
+// inside one. Each section fades in as it reaches the middle of the screen.
 (function () {
   var hs = document.querySelector('.hs');
   if (!hs) return;
@@ -112,48 +113,61 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   document.querySelectorAll('.bar nav a[href^="#"]').forEach(function (a) { navLinks[a.hash.slice(1)] = a; });
   var wide = window.matchMedia('(min-width: 900px) and (min-height: 560px)');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var state = window.shelfScroll = { active: false, p: 0, span: (panels.length - 1) * 7 };
+  var state = window.shelfScroll = { active: false, mode: 'off', p: 0, span: 0 };
   var vw = window.innerWidth, current = -1;
 
   function base() { return hs.getBoundingClientRect().top + window.scrollY; }
   function setup() {
-    var on = wide.matches && !reduce.matches;
-    root.classList.toggle('hs-on', on);
-    state.active = on;
-    vw = window.innerWidth;
-    if (on) {
-      hs.style.height = ((panels.length - 1) * vw + window.innerHeight) + 'px';
-    } else {
-      hs.style.height = '';
-      track.style.transform = '';
-      panels.forEach(function (p) { var b = p.firstElementChild; b.style.opacity = ''; b.style.transform = ''; });
-    }
+    var mode = reduce.matches ? 'off' : (wide.matches ? 'wide' : 'swipe');
+    state.mode = mode;
+    state.active = mode !== 'off';
+    state.span = (panels.length - 1) * (mode === 'swipe' ? 4.5 : 7);
+    root.classList.toggle('hs-on', mode === 'wide');
+    root.classList.toggle('hs-swipe', mode === 'swipe');
+    vw = mode === 'swipe' ? track.clientWidth || window.innerWidth : window.innerWidth;
+    track.style.transform = '';
+    if (mode === 'wide') hs.style.height = ((panels.length - 1) * vw + window.innerHeight) + 'px';
+    else hs.style.height = '';
+    if (mode === 'off') panels.forEach(function (p) {
+      var b = p.firstElementChild; b.style.opacity = ''; b.style.transform = ''; p.removeAttribute('inert');
+    });
     update();
+  }
+  function position() {
+    if (state.mode === 'swipe') return track.scrollLeft;
+    return Math.min((panels.length - 1) * vw, Math.max(0, window.scrollY - base()));
   }
   function update() {
     if (!state.active) return;
-    var max = (panels.length - 1) * vw;
-    var y = Math.min(max, Math.max(0, window.scrollY - base()));
-    state.p = max ? y / max : 0;
-    track.style.transform = 'translate3d(' + (-y).toFixed(1) + 'px,0,0)';
+    var max = (panels.length - 1) * vw, x = position();
+    state.p = max ? Math.min(1, Math.max(0, x / max)) : 0;
+    if (state.mode === 'wide') track.style.transform = 'translate3d(' + (-x).toFixed(1) + 'px,0,0)';
     if (bar) bar.style.transform = 'scaleX(' + state.p.toFixed(4) + ')';
+    var swipe = state.mode === 'swipe';
     panels.forEach(function (p, i) {
-      var d = (i * vw - y) / vw, a = Math.abs(d), b = p.firstElementChild;
-      var o = Math.max(0, Math.min(1, 1 - (a - 0.08) * 1.7));
+      var d = (i * vw - x) / vw, a = Math.abs(d), b = p.firstElementChild;
+      var o = Math.max(0, Math.min(1, 1 - (a - 0.08) * (swipe ? 1.5 : 1.7)));
       b.style.opacity = o.toFixed(3);
-      b.style.transform = 'translate3d(' + (d * 18).toFixed(1) + 'vw,' + (a * 26).toFixed(1) + 'px,0) scale(' + (1 - Math.min(a, 1) * 0.05).toFixed(4) + ')';
+      b.style.transform = swipe
+        ? 'translate3d(' + (d * 12).toFixed(1) + 'vw,' + (a * 18).toFixed(1) + 'px,0) scale(' + (1 - Math.min(a, 1) * 0.04).toFixed(4) + ')'
+        : 'translate3d(' + (d * 18).toFixed(1) + 'vw,' + (a * 26).toFixed(1) + 'px,0) scale(' + (1 - Math.min(a, 1) * 0.05).toFixed(4) + ')';
       p.toggleAttribute('inert', a > 0.6);
     });
-    var idx = Math.round(y / vw);
+    var idx = Math.max(0, Math.min(panels.length - 1, Math.round(x / vw)));
     if (idx !== current) {
       current = idx;
       var key = (panels[idx].id || '').split('-')[0];
-      Object.keys(navLinks).forEach(function (k) { navLinks[k].toggleAttribute('aria-current', k === key); if (k === key) navLinks[k].setAttribute('aria-current', 'true'); });
+      Object.keys(navLinks).forEach(function (k) {
+        if (k === key) navLinks[k].setAttribute('aria-current', 'true'); else navLinks[k].removeAttribute('aria-current');
+      });
+      var link = navLinks[key];
+      if (swipe && link) { var nav = link.parentNode; nav.scrollTo({ left: link.offsetLeft - nav.offsetLeft - (nav.clientWidth - link.offsetWidth) / 2, behavior: 'smooth' }); }
     }
   }
   function goTo(i, smooth) {
     i = Math.max(0, Math.min(panels.length - 1, i));
-    window.scrollTo({ top: base() + i * vw, behavior: smooth ? 'smooth' : 'auto' });
+    if (state.mode === 'swipe') track.scrollTo({ left: i * vw, behavior: smooth ? 'smooth' : 'auto' });
+    else window.scrollTo({ top: base() + i * vw, behavior: smooth ? 'smooth' : 'auto' });
   }
 
   document.addEventListener('click', function (e) {
@@ -173,7 +187,7 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
     if (p && panels.indexOf(p) !== current) goTo(panels.indexOf(p), false);
   });
   window.addEventListener('wheel', function (e) {
-    if (!state.active || e.ctrlKey) return;
+    if (state.mode !== 'wide' || e.ctrlKey) return;
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.preventDefault(); window.scrollBy(0, e.deltaX); }
   }, { passive: false });
   document.addEventListener('keydown', function (e) {
@@ -185,7 +199,12 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   });
 
   window.addEventListener('scroll', update, { passive: true });
+  track.addEventListener('scroll', update, { passive: true });
+  var lastW = window.innerWidth;
   window.addEventListener('resize', function () {
+    // Phones fire resize when the address bar hides; only redo the layout when the width changes.
+    if (state.mode === 'swipe' && window.innerWidth === lastW) return;
+    lastW = window.innerWidth;
     var keep = current;
     setup();
     if (state.active && keep > 0) goTo(keep, false);

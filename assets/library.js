@@ -11,7 +11,8 @@
   var renderer;
   try { renderer = new T.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false }); }
   catch (e) { canvas.remove(); return; }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  var small = window.matchMedia('(max-width: 899px)').matches;   // phones get a lighter library
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, small ? 1.5 : 1.75));
 
   var isHome = document.body.dataset.bg === 'intro';
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -31,7 +32,7 @@
 
   // ---------- layout ----------
   var UNIT = 2.3, H = 4.3, DEPTH = 0.62, ROWS = [0.14, 1.0, 1.86, 2.72, 3.58], BOARD = 0.07;
-  var START = -14, UNITS = 52, wallLen = UNITS * UNIT;
+  var START = -14, UNITS = small ? 34 : 52, wallLen = UNITS * UNIT;
 
   // ---------- wood ----------
   function woodCanvas(base, dark, w, h, vertical) {
@@ -223,7 +224,7 @@
   var key = new T.DirectionalLight(0xffe6c8, 0.25); key.position.set(-3, 6, 8); scene.add(key);
 
   // ---------- dust ----------
-  var DUST = 500, dpos = new Float32Array(DUST * 3), dvel = new Float32Array(DUST);
+  var DUST = small ? 140 : 500, dpos = new Float32Array(DUST * 3), dvel = new Float32Array(DUST);
   for (i = 0; i < DUST; i++) { dpos[i * 3] = (rnd() - 0.5) * 20; dpos[i * 3 + 1] = rnd() * 4.8; dpos[i * 3 + 2] = 0.2 + rnd() * 4.5; dvel[i] = 0.02 + rnd() * 0.05; }
   var dgeo = new T.BufferGeometry(); dgeo.setAttribute('position', new T.BufferAttribute(dpos, 3));
   var dmat = new T.PointsMaterial({ size: 0.03, transparent: true, depthWrite: false, opacity: 0.6, blending: T.AdditiveBlending, map: glowTex });

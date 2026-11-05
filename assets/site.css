@@ -301,7 +301,8 @@ html.viewer-open { overflow: hidden; }
 .hs-on .panel-hero { justify-content: flex-start; }
 .hs-on .panel-hero .hero { min-height: 0; padding: 0; max-width: 720px; }
 .hs-on .hs-hint { display: inline-flex; gap: 10px; align-items: center; margin: 34px 0 0; color: var(--muted); font-size: .95rem; }
-.hs-on .hs-hint span { color: var(--accent-text); animation: nudge 1.6s ease-in-out infinite; display: inline-block; }
+.hs-on .hs-hint .arrow { color: var(--accent-text); animation: nudge 1.6s ease-in-out infinite; display: inline-block; }
+.hs-on .hs-hint .h-swipe { display: none; }
 @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
 .hs-on .hs-progress { display: block; position: fixed; left: 0; right: 0; bottom: 0; height: 3px; z-index: 6; background: color-mix(in srgb, var(--ink) 10%, transparent); }
 .hs-on .hs-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--red), var(--accent)); transform-origin: left; transform: scaleX(0); }
@@ -315,4 +316,35 @@ html.viewer-open { overflow: hidden; }
 .panel-hero { position: relative; }
 .panel-hero .hero { position: relative; }
 /* Phones, small windows and reduced motion: the normal vertical page over faint shelves */
-html:not(.hs-on) .bg3d { opacity: .38; }
+html:not(.hs-on):not(.hs-swipe) .bg3d { opacity: .38; }
+
+/* ---------- Phones: swipe left and right between sections ---------- */
+.hs-hint .h-swipe { display: none; }
+.hs-swipe body { overflow: hidden; height: 100svh; }
+.hs-swipe .bar { position: fixed; left: 0; right: 0; top: 0; }
+.hs-swipe .foot { display: none; }
+.hs-swipe .hs-sticky { position: fixed; inset: 0; }
+.hs-swipe .hs-track {
+  display: flex; height: 100%; max-width: none; margin: 0; padding: 0; gap: 0;
+  overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.hs-swipe .hs-track::-webkit-scrollbar { display: none; }
+.hs-swipe .panel {
+  flex: 0 0 100%; height: 100%; scroll-snap-align: start; scroll-snap-stop: always;
+  overflow-y: auto; overscroll-behavior-y: contain; padding: 76px 14px 30px;
+  display: flex; flex-direction: column;
+}
+.hs-swipe .panel > * { margin: auto 0; will-change: transform, opacity; }
+.hs-swipe .panel-hero .hero { min-height: 0; padding: 12px 6px 0; }
+.hs-swipe .panel-hero { position: relative; }
+.hs-swipe .panel-hero::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent 8%, color-mix(in srgb, var(--bg) 82%, transparent) 30%, color-mix(in srgb, var(--bg) 82%, transparent) 80%, transparent); }
+.hs-swipe .hs-hint { display: inline-flex; gap: 10px; align-items: center; margin: 28px 0 0; color: var(--muted); font-size: .95rem; }
+.hs-swipe .hs-hint .h-scroll { display: none; }
+.hs-swipe .hs-hint .h-swipe { display: inline; }
+.hs-swipe .hs-hint .arrow { color: var(--accent-text); animation: nudge 1.6s ease-in-out infinite; display: inline-block; }
+.hs-swipe .hs-progress { display: block; position: fixed; left: 0; right: 0; bottom: 0; height: 3px; z-index: 6; background: color-mix(in srgb, var(--ink) 10%, transparent); }
+.hs-swipe .hs-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--red), var(--accent)); transform-origin: left; transform: scaleX(0); }
+.hs-swipe .job + .job { margin-top: 0; padding-top: 0; border-top: 0; }
+.hs-swipe .bar nav { scroll-behavior: smooth; }
