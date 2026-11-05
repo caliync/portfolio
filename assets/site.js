@@ -131,7 +131,30 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
     if (mode === 'off') panels.forEach(function (p) {
       var b = p.firstElementChild; b.style.opacity = ''; b.style.transform = ''; p.removeAttribute('inert');
     });
+    matchSizes();
     update();
+  }
+  // Every Experience box and every Projects box takes the height of the tallest one in
+  // its group (Baylo for Projects), so nothing gets cut off; About and the rest keep their own.
+  function matchSizes() {
+    ['experience', 'projects'].forEach(function (g) {
+      var boxes = panels.filter(function (p) { return p.id.split('-')[0] === g; }).map(function (p) { return p.firstElementChild; });
+      boxes.forEach(function (b) { b.style.height = ''; });
+      if (state.mode !== 'wide') return;
+      var limit = window.innerHeight - 150;
+      var h = Math.min(limit, Math.max.apply(null, boxes.map(function (b) { return b.offsetHeight; })));
+      boxes.forEach(function (b) { b.style.height = h + 'px'; });
+    });
+    panels.forEach(function (p) {
+      var b = p.firstElementChild;
+      if (!b.classList.contains('panel-box')) return;
+      var more = state.mode === 'wide' && b.scrollHeight > b.clientHeight + 2;
+      b.classList.toggle('has-more', more);
+      if (more && !b.dataset.fade) {
+        b.dataset.fade = '1';
+        b.addEventListener('scroll', function () { b.classList.toggle('at-end', b.scrollTop + b.clientHeight >= b.scrollHeight - 4); }, { passive: true });
+      }
+    });
   }
   function position() {
     if (state.mode === 'swipe') return track.scrollLeft;

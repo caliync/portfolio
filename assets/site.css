@@ -348,3 +348,15 @@ html:not(.hs-on):not(.hs-swipe) .bg3d { opacity: .38; }
 .hs-swipe .hs-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--red), var(--accent)); transform-origin: left; transform: scaleX(0); }
 .hs-swipe .job + .job { margin-top: 0; padding-top: 0; border-top: 0; }
 .hs-swipe .bar nav { scroll-behavior: smooth; }
+
+
+/* A box with more than fits shows a soft fade at the bottom; the wheel reads it first */
+.hs-on .panel-box.has-more { -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 46px), transparent); mask-image: linear-gradient(180deg, #000 calc(100% - 46px), transparent); }
+.hs-on .panel-box.has-more.at-end { -webkit-mask-image: none; mask-image: none; }
+/* Inside the matched Projects boxes, each card fills the box so the cards line up too */
+.hs-on .panel-proj .panel-box { display: flex; flex-direction: column; }
+.hs-on .panel-proj .panel-box > .card { flex: 1 1 auto; }
+/* Smaller rating badge on the Baylo card */
+.panel-box .score { gap: 8px 10px; margin-top: 12px; }
+.panel-box .score-n { font-size: 1.15rem; padding: 2px 7px 1px; border-radius: 6px; }
+.panel-box .score-t { font-size: .88rem; }
