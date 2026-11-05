@@ -243,30 +243,30 @@
 
     // leather: oxblood, crimson, burgundy, brown, tan, forest, black, navy, mustard, cream
     var pal = light
-      ? [0x8f2a36, 0xa8404b, 0x7a2c30, 0x8a6448, 0xae9170, 0x51665a, 0x3f3c40, 0x47536b, 0xc29a32, 0xe3d8c2, 0x9c4c42, 0x6e3e33, 0xc8b08c, 0x632631]
+      ? [0x6e1a20, 0x8e2430, 0x581419, 0x5a3420, 0x8a6238, 0x26402f, 0x221a1a, 0x24304a, 0xb08516, 0xd6c8a6, 0x9a3324, 0x45211a, 0xa8865a, 0x701d2e]
       : [0x5e1419, 0x7c1c24, 0x4a1015, 0x4b2a19, 0x7a5430, 0x1f3326, 0x1a1414, 0x1c2438, 0xa67c12, 0xcbbd9b, 0x8a2a1f, 0x3a1a14, 0x9a7a4a, 0x611828];
-    var gold = light ? '#8a6a10' : '#d8b545';
+    var gold = light ? '#e0bd52' : '#d8b545';
     for (var gi = 0; gi < GROUPS; gi++) {
       var c = pal[gi % pal.length];
-      drawSpine(spineCanvases[gi], css(c), c === 0xe8dcc0 || c === 0xcbbd9b || c === 0xd6b98a ? (light ? '#7a1f2a' : '#6a1a20') : gold);
+      drawSpine(spineCanvases[gi], css(c), c === 0xe8dcc0 || c === 0xcbbd9b || c === 0xd6b98a || c === 0xe3d8c2 || c === 0xd6c8a6 || c === 0xc8b08c ? '#6a1a20' : gold);
       spineMats[gi].map.needsUpdate = true;
       coverMats[gi].color.setHex(c).multiplyScalar(0.82);
     }
-    pagesMat.color.setHex(light ? 0xf0e6d0 : 0xb7a888);
-    woodC.width = 512; woodC.height = 512; woodC.getContext('2d').drawImage(woodCanvas(light ? '#a8896c' : '#3a2218', light ? 'rgba(80,52,34,1)' : 'rgba(10,4,2,1)', 512, 512, false), 0, 0);
+    pagesMat.color.setHex(light ? 0xd9ccb0 : 0xb7a888);
+    woodC.width = 512; woodC.height = 512; woodC.getContext('2d').drawImage(woodCanvas(light ? '#5a3624' : '#3a2218', light ? 'rgba(20,8,4,1)' : 'rgba(10,4,2,1)', 512, 512, false), 0, 0);
     woodTex.needsUpdate = true;
-    panelC.width = 256; panelC.height = 256; panelC.getContext('2d').drawImage(woodCanvas(light ? '#8c735f' : '#1f110d', light ? 'rgba(55,35,22,1)' : 'rgba(0,0,0,1)', 256, 256, true), 0, 0);
+    panelC.width = 256; panelC.height = 256; panelC.getContext('2d').drawImage(woodCanvas(light ? '#3a2318' : '#1f110d', light ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,1)', 256, 256, true), 0, 0);
     panelTex.needsUpdate = true;
-    frameMat.color.setHex(light ? 0xe8e2dc : 0xffffff);
-    wallMat.color.setHex(light ? 0xd8c8b6 : 0x7a5a50);
-    floorMat.color.setHex(light ? 0xd9cfc4 : 0x140808);
-    aoMat.opacity = light ? 0.45 : 0.9;
-    lights.forEach(function (l) { l.intensity = light ? 0.28 : 1.35; l.color.setHex(light ? 0xffd27a : 0xffbc55); });
-    amb.intensity = light ? 0.42 : 0.22;
-    hemi.intensity = light ? 0.32 : 0.3;
-    hemi.groundColor.setHex(light ? 0xc8b49c : 0x2a0e10);
-    key.intensity = light ? 0.45 : 0.16;
-    glows.forEach(function (s) { s.material.opacity = light ? 0.45 : 1; });
+    frameMat.color.setHex(0xffffff);
+    wallMat.color.setHex(light ? 0x9a7466 : 0x7a5a50);
+    floorMat.color.setHex(light ? 0x3a2219 : 0x140808);
+    aoMat.opacity = light ? 0.8 : 0.9;
+    lights.forEach(function (l) { l.intensity = light ? 1.05 : 1.35; l.color.setHex(light ? 0xffc666 : 0xffbc55); });
+    amb.intensity = light ? 0.3 : 0.22;
+    hemi.intensity = light ? 0.36 : 0.3;
+    hemi.groundColor.setHex(light ? 0x5a3326 : 0x2a0e10);
+    key.intensity = light ? 0.34 : 0.16;
+    glows.forEach(function (s) { s.material.opacity = light ? 0.9 : 1; });
     dmat.opacity = light ? 0.0 : 0.55;
   }
   colours();

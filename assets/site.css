@@ -360,3 +360,27 @@ html:not(.hs-on):not(.hs-swipe) .bg3d { opacity: .38; }
 .panel-box .score { gap: 8px 10px; margin-top: 12px; }
 .panel-box .score-n { font-size: 1.15rem; padding: 2px 7px 1px; border-radius: 6px; }
 .panel-box .score-t { font-size: .88rem; }
+
+
+/* Light mode intro: the same dark glow and light lettering as dark mode, so the words
+   read clearly over the lamp-lit shelves instead of sitting in a white haze */
+:root[data-theme="light"].hs-on .panel-hero::before {
+  background: radial-gradient(ellipse 58% 66% at 24% 54%, rgba(22, 10, 12, .78) 18%, rgba(22, 10, 12, .45) 55%, transparent 80%); }
+:root[data-theme="light"].hs-swipe .panel-hero::before {
+  background: linear-gradient(180deg, transparent 6%, rgba(22, 10, 12, .74) 28%, rgba(22, 10, 12, .74) 80%, transparent); }
+:root[data-theme="light"] .hero .name { color: #F4EAE0; text-shadow: 0 2px 26px rgba(0, 0, 0, .45); }
+:root[data-theme="light"] .hero .lede, :root[data-theme="light"] .hero .where, :root[data-theme="light"] .hero .hs-hint { color: #EADBCC; text-shadow: 0 1px 14px rgba(0, 0, 0, .6); }
+:root[data-theme="light"] .hero .role { color: #FF6B7C; text-shadow: 0 1px 14px rgba(0, 0, 0, .6); }
+:root[data-theme="light"] .hero .hs-hint .arrow { color: #F5C518; }
+@media (prefers-color-scheme: light) {
+/* Light mode intro: the same dark glow and light lettering as dark mode, so the words
+   read clearly over the lamp-lit shelves instead of sitting in a white haze */
+:root:not([data-theme="dark"]).hs-on .panel-hero::before {
+  background: radial-gradient(ellipse 58% 66% at 24% 54%, rgba(22, 10, 12, .78) 18%, rgba(22, 10, 12, .45) 55%, transparent 80%); }
+:root:not([data-theme="dark"]).hs-swipe .panel-hero::before {
+  background: linear-gradient(180deg, transparent 6%, rgba(22, 10, 12, .74) 28%, rgba(22, 10, 12, .74) 80%, transparent); }
+:root:not([data-theme="dark"]) .hero .name { color: #F4EAE0; text-shadow: 0 2px 26px rgba(0, 0, 0, .45); }
+:root:not([data-theme="dark"]) .hero .lede, :root:not([data-theme="dark"]) .hero .where, :root:not([data-theme="dark"]) .hero .hs-hint { color: #EADBCC; text-shadow: 0 1px 14px rgba(0, 0, 0, .6); }
+:root:not([data-theme="dark"]) .hero .role { color: #FF6B7C; text-shadow: 0 1px 14px rgba(0, 0, 0, .6); }
+:root:not([data-theme="dark"]) .hero .hs-hint .arrow { color: #F5C518; }
+}
