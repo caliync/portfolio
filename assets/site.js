@@ -137,8 +137,12 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
     if (state.mode === 'swipe') return track.scrollLeft;
     return Math.min((panels.length - 1) * vw, Math.max(0, window.scrollY - base()));
   }
+  var sticky = hs.querySelector('.hs-sticky');
   function update() {
     if (!state.active) return;
+    // Following a link like #projects makes the browser scroll this frame sideways on
+    // its own, which pushes every section off screen. Keep it at the start.
+    if (sticky.scrollLeft || sticky.scrollTop) { sticky.scrollLeft = 0; sticky.scrollTop = 0; }
     var max = (panels.length - 1) * vw, x = position();
     state.p = max ? Math.min(1, Math.max(0, x / max)) : 0;
     if (state.mode === 'wide') track.style.transform = 'translate3d(' + (-x).toFixed(1) + 'px,0,0)';
@@ -185,7 +189,7 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
     i = Math.max(0, Math.min(panels.length - 1, i));
     if (state.mode === 'swipe') track.scrollTo({ left: i * vw, behavior: smooth ? 'smooth' : 'auto' });
     else if (smooth) { current = i; glide(base() + i * vw); }
-    else window.scrollTo({ top: base() + i * vw, behavior: 'auto' });
+    else window.scrollTo({ top: base() + i * vw, behavior: 'instant' });
   }
   function target() { return anim ? Math.round((anim.target - base()) / vw) : current; }
   // A box with more to read scrolls first; the page only moves at its top or bottom.
@@ -255,6 +259,13 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
     }, 160);
   }, { passive: true });
   track.addEventListener('scroll', update, { passive: true });
+  sticky.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('hashchange', function () {
+    if (!state.active) return;
+    var t = document.getElementById(location.hash.slice(1)), tp = t && t.closest('.panel');
+    if (tp) goTo(panels.indexOf(tp), false);
+  });
+  window.addEventListener('pageshow', function () { setup(); });
   var lastW = window.innerWidth;
   window.addEventListener('resize', function () {
     // Phones fire resize when the address bar hides; only redo the layout when the width changes.
