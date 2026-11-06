@@ -1,37 +1,50 @@
-# Casey Yncierto, portfolio
+# portfolio
 
-A static site with no build step.
+My portfolio site. I'm Casey, a 4th year BSIT student at FEU Alabang (Web and Mobile Applications), looking for a frontend or full-stack internship.
 
-- `index.html`: the whole portfolio on one scrolling page (about, projects, skills, experience, credentials, contact)
-- `projects/*.html`: a "How I built it" page for each project
-- `student.html` and `developer.html`: old links that now redirect to the matching section of `index.html`
-- `assets/site.css`: styles, with light and dark mode
-- `assets/site.js`: the light/dark switch and menu highlighting
-- `assets/library.js`: the background, a 3D library wall drawn with three.js. On the home page it glides sideways as you scroll (see the sideways scroll in `assets/site.js`); phones, small windows and reduced motion get a normal vertical page.
-- `assets/logo.svg`: the neon CY logo, used in the navbar and as the browser-tab icon
+Live at https://caliync.github.io/portfolio/
 
-## Run it locally
+The background is a 3D library made with three.js. On a laptop, scrolling slides you sideways along the shelves, one section at a time. On a phone you swipe between sections instead. If your browser can't run WebGL or you have reduced motion turned on, you get a normal page with a still picture of the library.
+
+## What's in here
+
+There's no build step, just HTML, CSS and JavaScript.
+
+```
+index.html            the whole site: about, experience, projects, skills, credentials, contact
+projects/             a "How I built it" page for each project
+student.html          old link, redirects to index.html
+developer.html        old link, redirects to index.html
+assets/site.css       styles, light and dark mode
+assets/site.js        theme switch, menu, sideways scrolling, image viewer
+assets/library.js     the 3D library background (three.js r128)
+assets/logo.svg       my CY logo, also the tab icon
+assets/logos/         logos for Baylo, Lakbay Lokal, Wildwood Site and Wildwood Farm
+images/covers/        the poster covers on the project cards
+images/projects/      screenshots I took of each project
+images/baylo/         Baylo screenshots and our team photo
+images/certs/         my certificates
+casey-cv.pdf          my CV
+casey-ats-resume.pdf  my ATS resume
+```
+
+Click a project cover to see the real screenshots.
+
+## Running it locally
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open http://localhost:8000.
+Then go to http://localhost:8000.
 
-## Publish on GitHub Pages
+## Projects on the site
 
-Settings → Pages → Deploy from a branch → pick the branch and `/ (root)`.
-The site will be at https://caliync.github.io/portfolio/.
+- **Baylo**: our capstone, a bartering app for Barangay Balibago, Santa Rosa, Laguna. There were four of us; I built the web platform and my teammates built the mobile app.
+- **Lakbay Lokal**: a day planner for small local places near where you're staying. Still working on it.
+- **Wildwood Site**: the website for my game.
+- **Wildwood Farm**: a 3D farming game you play in the browser.
 
-## Images
+## Contact
 
-- `images/baylo/web1.jpg`, `web2.jpg`, `group_photo.jpg`: Baylo's home page, its listings page, and the team at the capstone presentation
-- `images/projects/`: screenshots taken from each project running locally
-
-## Still to add
-
-Anything missing stays hidden on the page until the file exists.
-
-- `images/certs/cyberops.jpg`, `images/certs/linux-essentials.jpg`, `images/certs/it-specialist-networking.jpg`: the three certificates
-- `casey-cv.pdf` and `casey-ats-resume.pdf` at the repo root: the Download CV and ATS resume buttons show up once these exist
-- Roblox role: add the team name and dates in the commented line in `index.html`, under Experience
+caseyncierto@gmail.com
