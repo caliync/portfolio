@@ -106,7 +106,7 @@ h1, h2, h3 { font-weight: 400; }
   font-size: clamp(3rem, 9vw, 6rem); color: var(--ink);
   text-shadow: 0 2px 30px var(--shade);
 }
-.role { margin: 14px 0 0; font-family: var(--serif); font-size: clamp(1.55rem, 3.1vw, 2.4rem); line-height: 1.15; font-weight: 400; color: var(--red); }
+.role { margin: 14px 0 0; font-family: var(--serif); font-size: clamp(1.3rem, 2.5vw, 1.9rem); line-height: 1.15; font-weight: 400; color: var(--red); }
 .lede { max-width: 38em; margin: 18px 0 0; font-size: clamp(1.1rem, 1.8vw, 1.25rem); line-height: 1.6; }
 .hero .lede { text-shadow: 0 1px 14px var(--bg); }
 .hero .name, .hero .role, .hero .where { text-shadow: 0 2px 24px var(--bg); }
