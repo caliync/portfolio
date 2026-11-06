@@ -307,3 +307,18 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
     if (tp) goTo(panels.indexOf(tp), false);
   }
 })();
+
+// Copy protection: no selecting, copying, right-clicking or dragging on the page.
+// Contact details stay copyable so recruiters can take your email and links.
+(function () {
+  function allowed(el) { return el && el.closest && el.closest('.copy-ok, input, textarea'); }
+  ['copy', 'cut'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      var sel = window.getSelection && window.getSelection();
+      var node = sel && sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement);
+      if (!allowed(node)) e.preventDefault();
+    });
+  });
+  document.addEventListener('contextmenu', function (e) { if (!allowed(e.target)) e.preventDefault(); });
+  document.addEventListener('dragstart', function (e) { if (e.target.tagName === 'IMG' || e.target.tagName === 'A') e.preventDefault(); });
+})();
