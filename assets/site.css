@@ -71,8 +71,8 @@ h1, h2, h3 { font-weight: 400; }
 }
 .mark { justify-self: start; display: inline-flex; align-items: center; gap: 10px; font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; white-space: nowrap; }
 .mark:hover span { color: var(--accent-text); }
-.mark img { display: block; width: 44px; height: 44px; transition: filter var(--t-std) var(--ease); }
-.mark:hover img, .mark:focus-visible img { filter: drop-shadow(0 0 6px rgba(229, 57, 77, .6)); }
+.mark img { display: block; width: 44px; height: 44px; transform-origin: 50% 90%; transition: filter var(--t-std) var(--ease), transform var(--t-std) var(--ease); }
+.mark:hover img, .mark:focus-visible img { filter: drop-shadow(0 0 7px rgba(245, 197, 24, .45)); transform: translateY(-1px); }
 .bar nav { display: flex; gap: 20px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
 .bar nav::-webkit-scrollbar { display: none; }
 .bar nav a { display: inline-flex; align-items: center; gap: 6px; font-size: .95rem; color: var(--muted); text-decoration: none; white-space: nowrap; padding: 6px 0; border-bottom: 2px solid transparent; }
@@ -92,8 +92,6 @@ h1, h2, h3 { font-weight: 400; }
 }
 
 /* Light mode: a thin darker-gold edge keeps the neon logo visible on the pale bar */
-:root[data-theme="light"] .mark img { filter: drop-shadow(0 0 .6px #6E0F1C) drop-shadow(0 0 .6px #6E0F1C); }
-@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .mark img { filter: drop-shadow(0 0 .6px #6E0F1C) drop-shadow(0 0 .6px #6E0F1C); } }
 
 /* Centered column, left-aligned text */
 .col { max-width: calc(var(--col) + 2 * var(--gutter)); margin: 0 auto; padding: 0 var(--gutter) 40px; display: grid; gap: 24px; }
