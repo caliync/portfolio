@@ -49,7 +49,7 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
 
 // Image viewer: clicking a photo, screenshot or certificate opens it larger on this page.
 (function () {
-  var sel = '.job-photo img, .cert-img img, .shot img';
+  var sel = '.job-photo img, .cert-img img, .shot img, .art-img';
   if (!document.querySelector(sel)) return;
   var box = document.createElement('div');
   box.className = 'viewer';
@@ -349,4 +349,36 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   });
   document.addEventListener('contextmenu', function (e) { if (!allowed(e.target)) e.preventDefault(); });
   document.addEventListener('dragstart', function (e) { if (e.target.tagName === 'IMG' || e.target.tagName === 'A') e.preventDefault(); });
+})();
+
+
+// Project covers: each card shows artwork; clicking it reveals the real screens, with
+// previous and next buttons and a way back. Clicking a real screen zooms it (see above).
+(function () {
+  document.querySelectorAll('.art-box').forEach(function (box) {
+    var shots; try { shots = JSON.parse(box.dataset.shots || '[]'); } catch (e) { shots = []; }
+    if (!shots.length) return;
+    var scene = box.querySelector('.art-scene'), real = box.querySelector('.art-real'), img = box.querySelector('.art-img');
+    var count = box.querySelector('.art-count'), i = 0;
+    function show(n) {
+      i = (n + shots.length) % shots.length;
+      img.src = shots[i].src; img.alt = shots[i].alt;
+      count.textContent = (i + 1) + ' / ' + shots.length;
+    }
+    function setReal(on) {
+      box.classList.toggle('is-real', on);
+      if (on) { scene.setAttribute('inert', ''); real.removeAttribute('inert'); }
+      else { real.setAttribute('inert', ''); scene.removeAttribute('inert'); }
+    }
+    scene.addEventListener('click', function () { show(i); setReal(true); box.querySelector('.art-back').focus({ preventScroll: true }); });
+    box.querySelector('.art-back').addEventListener('click', function () { setReal(false); scene.focus({ preventScroll: true }); });
+    box.querySelector('.art-prev').addEventListener('click', function () { show(i - 1); });
+    box.querySelector('.art-next').addEventListener('click', function () { show(i + 1); });
+    box.addEventListener('keydown', function (e) {
+      if (!box.classList.contains('is-real')) return;
+      if (e.key === 'ArrowRight') { e.stopPropagation(); show(i + 1); }
+      else if (e.key === 'ArrowLeft') { e.stopPropagation(); show(i - 1); }
+      else if (e.key === 'Escape') { setReal(false); scene.focus({ preventScroll: true }); }
+    });
+  });
 })();
