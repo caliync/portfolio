@@ -114,7 +114,7 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   var wide = window.matchMedia('(min-width: 900px) and (min-height: 560px)');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   var state = window.shelfScroll = { active: false, mode: 'off', p: 0, span: 0 };
-  var vw = window.innerWidth, current = -1;
+  var vw = window.innerWidth, current = -1, lastX = 0, dir = 1;
 
   function base() { return hs.getBoundingClientRect().top + window.scrollY; }
   function setup() {
@@ -137,7 +137,7 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   // Every Experience box and every Projects box takes the height of the tallest one in
   // its group (Baylo for Projects), so nothing gets cut off; About and the rest keep their own.
   function matchSizes() {
-    ['experience', 'projects'].forEach(function (g) {
+    ['experience', 'projects', 'credentials'].forEach(function (g) {
       var boxes = panels.filter(function (p) { return p.id.split('-')[0] === g; }).map(function (p) { return p.firstElementChild; });
       boxes.forEach(function (b) { b.style.height = ''; });
       if (state.mode !== 'wide') return;
@@ -171,9 +171,27 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
     if (state.mode === 'wide') track.style.transform = 'translate3d(' + (-x).toFixed(1) + 'px,0,0)';
     if (bar) bar.style.transform = 'scaleX(' + state.p.toFixed(4) + ')';
     var swipe = state.mode === 'swipe';
+    if (x !== lastX) { dir = x > lastX ? 1 : -1; lastX = x; }
     panels.forEach(function (p, i) {
       var d = (i * vw - x) / vw, a = Math.abs(d), b = p.firstElementChild;
-      var o = Math.max(0, Math.min(1, 1 - (a - 0.08) * (swipe ? 1.5 : 1.7)));
+      // A section that is arriving fades in gently; one that is leaving goes about 40% faster.
+      var arriving = dir > 0 ? d > 0 : d < 0;
+      var k = arriving ? (swipe ? 1.5 : 1.7) : (swipe ? 2.2 : 2.6);
+      var o = Math.max(0, Math.min(1, 1 - (a - 0.08) * k));
+      // The heading leads; the rest of the box follows a beat later (about 80 ms of scroll).
+      var kids = p._kids || (p._kids = Array.prototype.slice.call(b.children));
+      if (a < 1.4) {
+        kids.forEach(function (c, j) {
+          var oj = Math.max(0, Math.min(1, 1 - (a - 0.08 + (arriving ? j * 0.06 : 0)) * k));
+          if (oj > 0.995) { c.style.opacity = ''; c.style.transform = ''; return; }   // fully in: let CSS (hover lift) take over
+          c.style.opacity = oj.toFixed(3);
+          c.style.transform = j ? 'translate3d(0,' + ((1 - oj) * 14).toFixed(1) + 'px,0)' : '';
+        });
+        p._staged = true;
+      } else if (p._staged) {
+        kids.forEach(function (c) { c.style.opacity = ''; c.style.transform = ''; });
+        p._staged = false;
+      }
       b.style.opacity = o.toFixed(3);
       b.style.transform = swipe
         ? 'translate3d(' + (d * 12).toFixed(1) + 'vw,' + (a * 18).toFixed(1) + 'px,0) scale(' + (1 - Math.min(a, 1) * 0.04).toFixed(4) + ')'
@@ -193,11 +211,21 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
   }
   // On computers every move between sections is one eased glide.
   var anim = null, lastWheel = 0, wheelSum = 0, gestureUsed = false, idleTimer = 0;
-  function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  // One signature curve for the whole site: cubic-bezier(0.4, 0, 0.2, 1), solved here for the glide.
+  function ease(t) {
+    var x1 = 0.4, y1 = 0, x2 = 0.2, y2 = 1, u = t;
+    for (var i = 0; i < 6; i++) {
+      var cx = 3 * x1 * u * (1 - u) * (1 - u) + 3 * x2 * u * u * (1 - u) + u * u * u - t;
+      var dx = 3 * x1 * (1 - u) * (1 - u) + 6 * (x2 - x1) * u * (1 - u) + 3 * (1 - x2) * u * u;
+      if (Math.abs(cx) < 1e-5 || !dx) break;
+      u -= cx / dx;
+    }
+    return 3 * y1 * u * (1 - u) * (1 - u) + 3 * y2 * u * u * (1 - u) + u * u * u;
+  }
   function glide(top) {
     var from = window.scrollY, dist = top - from;
     if (Math.abs(dist) < 1) return;
-    var dur = Math.min(1100, 650 + Math.abs(dist) / vw * 120), t0 = performance.now();
+    var dur = Math.min(900, 560 + Math.abs(dist) / vw * 90), t0 = performance.now();
     if (anim) cancelAnimationFrame(anim.raf);
     anim = { target: top };
     root.style.scrollBehavior = 'auto';

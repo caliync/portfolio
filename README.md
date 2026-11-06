@@ -2,7 +2,7 @@
 
 A static site with no build step.
 
-- `index.html`: the whole portfolio on one scrolling page (about, projects, skills, experience, certifications, contact)
+- `index.html`: the whole portfolio on one scrolling page (about, projects, skills, experience, credentials, contact)
 - `projects/*.html`: a "How I built it" page for each project
 - `student.html` and `developer.html`: old links that now redirect to the matching section of `index.html`
 - `assets/site.css`: styles, with light and dark mode
