@@ -13,6 +13,11 @@
   catch (e) { canvas.remove(); return; }
   var small = window.matchMedia('(max-width: 899px)').matches;   // phones get a lighter library
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, small ? 1.5 : 1.75));
+  // Colour maps are drawn in sRGB, so the renderer lights them in linear space and
+  // converts back on output; filmic tone mapping keeps the lamp hot spots from clipping.
+  renderer.outputEncoding = T.sRGBEncoding;
+  renderer.toneMapping = T.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
 
   var isHome = document.body.dataset.bg === 'intro';
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -27,6 +32,7 @@
     var t = new T.CanvasTexture(c);
     t.wrapS = t.wrapT = T.RepeatWrapping; t.repeat.set(rx || 1, ry || 1);
     t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    t.encoding = T.sRGBEncoding;
     return t;
   }
 
@@ -61,7 +67,7 @@
   var frameMat = new T.MeshStandardMaterial({ map: woodTex, roughness: 0.62, metalness: 0.0 });
   var wallMat = new T.MeshStandardMaterial({ map: panelTex, roughness: 0.9 });
   var floorMat = new T.MeshStandardMaterial({ roughness: 0.7 });
-  var brassMat = new T.MeshStandardMaterial({ color: 0xb08a3e, roughness: 0.35, metalness: 0.85 });
+  var brassMat = new T.MeshStandardMaterial({ color: new T.Color(0xb08a3e).convertSRGBToLinear(), roughness: 0.35, metalness: 0.85 });
   var bulbMat = new T.MeshBasicMaterial({ color: 0xffe08a });
 
   var wall = new T.Mesh(new T.PlaneGeometry(wallLen + 40, 12), wallMat);
@@ -138,11 +144,15 @@
   var GROUPS = 14;
   var spineCanvases = [], spineMats = [], coverMats = [];
   var pagesMat = new T.MeshStandardMaterial({ color: 0xe9dcc0, roughness: 0.95 });
+  var grainC = mkCanvas(128, 128), gg = grainC.getContext('2d');
+  gg.fillStyle = '#808080'; gg.fillRect(0, 0, 128, 128);
+  for (var gn = 0; gn < 2600; gn++) { var gv = 90 + Math.floor(rnd() * 80); gg.fillStyle = 'rgb(' + gv + ',' + gv + ',' + gv + ')'; gg.fillRect(rnd() * 128, rnd() * 128, 1 + rnd() * 1.5, 1 + rnd() * 1.5); }
+  var grainTex = new T.CanvasTexture(grainC); grainTex.wrapS = grainTex.wrapT = T.RepeatWrapping;   // data, not colour: stays linear
   for (var gi = 0; gi < GROUPS; gi++) {
     var c = mkCanvas(64, 256);
     spineCanvases.push({ c: c, style: Math.floor(rnd() * 4), bands: 1 + Math.floor(rnd() * 3), title: 0.3 + rnd() * 0.25 });
-    spineMats.push(new T.MeshStandardMaterial({ map: tex(c), roughness: 0.55 }));
-    coverMats.push(new T.MeshStandardMaterial({ roughness: 0.7 }));
+    spineMats.push(new T.MeshStandardMaterial({ map: tex(c), roughness: 0.55, bumpMap: grainTex, bumpScale: 0.004 }));
+    coverMats.push(new T.MeshStandardMaterial({ roughness: 0.7, bumpMap: grainTex, bumpScale: 0.004 }));
   }
   function drawSpine(s, base, gold) {
     var g = s.c.getContext('2d'), W = 64, Hh = 256;
@@ -181,9 +191,7 @@
     mesh.userData.g = gi;
     meshes.push(mesh); scene.add(mesh);
   }
-  var byGroup = meshes.map(function () { return []; });
-  books.forEach(function (b, i) { byGroup[groupOf[i]][idxIn[i]] = i; });
-  var pull = new Float32Array(books.length), pullGoal = new Float32Array(books.length);
+  var pull = new Float32Array(books.length), pullGoal = new Float32Array(books.length), dirty = new Uint8Array(GROUPS);
   var e3 = new T.Euler();
   function placeBook(i) {
     var b = books[i];
@@ -201,6 +209,7 @@
     return new T.CanvasTexture(c);
   })();
   var lampXs = [], glows = [];
+  var glowMat = new T.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: T.AdditiveBlending });
   var shadeGeo = new T.CylinderGeometry(0.09, 0.3, 0.26, 28, 1, true);
   var bulbGeo = new T.SphereGeometry(0.075, 14, 10);
   var cordGeo = new T.CylinderGeometry(0.008, 0.008, 1.4, 6);
@@ -213,15 +222,31 @@
     var cap = new T.Mesh(capGeo, brassMat); cap.position.y = 0.16; grp.add(cap);
     var bulb = new T.Mesh(bulbGeo, bulbMat); bulb.position.y = -0.08; grp.add(bulb);
     var cord = new T.Mesh(cordGeo, brassMat); cord.position.y = 0.88; grp.add(cord);
-    var spr = new T.Sprite(new T.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: T.AdditiveBlending }));
+    var spr = new T.Sprite(glowMat);
     spr.scale.set(1.7, 1.7, 1); spr.position.y = -0.16; grp.add(spr); glows.push(spr);
     scene.add(grp);
+    grp.updateMatrixWorld(true);
+    grp.traverse(function (o) { o.matrixAutoUpdate = false; });
   }
   var lights = [];
   for (i = 0; i < 5; i++) { var pl = new T.PointLight(0xffc060, 1, 8, 1.5); scene.add(pl); lights.push(pl); }
   var amb = new T.AmbientLight(0xffffff, 0.3); scene.add(amb);
-  var hemi = new T.HemisphereLight(0xffe2c0, 0x2a1012, 0.35); scene.add(hemi);
-  var key = new T.DirectionalLight(0xffe6c8, 0.25); key.position.set(-3, 6, 8); scene.add(key);
+  (function () {
+    var envScene = new T.Scene(), panel = new T.PlaneGeometry(1, 1);
+    envScene.background = new T.Color(0x1a0c08);
+    [[0, 3, -2, 6, 1.2, 0xffc070, 3], [-4, 1, 1, 2, 3, 0x6a3018, 1], [4, 1, 1, 2, 3, 0x6a3018, 1], [0, -3, 0, 8, 8, 0x2a1408, 1]].forEach(function (p) {
+      var m = new T.Mesh(panel, new T.MeshBasicMaterial({ color: new T.Color(p[5]).multiplyScalar(p[6]), side: T.DoubleSide }));
+      m.position.set(p[0], p[1], p[2]); m.scale.set(p[3], p[4], 1); m.lookAt(0, 0, 0); envScene.add(m);
+    });
+    var pm = new T.PMREMGenerator(renderer);
+    scene.environment = pm.fromScene(envScene, 0.04).texture;
+    pm.dispose(); panel.dispose();
+    // the room light should only tint and add sheen, the lamps do the lighting
+    [frameMat, wallMat, floorMat, pagesMat].concat(spineMats, coverMats).forEach(function (m) { m.envMapIntensity = 0.35; });
+    envScene.traverse(function (o) { if (o.material) o.material.dispose(); });
+  })();
+  var hemi = new T.HemisphereLight(new T.Color(0xffe2c0).convertSRGBToLinear(), 0x2a1012, 0.35); scene.add(hemi);
+  var key = new T.DirectionalLight(new T.Color(0xffe6c8).convertSRGBToLinear(), 0.25); key.position.set(-3, 6, 8); scene.add(key);
 
   // ---------- dust ----------
   var DUST = small ? 140 : 500, dpos = new Float32Array(DUST * 3), dvel = new Float32Array(DUST);
@@ -233,12 +258,14 @@
   // ---------- theme ----------
   var light = false;
   function hex(s) { return parseInt(String(s).trim().replace('#', ''), 16); }
+  // hex colours are authored in sRGB; lit maths runs in linear space
+  function lin(n) { return new T.Color(n).convertSRGBToLinear(); }
   function css(n) { return '#' + ('000000' + n.toString(16)).slice(-6); }
   function colours() {
     var bg = new T.Color(hex(getComputedStyle(document.documentElement).getPropertyValue('--bg') || '#160A0C'));
     light = bg.r > 0.5;
     scene.background = bg;
-    scene.fog = new T.Fog(bg, light ? 9 : 8, light ? 26 : 22);
+    scene.fog = new T.Fog(bg.clone().convertSRGBToLinear(), light ? 9 : 8, light ? 26 : 22);   // fog mixes in linear, then output converts it back to --bg
     renderer.setClearColor(bg);
 
     // leather: oxblood, crimson, burgundy, brown, tan, forest, black, navy, mustard, cream
@@ -250,23 +277,23 @@
       var c = pal[gi % pal.length];
       drawSpine(spineCanvases[gi], css(c), c === 0xe8dcc0 || c === 0xcbbd9b || c === 0xd6b98a || c === 0xe3d8c2 || c === 0xd6c8a6 || c === 0xc8b08c ? '#6a1a20' : gold);
       spineMats[gi].map.needsUpdate = true;
-      coverMats[gi].color.setHex(c).multiplyScalar(0.82);
+      coverMats[gi].color.copy(lin(c)).multiplyScalar(0.82);
     }
-    pagesMat.color.setHex(light ? 0xd9ccb0 : 0xb7a888);
+    pagesMat.color.copy(lin(light ? 0xd9ccb0 : 0xb7a888));
     woodC.width = 512; woodC.height = 512; woodC.getContext('2d').drawImage(woodCanvas(light ? '#5a3624' : '#3a2218', light ? 'rgba(20,8,4,1)' : 'rgba(10,4,2,1)', 512, 512, false), 0, 0);
     woodTex.needsUpdate = true;
     panelC.width = 256; panelC.height = 256; panelC.getContext('2d').drawImage(woodCanvas(light ? '#3a2318' : '#1f110d', light ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,1)', 256, 256, true), 0, 0);
     panelTex.needsUpdate = true;
     frameMat.color.setHex(0xffffff);
-    wallMat.color.setHex(light ? 0x9a7466 : 0x7a5a50);
-    floorMat.color.setHex(light ? 0x3a2219 : 0x140808);
+    wallMat.color.copy(lin(light ? 0x9a7466 : 0x7a5a50));
+    floorMat.color.copy(lin(light ? 0x3a2219 : 0x140808));
     aoMat.opacity = light ? 0.8 : 0.9;
-    lights.forEach(function (l) { l.intensity = light ? 1.05 : 1.35; l.color.setHex(light ? 0xffc666 : 0xffbc55); });
-    amb.intensity = light ? 0.3 : 0.22;
-    hemi.intensity = light ? 0.36 : 0.3;
-    hemi.groundColor.setHex(light ? 0x5a3326 : 0x2a0e10);
+    lights.forEach(function (l) { l.intensity = light ? 1.05 : 1.35; l.color.copy(lin(light ? 0xffc666 : 0xffbc55)); });
+    amb.intensity = light ? 0.12 : 0.08;
+    hemi.intensity = light ? 0.22 : 0.18;
+    hemi.groundColor.copy(lin(light ? 0x5a3326 : 0x2a0e10));
     key.intensity = light ? 0.34 : 0.16;
-    glows.forEach(function (s) { s.material.opacity = light ? 0.9 : 1; });
+    glowMat.opacity = light ? 0.9 : 1;
     dmat.opacity = light ? 0.0 : 0.55;
   }
   colours();
@@ -283,6 +310,20 @@
   // ---------- input ----------
   var mouse = new T.Vector2(9, 9), hasMouse = false, look = [0, 0], lookGoal = [0, 0];
   var ray = new T.Raycaster(), hovered = -1, mouseMoved = false, lastPX = 0, lastPY = 0;
+  var shelfFront = new T.Plane(new T.Vector3(0, 0, 1), 0.15), hitV = new T.Vector3();
+  // books sorted into bookcase units, so a lookup scans one unit's books only
+  var byUnit = [];
+  books.forEach(function (b, i) { var uu = Math.floor((b.x - START) / UNIT); (byUnit[uu] = byUnit[uu] || []).push(i); });
+  function bookAt(px, py) {
+    var list = byUnit[Math.floor((px - START) / UNIT)];
+    if (!list) return -1;
+    for (var k = 0; k < list.length; k++) {
+      var b = books[list[k]];
+      if (b.rz) continue;
+      if (Math.abs(px - b.x) <= b.w / 2 && Math.abs(py - b.y) <= b.h / 2) return list[k];
+    }
+    return -1;
+  }
   window.addEventListener('pointermove', function (e) {
     lastPX = e.clientX; lastPY = e.clientY;
     if (e.pointerType !== 'mouse') return;
@@ -307,8 +348,11 @@
     camera.position.set(camX + look[0] * 0.6, 2.1 + bob + look[1] * 0.3, 7.2);
     camera.lookAt(camX + look[0] * 0.25, 2.2 + look[1] * 0.1, 0);
 
-    var near = lampXs.slice().sort(function (a, b) { return Math.abs(a - camX) - Math.abs(b - camX); });
-    lights.forEach(function (l, i) { l.position.set(near[i] || 0, 4.4, 1.25); });
+    // lamps are evenly spaced, so the five nearest are a window around the closest one
+    var step = lampXs.length > 1 ? lampXs[1] - lampXs[0] : 1;
+    var first = Math.round((camX - lampXs[0]) / step) - 2;
+    first = Math.max(0, Math.min(lampXs.length - lights.length, first));
+    for (var li = 0; li < lights.length; li++) lights[li].position.set(lampXs[first + li] || 0, 4.4, 1.25);
 
     if (!still && !light) {
       for (var i = 0; i < DUST; i++) {
@@ -324,13 +368,13 @@
     if (isHome && hasMouse && !still && mouseMoved) {
       mouseMoved = false;
       ray.setFromCamera(mouse, camera);
-      var hit = ray.intersectObjects(meshes, false)[0];
+      var hitP = ray.ray.intersectPlane(shelfFront, hitV) ? hitV : null;
       var el = document.elementFromPoint(lastPX, lastPY);
       var free = !el || !el.closest('.panel-box, .hero, .bar, .viewer');
-      var id = hit && free ? byGroup[hit.object.userData.g][hit.instanceId] : -1;
+      var id = hitP && free ? bookAt(hitP.x, hitP.y) : -1;
       if (id !== hovered) { if (hovered >= 0) pullGoal[hovered] = 0; if (id >= 0) pullGoal[id] = 0.17; hovered = id; }
     }
-    var dirty = {};
+    dirty.fill(0);
     for (i = 0; i < books.length; i++) {
       if (pull[i] !== pullGoal[i]) {
         pull[i] += (pullGoal[i] - pull[i]) * 0.18;
@@ -338,7 +382,7 @@
         placeBook(i); dirty[groupOf[i]] = 1;
       }
     }
-    Object.keys(dirty).forEach(function (g) { meshes[g].instanceMatrix.needsUpdate = true; });
+    for (var gd = 0; gd < meshes.length; gd++) if (dirty[gd]) meshes[gd].instanceMatrix.needsUpdate = true;
     renderer.render(scene, camera);
   }
 
