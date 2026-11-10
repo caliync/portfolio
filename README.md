@@ -42,8 +42,7 @@ Then go to http://localhost:8000.
 
 - **Baylo**: our capstone, a bartering app for Barangay Balibago, Santa Rosa, Laguna. There were four of us; I built the web platform and my teammates built the mobile app.
 - **Lakbay Lokal**: a day planner for small local places near where you're staying. Still working on it.
-- **Wildwood Site**: the website for my game.
-- **Wildwood Farm**: a 3D farming game you play in the browser.
+- **Wildwood**: a 3D farming game you play in the browser, and the 3D website I made for it. The website links to the game.
 
 ## Contact
 

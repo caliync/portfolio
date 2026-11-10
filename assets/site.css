@@ -482,3 +482,5 @@ img { -webkit-user-drag: none; }
   .card-img.art-box { aspect-ratio: 4 / 5; }
   .art-cover { object-position: 50% 30%; }
 }
+.kind .emp { display: inline-block; margin-right: 8px; padding: 1px 9px; border: 1px solid var(--line); border-radius: 999px; background: var(--chip, transparent); font-size: .82em; font-weight: 700; letter-spacing: .02em; font-style: normal; color: var(--accent-text); vertical-align: 1px; }
+.art-cover[src*="covers/wildwood"] { object-position: 50% 88%; }
