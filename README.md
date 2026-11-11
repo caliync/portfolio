@@ -20,10 +20,12 @@ index.html            the whole site (generated)
 projects/             a "How I built it" page for each project (generated)
 assets/site.css       styles, light and dark mode
 assets/site.js        theme switch, menu, sideways scrolling, image viewer
-assets/library.js     the 3D library background (three.js r128)
+assets/library.js     the 3D library background; it fetches three.js r128 only when the library will move
+assets/icons.svg      the brand icons the pages use, in one cached file (generated)
 assets/logo.svg       my CY logo, also the tab icon
 assets/logos/         project logos
 images/               covers, screenshots and certificates
+images/library-*.webp the still library shown on project pages, with reduced motion, or when 3D can't run
 casey-cv.pdf          my CV
 casey-ats-resume.pdf  my ATS resume
 ```

@@ -3,14 +3,38 @@
 // camera glides along the shelves as you scroll (see the sideways scroll in site.js),
 // and a book slides out when you point at it. Project pages show the shelves faint
 // and still. Every texture is drawn in code, so there are no image files to load.
-// Uses three.js r128.
+// Uses three.js r128, fetched on demand from the CDN with an integrity check.
 (function () {
   var canvas = document.querySelector('canvas.bg3d');
-  if (!canvas || !window.THREE) { if (canvas) canvas.remove(); return; }
+  if (!canvas) return;
+  var me = document.currentScript;
+
+  // Swap the canvas for the still picture: used for reduced motion, data saver, and whenever 3D can't start.
+  function still() {
+    var pic = document.createElement('div');
+    pic.className = 'bg-still';
+    pic.setAttribute('aria-hidden', 'true');
+    canvas.replaceWith(pic);
+  }
+
+  var conn = navigator.connection;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || (conn && conn.saveData)) { still(); return; }
+  if (window.THREE) { start(); return; }
+
+  // three.js (603 KB) is only fetched here, for visitors who will actually see the moving library.
+  var s = document.createElement('script');
+  s.src = me.dataset.three;
+  s.integrity = me.dataset.threeSri;
+  s.crossOrigin = 'anonymous';
+  s.onload = start;
+  s.onerror = still;
+  document.head.appendChild(s);
+
+  function start() {
   var T = window.THREE;
   var renderer;
   try { renderer = new T.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false }); }
-  catch (e) { canvas.remove(); return; }
+  catch (e) { still(); return; }
   var small = window.matchMedia('(max-width: 899px)').matches;   // phones get a lighter library
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, small ? 1.5 : 1.75));
   // Colour maps are drawn in sRGB, so the renderer lights them in linear space and
@@ -399,4 +423,5 @@
   function loop(now) { if (!running) return; frame(now); requestAnimationFrame(loop); }
   requestAnimationFrame(loop);
   document.addEventListener('visibilitychange', function () { running = !document.hidden; if (running) requestAnimationFrame(loop); });
+  }
 })();

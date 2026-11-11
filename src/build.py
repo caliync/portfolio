@@ -5,7 +5,7 @@
 
 Icons come from the simple-icons npm package (npm ci installs it).
 """
-import argparse, hashlib, json, html as _html, os, sys
+import argparse, hashlib, json, html as _html, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _args = argparse.ArgumentParser(description=__doc__.splitlines()[0])
@@ -24,11 +24,51 @@ OUT = ARGS.out
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:ital,wght@0,400..700;1,400&display=swap">')
 
+THREE_URL = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+THREE_SRI = "sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu"  # same bytes as npm three@0.128.0
+
+def webp_size(rel):
+    """Width and height of a WebP file, read from its header, so <img> tags reserve their space."""
+    b = open(os.path.join(ROOT, rel), "rb").read(40)
+    kind = b[12:16]
+    if kind == b"VP8X":
+        return 1 + int.from_bytes(b[24:27], "little"), 1 + int.from_bytes(b[27:30], "little")
+    if kind == b"VP8L":
+        bits = int.from_bytes(b[21:25], "little")
+        return (bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1
+    return int.from_bytes(b[26:28], "little") & 0x3FFF, int.from_bytes(b[28:30], "little") & 0x3FFF
+
+WRITTEN = []  # pages written this run; their icon references get the sprite's version at the end
+
+def write_sprite():
+    """Every brand icon the pages use, in one cached file. Pages point at it with <use> instead of
+    repeating the paths. Runs last, so it holds exactly the icons that appear somewhere."""
+    used = set()
+    for path in WRITTEN:
+        used |= set(re.findall(r"#si-([a-z0-9]+)", open(path).read()))
+    syms = "".join(f'<symbol id="si-{slug}" viewBox="0 0 24 24"><path d="{si_path(slug)}"/></symbol>' for slug in sorted(used))
+    svg = f'<svg xmlns="http://www.w3.org/2000/svg">{syms}</svg>\n'
+    os.makedirs(os.path.join(OUT, "assets"), exist_ok=True)
+    open(os.path.join(OUT, "assets", "icons.svg"), "w").write(svg)
+    v = hashlib.sha1(svg.encode()).hexdigest()[:8]
+    for path in WRITTEN:
+        text = open(path).read()
+        open(path, "w").write(text.replace("@@SPRITE_V@@", v))
+
 def ver(name):
     """Short content hash, so browsers fetch a file again whenever it changes."""
     return hashlib.sha1(open(os.path.join(ROOT, "assets", name), "rb").read()).hexdigest()[:8]
 
 def page(path, title, desc, body, r="", bg="intro"):
+    # The home page draws the 3D library; library.js fetches three.js itself, and falls back to the
+    # still picture for reduced motion or when WebGL is missing. Other pages only ever show the still picture.
+    if bg == "intro":
+        background = '<canvas class="bg3d" aria-hidden="true"></canvas>'
+        library = (f'<script src="{r}assets/library.js?v={ver("library.js")}" data-three="{THREE_URL}" '
+                   f'data-three-sri="{THREE_SRI}" defer></script>')
+    else:
+        background = '<div class="bg-still" aria-hidden="true"></div>'
+        library = ""
     doc = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -45,17 +85,18 @@ def page(path, title, desc, body, r="", bg="intro"):
 </head>
 <body data-bg="{bg}">
 <a class="skip" href="#main">Skip to content</a>
-<canvas class="bg3d" aria-hidden="true"></canvas>
+{background}
 {body}
 <script src="{r}assets/site.js?v={ver('site.js')}" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-<script src="{r}assets/library.js?v={ver('library.js')}" defer></script>
+{library}
 </body>
 </html>
 """
+    doc = doc.replace(SPRITE_REF, f"{r}assets/icons.svg?v=@@SPRITE_V@@")
     full = os.path.join(OUT, path)
     os.makedirs(os.path.dirname(full) or OUT, exist_ok=True)
     open(full, "w").write(doc)
+    WRITTEN.append(full)
 
 def theme_btn():
     return f'<button type="button" class="theme" data-theme-toggle aria-label="Switch to light mode"><span class="i-sun">{icon("sun")}</span><span class="i-moon">{icon("moon")}</span></button>'
@@ -118,7 +159,7 @@ orgs = "".join(f'<li class="cred-item">{E(t)}</li>' for t in ORGS)
 arsenal = "".join(f'<div class="kit"><h3 class="sub">{E(t)}</h3>{tags(n)}</div>' for t, n in ARSENAL)
 certs = "".join(f"""
         <li class="cert">
-          <figure class="cert-img"><a href="images/certs/{s}.jpg"><img src="images/certs/{s}.jpg" alt="{E(t)} certificate" loading="lazy" onerror="this.closest('figure').hidden=true"></a></figure>
+          <figure class="cert-img"><a href="images/certs/{s}.webp"><img src="images/certs/{s}.webp" alt="{E(t)} certificate" width="{webp_size(f'images/certs/{s}.webp')[0]}" height="{webp_size(f'images/certs/{s}.webp')[1]}" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true"></a></figure>
           <div class="cert-text">
             <h3>{E(t)}</h3>
             <p>{E(i)}</p>
@@ -179,12 +220,12 @@ home = f"""
     <article class="job job-split">
         <div class="job-photos">
         <figure class="job-photo">
-          <img src="images/baylo/group_photo.jpg" alt="The Baylo team and our adviser at the capstone presentation, with the title slide behind us" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">
+          <img src="images/baylo/group_photo.webp" alt="The Baylo team and our adviser at the capstone presentation, with the title slide behind us" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">
           <figcaption>Presenting Baylo with my team at FEU Alabang.</figcaption>
         </figure>
         <!-- Second photo is a placeholder: swap in another capstone photo when you have one. -->
         <figure class="job-photo">
-          <img src="images/baylo/web1.jpg" alt="Baylo's home page" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">
+          <img src="images/baylo/web1.webp" alt="Baylo's home page" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">
           <figcaption>Baylo's home page.</figcaption>
         </figure>
       </div>
@@ -346,7 +387,7 @@ for old, anchor in [("student.html", "#about"), ("developer.html", "#projects")]
 for i, p in enumerate(PROJECTS):
     r = "../"
     nxt = PROJECTS[(i + 1) % len(PROJECTS)]
-    shots = "".join(f'<figure class="shot"><img src="{r}{s}" alt="{E(a)}" loading="lazy" decoding="async" onerror="this.closest(\'figure\').hidden=true"><figcaption>{E(c)}</figcaption></figure>' for s, a, c in p["shots"])
+    shots = "".join(f'<figure class="shot"><img src="{r}{s}" alt="{E(a)}" width="{webp_size(s)[0]}" height="{webp_size(s)[1]}" loading="lazy" decoding="async" onerror="this.closest(\'figure\').hidden=true"><figcaption>{E(c)}</figcaption></figure>' for s, a, c in p["shots"])
     roles = "".join(f"<li><strong>{E(k)}:</strong> {E(v)}</li>" for k, v in p["roles"])
     arch = "".join(f"<div><dt>{E(k)}</dt><dd>{E(v)}</dd></div>" for k, v in p["arch"])
     links = "".join(f'<a class="btn{" btn-solid" if j == 0 else ""}" href="{h}">{E(t)}</a>' for j, (t, h) in enumerate(p["links"]))
@@ -403,4 +444,5 @@ for old in ("wildwood-farm", "wildwood-site"):
                 '<meta http-equiv="refresh" content="0; url=wildwood.html"><link rel="canonical" href="wildwood.html">'
                 '<p><a href="wildwood.html">Go to the Wildwood project</a></p>')
 
+write_sprite()
 print("built")

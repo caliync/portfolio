@@ -6,10 +6,14 @@ ICONS = os.environ["SIMPLE_ICONS_DIR"]  # set by build.py
 E = html.escape
 
 # ---------- icons ----------
-def si(slug):
+SPRITE_REF = "@@ICON_SPRITE@@"  # build.py swaps in the sprite's path and version for each page
+
+def si_path(slug):
     svg = open(os.path.join(ICONS, slug + ".svg")).read()
-    d = re.search(r'<path d="([^"]+)"', svg).group(1)
-    return f'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="{d}"/></svg>'
+    return re.search(r'<path d="([^"]+)"', svg).group(1)
+
+def si(slug):
+    return f'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="{SPRITE_REF}#si-{slug}"/></svg>'
 
 CUSTOM = {
     "outlook": '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 5.2 13.4 3v18L2 18.8zm5.6 2.9c-2 0-3.4 1.7-3.4 3.9s1.4 3.9 3.4 3.9S11 14.2 11 12s-1.4-3.9-3.4-3.9zm0 1.7c1 0 1.6 1 1.6 2.2s-.6 2.2-1.6 2.2S6 13.2 6 12s.6-2.2 1.6-2.2zM14.6 6.5H21a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-6.4v-4.6l1.9 1.4 4.3-3.1V9.3l-4.3 3.1-1.9-1.4z"/></svg>',
@@ -61,9 +65,9 @@ PROJECTS = [
         summary="A community bartering app for Barangay Balibago, Santa Rosa, Laguna, built by our team of four. I was the only web developer and built the whole web platform on my own; my three teammates built the mobile app. Residents post items, chat and trade with their neighbours, and Gemini estimates each item's value and finds good trade matches.",
         stack=["React", "TypeScript", "Tailwind", "FastAPI", "PostgreSQL", "Firebase", "Gemini API", "Docker", "Google Cloud Run"],
         score=("4.89", "/5", "from 100 respondents in the ISO/IEC 25010 evaluation I led"),
-        thumb="images/baylo/web1.jpg",
-        shots=[("images/baylo/web1.jpg", "Baylo home page with the Baylo logo over a record shop photo and a row of categories", "The home page: search, categories and the app download."),
-               ("images/baylo/web2.jpg", "Baylo listings page with filters, trending items and recently added items", "Browsing listings, with filters for condition and price, and matches.")],
+        thumb="images/baylo/web1.webp",
+        shots=[("images/baylo/web1.webp", "Baylo home page with the Baylo logo over a record shop photo and a row of categories", "The home page: search, categories and the app download."),
+               ("images/baylo/web2.webp", "Baylo listings page with filters, trending items and recently added items", "Browsing listings, with filters for condition and price, and matches.")],
         mission=[
             "Baylo is our capstone at FEU Alabang. It lets residents of Barangay Balibago discover, swap and share items with their neighbours.",
             "We were a team of four: Ma. Samantha Elizabeth M. Depamaylo, Coleen N. Aclaro, Jinya Marray P. Gutierrez and me. My teammates built the mobile app. I built the web platform and its backend on my own, and led the research and evaluation.",
