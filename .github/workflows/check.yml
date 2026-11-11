@@ -1,0 +1,30 @@
+name: Check the site
+
+# Rebuilds the pages from src/ and fails if they differ from what is committed,
+# so the published HTML can never drift from its source.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci
+      - name: Check the JavaScript parses
+        run: npm run check
+      - name: Rebuild the pages
+        run: npm run build
+      - name: Fail if the committed pages are out of date
+        run: git diff --exit-code -- index.html projects student.html developer.html

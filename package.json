@@ -1,0 +1,14 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "description": "Casey Yncierto's portfolio. The site is static; these packages are only used to build and check it.",
+  "scripts": {
+    "build": "python3 src/build.py",
+    "covers": "python3 src/covers/make_covers.py && node src/covers/shoot.js",
+    "pdfs": "node src/resume/make_pdfs.js",
+    "check": "node --check assets/site.js && node --check assets/library.js"
+  },
+  "devDependencies": {
+    "simple-icons": "16.36.0"
+  }
+}

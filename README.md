@@ -8,27 +8,27 @@ The background is a 3D library made with three.js. On a laptop, scrolling slides
 
 ## What's in here
 
-There's no build step, just HTML, CSS and JavaScript.
+The pages are plain HTML, CSS and JavaScript, so nothing has to be built for the site to run. The HTML is generated from one content file by a small Python script, so I edit my projects and skills in one place.
 
 ```
-index.html            the whole site: about, experience, projects, skills, credentials, contact
-projects/             a "How I built it" page for each project
-student.html          old link, redirects to index.html
-developer.html        old link, redirects to index.html
+src/data.py           all the content: projects, skills, credentials, contact
+src/build.py          turns data.py into index.html and projects/*.html
+src/covers/           makes the poster covers on the project cards
+src/resume/           my CV and ATS resume as HTML, and the script that prints them to PDF
+
+index.html            the whole site (generated)
+projects/             a "How I built it" page for each project (generated)
 assets/site.css       styles, light and dark mode
 assets/site.js        theme switch, menu, sideways scrolling, image viewer
 assets/library.js     the 3D library background (three.js r128)
 assets/logo.svg       my CY logo, also the tab icon
-assets/logos/         logos for Baylo, Lakbay Lokal, Wildwood Site and Wildwood Farm
-images/covers/        the poster covers on the project cards
-images/projects/      screenshots I took of each project
-images/baylo/         Baylo screenshots and our team photo
-images/certs/         my certificates
+assets/logos/         project logos
+images/               covers, screenshots and certificates
 casey-cv.pdf          my CV
 casey-ats-resume.pdf  my ATS resume
 ```
 
-Click a project cover to see the real screenshots.
+Click a project cover on the site to see the real screenshots.
 
 ## Running it locally
 
@@ -37,6 +37,30 @@ python3 -m http.server 8000
 ```
 
 Then go to http://localhost:8000.
+
+## Changing the content
+
+Edit `src/data.py`, then rebuild:
+
+```bash
+npm ci
+```
+
+```bash
+npm run build
+```
+
+`npm ci` only installs the icon set the build reads from. A GitHub Action rebuilds the pages on every push and fails if the committed HTML doesn't match `src/`, so the two can't drift apart.
+
+The covers and PDFs need [Playwright](https://playwright.dev) with Chromium installed:
+
+```bash
+npm run covers
+```
+
+```bash
+npm run pdfs
+```
 
 ## Projects on the site
 
