@@ -499,3 +499,29 @@ img { -webkit-user-drag: none; }
     mask-image: linear-gradient(90deg, transparent, #000 var(--space-4), #000 calc(100% - var(--space-6)), transparent);
     padding-inline: var(--space-3); scroll-padding-inline: var(--space-6); }
 }
+
+/* Case studies: numbers, architecture diagram, decisions */
+.numbers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--space-4); }
+.numbers li { padding: var(--space-4) var(--space-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--chip); }
+.numbers strong { display: block; font-family: var(--serif); font-weight: 400; font-size: var(--fs-3xl); line-height: 1.1; color: var(--accent-text); }
+.numbers span { display: block; margin-top: var(--space-2); color: var(--muted); font-size: var(--fs-sm); line-height: 1.45; }
+.diagram { margin: 0 0 var(--space-8); }
+.diagram .dg { display: block; width: 100%; height: auto; }
+.diagram .dg-tall { display: none; max-width: 360px; margin: 0 auto; }
+@media (max-width: 640px) { .diagram .dg-wide { display: none; } .diagram .dg-tall { display: block; } }
+.dg .node rect { fill: var(--chip); stroke: var(--line); stroke-width: 1.5; }
+.dg .node.mine rect { stroke: var(--accent); stroke-width: 2; }
+.dg .dt { fill: var(--ink); font: 700 17px var(--sans); }
+.dg .dl { fill: var(--muted); font: 400 14px var(--sans); }
+.dg .edge line { stroke: var(--muted); stroke-width: 1.5; }
+.dg .edge.faint line { stroke-dasharray: 4 5; opacity: .6; }
+.dg .ahead { fill: var(--muted); }
+.dg .el { fill: var(--muted); font: italic 13px var(--sans); }
+.decisions { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-6); max-width: 46em; counter-reset: dec; }
+.decisions li { position: relative; padding-left: var(--space-12); counter-increment: dec; }
+.decisions li::before { content: counter(dec); position: absolute; left: 0; top: 0; width: var(--space-8); height: var(--space-8); border-radius: var(--r-pill);
+  display: grid; place-items: center; font: 700 var(--fs-sm) var(--sans); color: var(--on-accent); background: var(--accent); }
+.decisions h3 { margin: 0 0 var(--space-2); font-family: var(--serif); font-weight: 400; font-size: var(--fs-xl); line-height: 1.3; }
+.decisions p { margin: 0; }
+.rows-api code { font-size: var(--fs-sm); }
+mark.fill { background: #FFF1B8; color: #2A1214; padding: 0 var(--space-1); border-radius: var(--r-xs); font-style: italic; }

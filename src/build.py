@@ -10,6 +10,8 @@ import argparse, hashlib, json, html as _html, os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _args = argparse.ArgumentParser(description=__doc__.splitlines()[0])
 _args.add_argument("--out", default=ROOT, help="folder to write the site into (default: the repo root)")
+_args.add_argument("--draft", action="store_true",
+                   help="preview case studies that still have ?{blanks}; never publish a --draft build")
 _args.add_argument("--icons", default=os.path.join(ROOT, "node_modules", "simple-icons", "icons"),
                    help="simple-icons SVG folder")
 ARGS = _args.parse_args()
@@ -18,6 +20,7 @@ if not os.path.isdir(ARGS.icons):
 os.environ["SIMPLE_ICONS_DIR"] = ARGS.icons
 
 from data import *  # noqa: E402,F403  icons, tags, contact data, PROJECTS, ARSENAL, CERTS
+from casestudies import CASE_STUDIES  # noqa: E402
 
 OUT = ARGS.out
 
@@ -152,6 +155,71 @@ def foot():
 </footer>"""
 
 DL_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+
+BLANKS = []  # unfilled ?{...} blanks met while building
+
+def cs(text):
+    """Case-study text: escaped, with ?{blanks} shown as highlighted notes in a --draft build."""
+    def blank(m):
+        BLANKS.append(m.group(1))
+        return f'<mark class="fill">{m.group(1)}</mark>'
+    return re.sub(r"\?\{(.*?)\}", blank, E(text))
+
+def diagram_svg(name, variant):
+    svg = open(os.path.join(ROOT, "src", "diagrams", f"{name}-{variant}.svg")).read().strip()
+    return svg.replace("<svg ", f'<svg class="dg dg-{variant}" aria-hidden="true" focusable="false" ', 1)
+
+def case_study(slug, arch_rows):
+    """The engineering sections of a project page. Falls back to the plain architecture list."""
+    c = CASE_STUDIES.get(slug)
+    if c and not c.get("ready", True) and not ARGS.draft:
+        c = None
+    if not c:
+        return f"""
+  <section class="box" aria-labelledby="arch-h">
+    <h2 id="arch-h">The architecture</h2>
+    <dl class="rows">{arch_rows}</dl>
+  </section>"""
+    nums = "".join(f'<li><strong>{cs(n)}</strong><span>{cs(t)}</span></li>' for n, t in c["numbers"])
+    decisions = "".join(f'<li><h3>{cs(t)}</h3><p>{cs(x)}</p></li>' for t, x in c["decisions"])
+    api = "".join(f"<div><dt><code>{cs(k)}</code></dt><dd>{cs(v)}</dd></div>" for k, v in c["api"])
+    data = "".join(f"<div><dt>{cs(k)}</dt><dd>{cs(v)}</dd></div>" for k, v in c["data"])
+    lessons = f"""
+
+  <section class="box" aria-labelledby="next-h">
+    <h2 id="next-h">What I'd change</h2>
+    <div class="prose"><p>{cs(c['lessons'])}</p></div>
+  </section>""" if c.get("lessons") else ""
+    return f"""
+  <section class="box" aria-labelledby="nums-h">
+    <h2 id="nums-h">In numbers</h2>
+    <ul class="numbers">{nums}</ul>
+  </section>
+
+  <section class="box" aria-labelledby="arch-h">
+    <h2 id="arch-h">How it's built</h2>
+    <figure class="diagram" role="img" aria-label="{E(c['diagram_alt'])}">
+      {diagram_svg(c['diagram'], 'wide')}
+      {diagram_svg(c['diagram'], 'tall')}
+    </figure>
+    <dl class="rows">{arch_rows}</dl>
+  </section>
+
+  <section class="box" aria-labelledby="dec-h">
+    <h2 id="dec-h">Key decisions</h2>
+    <ol class="decisions">{decisions}</ol>
+  </section>
+
+  <section class="box" aria-labelledby="api-h">
+    <h2 id="api-h">The API</h2>
+    <p class="prose">{cs(c['api_note'])}</p>
+    <dl class="rows rows-api">{api}</dl>
+  </section>
+
+  <section class="box" aria-labelledby="data-h">
+    <h2 id="data-h">The data</h2>
+    <dl class="rows">{data}</dl>
+  </section>{lessons}"""
 
 def score_html(p):
     if not p.get("score"):
@@ -468,10 +536,7 @@ for i, p in enumerate(PROJECTS):
     <ul class="list roles">{roles}</ul>
   </section>
 
-  <section class="box" aria-labelledby="arch-h">
-    <h2 id="arch-h">The architecture</h2>
-    <dl class="rows">{arch}</dl>
-  </section>
+{case_study(p['slug'], arch)}
 
   <nav class="box box-end" aria-label="More">
     {f'<p class="btns">{links}</p>' if links else ''}
@@ -495,6 +560,11 @@ for old in ("wildwood-farm", "wildwood-site"):
                 f'<link rel="canonical" href="{SITE}projects/wildwood.html">'
                 '<p><a href="wildwood.html">Go to the Wildwood project</a></p>')
 
+if BLANKS and not ARGS.draft:
+    sys.exit(f"{len(BLANKS)} case-study blanks still need filling in src/casestudies.py, starting with: {BLANKS[0]!r}\n"
+             "Fill them in, or preview with --draft (never publish a draft build).")
+if BLANKS:
+    print(f"DRAFT: {len(BLANKS)} blanks shown as highlighted notes. Don't publish this build.")
 write_sprite()
 urls = [SITE] + [SITE + f"projects/{p['slug']}.html" for p in PROJECTS]
 with open(os.path.join(OUT, "sitemap.xml"), "w") as f:

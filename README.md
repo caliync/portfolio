@@ -13,6 +13,8 @@ The pages are plain HTML, CSS and JavaScript, so nothing has to be built for the
 ```
 src/data.py           all the content: projects, skills, credentials, contact
 src/build.py          turns data.py into index.html and projects/*.html
+src/casestudies.py    the engineering case studies on the project pages (architecture, decisions, API, data)
+src/diagrams/         the architecture diagrams, as SVG
 src/covers/           makes the poster covers on the project cards
 src/resume/           my CV and ATS resume as HTML, and the script that prints them to PDF
 src/og/               makes the link-preview images in images/og/
