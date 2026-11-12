@@ -18,9 +18,9 @@
   .contact a.site { color: #2079c7; }
   .main { grid-column: 1; }
   .side { grid-column: 2; }
-  h2 { font-family: "Open Sans", sans-serif; font-size: 9pt; font-weight: 700; color: #2079c7; margin: 18px 0 8px; letter-spacing: .2px; }
+  h2 { font-family: "Open Sans", sans-serif; font-size: 9pt; font-weight: 700; color: #2079c7; margin: 15px 0 7px; letter-spacing: .2px; }
   .main > h2:first-child, .side > h2:first-child { margin-top: 22px; }
-  .entry { margin: 0 0 9px; }
+  .entry { margin: 0 0 7px; }
   .entry h3 { font-family: "Merriweather", serif; font-weight: 700; font-size: 9.8pt; color: #000; margin: 0; line-height: 1.32; }
   .entry h3 .stack { font-weight: 400; font-style: italic; font-size: 8.4pt; }
   .entry h3 .org { font-weight: 400; font-style: italic; }
@@ -73,11 +73,11 @@
     <h2>PROJECTS</h2>
 
     <div class="entry">
-      <h3>Baylo: Community Bartering Platform (Capstone) &mdash; <span class="stack">React, TypeScript, Tailwind, FastAPI, PostgreSQL, Firebase, Gemini API, Docker, Google Cloud Run</span></h3>
+      <h3>Baylo: Community Bartering Platform (Capstone) &mdash; <span class="stack">React, TypeScript, Tailwind, FastAPI, PostgreSQL (Neon), Firebase, Gemini API, Docker, Google Cloud Run</span></h3>
       <ul>
-        <li>Built the web platform and backend on my own in a 4-person team, while three teammates built the mobile app: FastAPI with 9 route modules over a 13-table PostgreSQL database, and a React, TypeScript and Tailwind frontend</li>
-        <li>Connected the web platform to the mobile app through a shared backend and Firebase, so accounts, listings, chat and notifications match on both</li>
-        <li>Added Gemini to estimate item value and category from photos, screen prohibited listings, and score trade matches; deployed the backend to Google Cloud Run with Docker</li>
+        <li>Built the web platform and backend alone (teammates built the mobile app): FastAPI with 9 route modules, a 13-table Neon PostgreSQL database, and a React web app for browsing and the officials' dashboard</li>
+        <li>Connected web and mobile through one backend and Firebase; deployed the backend to Cloud Run with Docker</li>
+        <li>Added Gemini to estimate item value and category, screen prohibited listings and score trade matches; prototyped these and real-time notifications on the web, then moved them to mobile</li>
         <li>Led the ISO/IEC 25010 evaluation: 100 respondents rated the platform 4.89/5</li>
       </ul>
     </div>
@@ -96,7 +96,7 @@
       <h3>Wildwood: 3D Browser Game and Website &mdash; <span class="stack">three.js, JavaScript, GSAP</span></h3>
       <ul>
         <li>Designed and built a cozy 3D game where players earn an animal's trust instead of catching it, then farm by day and defend against wolf raids at night</li>
-        <li>Built its website so players get the feel of the game before they press Play, with a 3D forest scene, field guide and world map</li>
+        <li>Built its 3D website, with a forest scene, field guide and world map, that opens the game</li>
       </ul>
     </div>
 
