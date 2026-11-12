@@ -43,7 +43,7 @@ def edge(*args, **kw):
 
 # Baylo: the web app (mine) and the team's mobile app share one backend; Firebase serves both apps.
 svg("baylo", "wide", (960, 440), [
-    box(20, 40, 250, 104, "Web app", ["React, TypeScript, Tailwind", "Built by me"], mine=True),
+    box(20, 40, 250, 104, "Web app", ["React, TypeScript, Tailwind", "Firebase Hosting · built by me"], mine=True),
     box(20, 196, 250, 104, "Mobile app", ["Built by my teammates"]),
     box(360, 96, 260, 150, "FastAPI backend", ["9 route modules", "Docker on Google Cloud Run", "Built by me"], mine=True),
     box(710, 40, 230, 104, "PostgreSQL", ["13 tables"]),

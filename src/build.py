@@ -210,6 +210,12 @@ def case_study(slug, arch_rows):
     decisions = "".join(f'<li><h3>{cs(t)}</h3><p>{cs(x)}</p></li>' for t, x in c["decisions"])
     api = "".join(f"<div><dt><code>{cs(k)}</code></dt><dd>{cs(v)}</dd></div>" for k, v in c["api"])
     data = "".join(f"<div><dt>{cs(k)}</dt><dd>{cs(v)}</dd></div>" for k, v in c["data"])
+    data_section = f"""
+
+  <section class="box" aria-labelledby="data-h">
+    <h2 id="data-h">The data</h2>
+    <dl class="rows">{data}</dl>
+  </section>""" if c["data"] else ""
     lessons = f"""
 
   <section class="box" aria-labelledby="next-h">
@@ -240,12 +246,7 @@ def case_study(slug, arch_rows):
     <h2 id="api-h">The API</h2>
     <p class="prose">{cs(c['api_note'])}</p>
     <dl class="rows rows-api">{api}</dl>
-  </section>
-
-  <section class="box" aria-labelledby="data-h">
-    <h2 id="data-h">The data</h2>
-    <dl class="rows">{data}</dl>
-  </section>{lessons}"""
+  </section>{data_section}{lessons}"""
 
 def score_html(p):
     if not p.get("score"):

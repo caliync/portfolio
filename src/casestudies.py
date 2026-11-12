@@ -10,7 +10,6 @@ Anything marked "suggested" is a guess at the reasoning, for Casey to confirm or
 
 CASE_STUDIES = {
     "baylo": dict(
-        ready=False,  # waiting for Casey's answers; until then the page keeps its plain architecture list
         numbers=[
             ("4.89/5", "ISO/IEC 25010 rating from 100 respondents, in the evaluation I led"),
             ("9", "API route modules in the FastAPI backend"),
@@ -18,45 +17,46 @@ CASE_STUDIES = {
             ("2", "apps on one backend: my web platform and the team's mobile app"),
         ],
         diagram="baylo",
-        diagram_alt=("Architecture: the web app I built and the mobile app my teammates built both call one FastAPI "
-                     "backend, which runs in Docker on Google Cloud Run. The backend stores data in PostgreSQL and "
-                     "calls the Gemini API. Both apps also use Firebase for sign-in, real-time chat and notifications."),
+        diagram_alt=("Architecture: the web app I built, hosted on Firebase Hosting, and the mobile app my teammates "
+                     "built both call one FastAPI backend, which runs in Docker on Google Cloud Run. The backend stores "
+                     "data in PostgreSQL and calls the Gemini API. Both apps also use Firebase for sign-in, real-time "
+                     "chat and notifications."),
         decisions=[
-            ("PostgreSQL for the core data, Firebase for real-time",
-             "Listings, trades, users and reports live in PostgreSQL, because a trade ties two users and two listings "
-             "together and the database should refuse a trade that points at a deleted listing. Chat and notifications "
-             "go through Firebase, which pushes new messages to both apps without me running my own socket server. "
-             "?{Suggested reasoning above: confirm it, or say why you really chose this split.}"),
+            ("Firebase for real-time, PostgreSQL for the listings",
+             "Baylo is a web and a mobile app, so everything that has to reach both apps instantly goes through "
+             "Firebase: sign-in, chat and notifications. The system's own data, such as listings, trade offers, "
+             "ratings and reports, lives in PostgreSQL, where the backend can query and join it."),
             ("One backend for web and mobile",
-             "Both apps call the same API, so the rules for posting, trading and reporting are written once. A fix on "
-             "the server reaches web and mobile users at the same time. ?{How did you and the mobile team agree on the "
-             "API, for example a shared document, FastAPI's /docs page, or meetings?}"),
+             "Both apps call the same API, so the rules for posting, trading and reporting are written once, and a fix "
+             "on the server reaches web and mobile users at the same time. The mobile team built against FastAPI's "
+             "automatic /docs page, which always matches the code."),
             ("Gemini only behind the server",
-             "The apps never call Gemini directly: the backend does, so the API key never ships inside the web or mobile "
-             "app. ?{What happens when Gemini is slow, fails, or returns something unusable? For example: a default "
-             "category, a retry, or asking the user.}"),
+             "The apps never call Gemini directly; the backend does, so the API key never ships inside the web or "
+             "mobile app. If a call fails, the backend tries again, and users can optionally report a bad AI result, "
+             "which admins see next to the AI's usage numbers."),
+            ("The AI suggests, people decide",
+             "Gemini suggests a category, a value estimate and fair trade matches, but it never acts on its own: "
+             "residents decide what to post and which offers to accept, and barangay officials keep an eye on "
+             "activity and reports from the web admin dashboard."),
             ("Docker on Cloud Run",
-             "The backend runs as a container on Google Cloud Run. ?{Why Cloud Run, for example: it scales to zero so it "
-             "costs nothing when idle, or the school or team already used Google Cloud?}"),
+             "Upgrading our Firebase plan came with Google Cloud credits, and I already used Google Cloud, so the "
+             "backend runs as a container on Cloud Run in the same account."),
         ],
         api=[
-            ("?{module 1 name, e.g. /auth}", "?{what it does}"),
-            ("?{module 2}", "?{what it does}"),
-            ("?{module 3}", "?{what it does}"),
-            ("?{module 4}", "?{what it does}"),
-            ("?{module 5}", "?{what it does}"),
-            ("?{module 6}", "?{what it does}"),
-            ("?{module 7}", "?{what it does}"),
-            ("?{module 8}", "?{what it does}"),
-            ("?{module 9}", "?{what it does}"),
+            ("/api/items", "Listings: browse them, open one (each view is counted), and the full list for admins."),
+            ("/api/trade-offers", "Trade offers sent, received and completed."),
+            ("/api/users", "Profiles, profile pictures, reviews and each user's trading stats."),
+            ("/api/ratings", "Ratings after a trade, and rating stats."),
+            ("/api/saved-items", "Items a user saved for later."),
+            ("/api/recently-viewed", "Items a user looked at recently."),
+            ("/api/recommended", "Items recommended for this user."),
+            ("/api/reports", "Reports about listings or users; barangay officials resolve or dismiss them in the admin dashboard."),
+            ("/api/ai", "Admin view of the AI: usage stats and recent user feedback."),
         ],
-        api_note="?{How the backend knows who is calling, for example: it verifies the Firebase ID token on every request.}",
-        data=[
-            ("?{the main tables, for example users, listings, listing_photos, trades, trade_items, matches, reports, "
-             "categories, ...}", "?{one line on how the important ones connect, for example: a trade has two "
-             "listings and two users}"),
-        ],
-        lessons="?{One or two honest sentences: what you would build differently next time, and why.}",
+        api_note=("Both apps send the signed-in user's Firebase ID token with every request (an Authorization: Bearer "
+                  "header), so the backend knows who is calling. The routes below are the ones the web app uses."),
+        data=[],          # waiting for the table list from Casey's capstone PDF
+        lessons=None,     # Casey will write this
     ),
     "lakbay-lokal": dict(
         numbers=[

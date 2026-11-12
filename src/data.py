@@ -84,7 +84,7 @@ PROJECTS = [
         ],
         arch=[("Frontend", "React, TypeScript, Tailwind"), ("Backend", "FastAPI, 9 route modules"), ("Database", "PostgreSQL, 13 tables"),
               ("AI", "Google Gemini API for item value, category, screening and trade matching"),
-              ("Sign-in, chat and notifications", "Firebase"), ("Hosting", "Docker container on Google Cloud Run"),
+              ("Sign-in, chat and notifications", "Firebase"), ("Hosting", "Web app on Firebase Hosting; backend in a Docker container on Google Cloud Run"),
               ("Mobile app", "built by my teammates")],
         links=[],
     ),
