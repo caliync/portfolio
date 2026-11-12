@@ -76,7 +76,7 @@ PROJECTS = [
         ],
         roles=[
             ("Web platform", "built Baylo's web platform alone: a FastAPI backend with 9 route modules over a 13-table PostgreSQL database, and a React, TypeScript and Tailwind web app where residents browse and search listings and barangay officials monitor activity in the admin dashboard. Trading happens in the mobile app."),
-            ("AI features", "built and tested the AI value estimate and matching on the web first, then moved the final version into the mobile app. With Gemini, it estimates an item's value and category from its photos, screens listings for prohibited items, and scores how well two items match for a trade (value, category, condition, interest)."),
+            ("AI features", "built and tested the AI value estimate, matching and real-time notifications on the web first, then moved the final versions into the mobile app. With Gemini, it estimates an item's value and category from its photos, screens listings for prohibited items, and scores how well two items match for a trade (value, category, condition, interest)."),
             ("Real-time features", "wired up Firebase for sign-in, real-time chat and notifications."),
             ("Admin tools", "built an admin dashboard for users, listings, reports and trades."),
             ("Deployment", "deployed the backend to Google Cloud Run in a Docker container."),

@@ -40,7 +40,8 @@ CASE_STUDIES = {
              "residents decide what to post and which offers to accept, and barangay officials keep an eye on "
              "activity and reports from the web admin dashboard."),
             ("Prototype on the web, ship on mobile",
-             "I built and tested the AI value estimate and matching in the web app first, then moved the final "
+             "I built and tested the AI value estimate, the matching and the real-time notifications in the web app "
+             "first, then moved the final "
              "version into the mobile app. The team then made trading a mobile feature, so the web became a "
              "browse-and-search site plus the barangay officials' dashboard."),
             ("Docker on Cloud Run",
