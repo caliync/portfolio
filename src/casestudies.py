@@ -19,7 +19,7 @@ CASE_STUDIES = {
         diagram="baylo",
         diagram_alt=("Architecture: the web app I built, hosted on Firebase Hosting, and the mobile app my teammates "
                      "built both call one FastAPI backend, which runs in Docker on Google Cloud Run. The backend stores "
-                     "data in PostgreSQL and calls the Gemini API. Both apps also use Firebase for sign-in, real-time "
+                     "data in PostgreSQL on Neon and calls the Gemini API. Both apps also use Firebase for sign-in, real-time "
                      "chat and notifications."),
         decisions=[
             ("Firebase for real-time, PostgreSQL for the listings",
@@ -35,12 +35,17 @@ CASE_STUDIES = {
              "mobile app. If a call fails, the backend tries again, and users can optionally report a bad AI result, "
              "which admins see next to the AI's usage numbers."),
             ("The AI suggests, people decide",
-             "Gemini suggests a category, a value estimate and fair trade matches, but it never acts on its own: "
+             "Gemini suggests a category, a value estimate and fair trade matches, ranked by value compatibility, "
+             "category, text similarity and condition, but it never acts on its own: "
              "residents decide what to post and which offers to accept, and barangay officials keep an eye on "
              "activity and reports from the web admin dashboard."),
+            ("Prototype on the web, ship on mobile",
+             "I built and tested the AI value estimate and matching in the web app first, then moved the final "
+             "version into the mobile app. The team then made trading a mobile feature, so the web became a "
+             "browse-and-search site plus the barangay officials' dashboard."),
             ("Docker on Cloud Run",
              "Upgrading our Firebase plan came with Google Cloud credits, and I already used Google Cloud, so the "
-             "backend runs as a container on Cloud Run in the same account."),
+             "backend runs as a container on Cloud Run in the same account. The PostgreSQL database is serverless, on Neon."),
         ],
         api=[
             ("/api/items", "Listings: browse them, open one (each view is counted), and the full list for admins."),
@@ -55,7 +60,19 @@ CASE_STUDIES = {
         ],
         api_note=("Both apps send the signed-in user's Firebase ID token with every request (an Authorization: Bearer "
                   "header), so the backend knows who is calling. The routes below are the ones the web app uses."),
-        data=[],          # waiting for the table list from Casey's capstone PDF
+        # From the ERD in our capstone paper (Chapter 3); the live database has 13 tables in all.
+        data=[
+            ("Users and items", "One user posts many items; each item has its photos, category, condition and the "
+                                "AI's value estimate."),
+            ("Barter matches", "Each match links two items with the AI's match score; users decide whether to act "
+                               "on it."),
+            ("Chats", "A negotiation between the two users, tied to the items being traded. Messages travel through "
+                      "Firebase in real time."),
+            ("Transactions and ratings", "A completed exchange records both users and both items; after it, each "
+                                         "side can rate the other."),
+            ("Admin side", "Admin accounts, user and transaction reports, and a system log of every admin action "
+                           "for auditing."),
+        ],
         lessons=None,     # Casey will write this
     ),
     "lakbay-lokal": dict(
