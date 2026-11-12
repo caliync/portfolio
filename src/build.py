@@ -150,11 +150,37 @@ def foot():
     return f"""<footer class="foot">
   <div class="foot-in">
     <p>© 2026 Casey Allison R. Yncierto</p>
+    {gh_stats([(SITE_REPO, "This site's code")], "gh gh-foot")}
     {contact_icons()}
   </div>
 </footer>"""
 
 DL_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+
+# GitHub numbers from src/stats.py, baked in so they show without JavaScript; site.js refreshes public ones.
+_stats_path = os.path.join(ROOT, "src", "github_stats.json")
+GH_STATS = json.load(open(_stats_path)) if os.path.exists(_stats_path) else {}
+MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
+
+def gh_date(iso):
+    y, m, d = iso[:10].split("-")
+    return f"{MONTHS[int(m) - 1]} {int(d)}, {y}"
+
+def gh_stats(repos, cls="gh"):
+    """One line per repository: commits and last update, linked to the code when it's public."""
+    items = []
+    for full, label in repos:
+        st = GH_STATS.get(full)
+        if not st:
+            continue
+        lead = f'<span class="gh-label">{E(label)}:</span> ' if label else ""
+        commits = f'<span data-gh="commits">{st["commits"]}</span> commits'
+        when = f'updated <time data-gh="updated" datetime="{st["pushed_at"]}">{gh_date(st["pushed_at"])}</time>'
+        if st["private"]:
+            items.append(f'<li>{icon("github")}<span>{lead}{commits} · {when} · private repository</span></li>')
+        else:
+            items.append(f'<li data-gh-repo="{E(full)}">{icon("github")}<span>{lead}<a href="{st["url"]}">{commits}</a> · {when}</span></li>')
+    return f'<ul class="{cls}">{"".join(items)}</ul>' if items else ""
 
 BLANKS = []  # unfilled ?{...} blanks met while building
 
@@ -260,6 +286,7 @@ def card(p):
           {f'<p>{E(p["detail"])}</p>' if p.get('detail') else ''}
           {score_html(p)}
           {tags(p['stack'], 'tags tags-sm')}
+          {gh_stats(p.get('repos', []))}
           <p class="card-links">{links}</p>
         </div>
       </article>"""
@@ -519,6 +546,7 @@ for i, p in enumerate(PROJECTS):
     <p class="lede">{E(p['summary'])}</p>
     {score_html(p)}
     {tags(p['stack'])}
+    {gh_stats(p.get('repos', []))}
   </header>
 
   <section class="box" aria-labelledby="design-h">

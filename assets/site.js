@@ -382,3 +382,53 @@ document.querySelectorAll('[data-optional-file]').forEach(function (a) {
     });
   });
 })();
+
+// GitHub numbers: the page ships with a snapshot from the last build; for public repos this
+// checks GitHub for newer ones. One cached result per repo for 6 hours keeps visitors far under
+// GitHub's 60-requests-an-hour limit. Any failure just leaves the snapshot showing.
+(function () {
+  var items = document.querySelectorAll('[data-gh-repo]');
+  if (!items.length || !window.fetch) return;
+  var TTL = 6 * 60 * 60 * 1000;
+  var fmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+
+  function cached(repo) {
+    try {
+      var hit = JSON.parse(localStorage.getItem('gh:' + repo) || 'null');
+      return hit && Date.now() - hit.at < TTL ? hit : null;
+    } catch (e) { return null; }
+  }
+  function remember(repo, data) {
+    try { localStorage.setItem('gh:' + repo, JSON.stringify({ at: Date.now(), commits: data.commits, pushed: data.pushed })); } catch (e) {}
+  }
+  function getJSON(url) {
+    return fetch(url, { headers: { Accept: 'application/vnd.github+json' } }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json().then(function (body) { return { body: body, link: r.headers.get('Link') || '' }; });
+    });
+  }
+  function load(repo) {
+    var hit = cached(repo);
+    if (hit) return Promise.resolve(hit);
+    var api = 'https://api.github.com/repos/' + repo;
+    return getJSON(api).then(function (info) {
+      // One commit per page: the "last" page number is the commit count.
+      return getJSON(api + '/commits?per_page=1&sha=' + encodeURIComponent(info.body.default_branch)).then(function (c) {
+        var last = /[?&]page=(\d+)>; rel="last"/.exec(c.link);
+        var data = { commits: last ? +last[1] : c.body.length, pushed: info.body.pushed_at };
+        remember(repo, data);
+        return data;
+      });
+    });
+  }
+  items.forEach(function (li) {
+    var repo = li.getAttribute('data-gh-repo');
+    load(repo).then(function (data) {
+      var time = li.querySelector('[data-gh="updated"]');
+      if (!data.pushed || new Date(data.pushed) < new Date(time.getAttribute('datetime'))) return;   // never show older numbers
+      li.querySelector('[data-gh="commits"]').textContent = data.commits;
+      time.setAttribute('datetime', data.pushed);
+      time.textContent = fmt.format(new Date(data.pushed));
+    }).catch(function () {});
+  });
+})();

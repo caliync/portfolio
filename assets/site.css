@@ -525,3 +525,12 @@ img { -webkit-user-drag: none; }
 .decisions p { margin: 0; }
 .rows-api code { font-size: var(--fs-sm); }
 mark.fill { background: #FFF1B8; color: #2A1214; padding: 0 var(--space-1); border-radius: var(--r-xs); font-style: italic; }
+
+/* GitHub numbers under a project, and for this site's code in the footer */
+.gh { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; gap: var(--space-1); font-size: var(--fs-sm); color: var(--muted); }
+.gh li { display: flex; align-items: center; gap: var(--space-2); }
+.gh svg { flex: none; width: 15px; height: 15px; fill: currentColor; opacity: .8; }
+.gh a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.gh a:hover { color: var(--link); text-decoration-color: currentColor; }
+.gh-label { color: var(--ink); font-weight: 600; }
+.gh-foot { margin: 0; }

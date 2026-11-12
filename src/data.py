@@ -48,6 +48,7 @@ def tags(names, cls="tags"):
 EMAIL = "caseyncierto@gmail.com"
 LINKEDIN = "https://www.linkedin.com/in/casey-yncierto-643a59447/"
 GITHUB = "https://github.com/caliync"
+SITE_REPO = "caliync/portfolio"  # this site's own source, shown in the footer
 
 def contact_icons(cls="reach-icons"):
     items = [("outlook", f"mailto:{EMAIL}", f"Email {EMAIL}"), ("linkedin", LINKEDIN, "LinkedIn"), ("github", GITHUB, "GitHub")]
@@ -89,6 +90,7 @@ PROJECTS = [
     ),
     dict(
         slug="lakbay-lokal", name="Lakbay Lokal",
+        repos=[("caliync/LakbayLokal", "")],
         og="A trip planner that builds a timed day of small, local places near where you're staying. In progress.",  # one line for link previews
         kind="Personal project, in progress",
         summary="A free trip planner for the Philippines that I'm building on my own. It turns where you're staying and how far you'll go into a timed day of small, local places, with travel time between each stop.",
@@ -115,6 +117,7 @@ PROJECTS = [
     ),
     dict(
         slug="wildwood", name="Wildwood",
+        repos=[("caliync/wildwood-site", "Website"), ("caliync/wildwood-farm", "Game")],
         og="A cozy 3D browser game where you earn an animal's trust, plus the 3D website that opens it.",  # one line for link previews
         kind="Personal project, 3D browser game and its website",
         summary="A cozy 3D browser game where you earn an animal's trust instead of catching it, plus the 3D website I built for it, with a field guide, a map of the world and a button that opens the game. Farm by day, hold off wolf raids at night.",

@@ -15,6 +15,7 @@ src/data.py           all the content: projects, skills, credentials, contact
 src/build.py          turns data.py into index.html and projects/*.html
 src/casestudies.py    the engineering case studies on the project pages (architecture, decisions, API, data)
 src/diagrams/         the architecture diagrams, as SVG
+src/stats.py          takes a snapshot of each project's GitHub numbers into src/github_stats.json
 src/covers/           makes the poster covers on the project cards
 src/resume/           my CV and ATS resume as HTML, and the script that prints them to PDF
 src/og/               makes the link-preview images in images/og/
@@ -70,6 +71,8 @@ npm run pdfs
 ```bash
 npm run og
 ```
+
+`npm run stats` refreshes the GitHub numbers (commits, last update) before a build; reading the private Lakbay Lokal repo needs a `GITHUB_TOKEN`. On the live site, the numbers for public repos also refresh in the visitor's browser.
 
 `npm run og` remakes the link-preview images. The build also writes `sitemap.xml` for search engines.
 

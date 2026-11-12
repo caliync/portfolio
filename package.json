@@ -7,7 +7,8 @@
     "covers": "python3 src/covers/make_covers.py && node src/covers/shoot.js",
     "pdfs": "node src/resume/make_pdfs.js",
     "check": "node --check assets/site.js && node --check assets/library.js",
-    "og": "python3 src/og/make_og.py && node src/og/shoot.js"
+    "og": "python3 src/og/make_og.py && node src/og/shoot.js",
+    "stats": "python3 src/stats.py"
   },
   "devDependencies": {
     "simple-icons": "16.36.0"
