@@ -64,15 +64,16 @@ PROJECTS = [
         slug="baylo", name="Baylo",
         og='A community bartering app for Barangay Balibago. I built the web platform and its backend; 100 respondents rated it 4.89/5.',  # one line for link previews
         kind="Capstone project, 4-person team",
-        summary="A community bartering app for Barangay Balibago, Santa Rosa, Laguna, built by our team of four. I was the only web developer and built the whole web platform on my own; my three teammates built the mobile app. Residents post items, chat and trade with their neighbours, and Gemini estimates each item's value and finds good trade matches.",
-        stack=["React", "TypeScript", "Tailwind", "FastAPI", "PostgreSQL", "Firebase", "Gemini API", "Docker", "Google Cloud Run"],
+        summary="A community bartering app for Barangay Balibago, Santa Rosa, Laguna, built by our team of four. I was the only web developer and built the whole web platform on my own; my three teammates built the mobile app. In the mobile app, residents post items, chat and trade with their neighbours, and Gemini estimates each item's value and finds good trade matches.",
+        stack=["React", "TypeScript", "Tailwind", "FastAPI", "PostgreSQL", "Firebase", "Gemini API", "Docker", "Google Cloud Run"],  # the Neon host is named in the case study
         score=("4.89", "/5", "from 100 respondents in the ISO/IEC 25010 evaluation I led"),
         thumb="images/baylo/web1.webp",
         shots=[("images/baylo/web1.webp", "Baylo home page with the Baylo logo over a record shop photo and a row of categories", "The home page: search, categories and the app download."),
-               ("images/baylo/web2.webp", "Baylo listings page with filters, trending items and recently added items", "Browsing listings, with filters for condition and price, and matches.")],
+               ("images/baylo/web2.webp", "Baylo listings page with filters, trending items and recently added items", "Browsing listings, with filters for condition and price, and matches."),
+               ("images/baylo/group_photo.webp", "The Baylo team and our adviser at the capstone presentation, with the title slide behind us", "Presenting Baylo with my team at FEU Alabang.")],
         mission=[
             "Baylo is our capstone at FEU Alabang. It lets residents of Barangay Balibago discover, swap and share items with their neighbours.",
-            "We were a team of four: Ma. Samantha Elizabeth M. Depamaylo, Coleen N. Aclaro, Jinya Marray P. Gutierrez and me. My teammates built the mobile app. I built the web platform and its backend on my own, and led the research and evaluation.",
+            "We were a team of four: Ma. Samantha Elizabeth M. Depamaylo, Coleen N. Aclaro, Jinya Marray P. Gutierrez and me. We planned the system together, from research and wireframes to the final design. My teammates built the mobile app. I built the web platform and its backend on my own, and led the research and evaluation.",
         ],
         roles=[
             ("Web platform", "built Baylo's web platform alone: a FastAPI backend with 9 route modules over a 13-table PostgreSQL database, and a React, TypeScript and Tailwind web app where residents browse and search listings and barangay officials monitor activity in the admin dashboard. Trading happens in the mobile app."),
@@ -80,7 +81,9 @@ PROJECTS = [
             ("Real-time features", "wired up Firebase for sign-in, real-time chat and notifications."),
             ("Admin tools", "built an admin dashboard for users, listings, reports and trades."),
             ("Deployment", "deployed the backend to Google Cloud Run in a Docker container."),
-            ("Research and evaluation", "led the survey and evaluation under ISO/IEC 25010; 100 respondents rated the platform 4.89/5."),
+            ("Teamwork", "planned the system with the team, from research and wireframes to the final design, and kept the web and mobile sides in step as features changed. Both apps share one backend and Firebase, so accounts, listings, chat and notifications match on web and mobile."),
+            ("Research and evaluation", "led the survey and the ISO/IEC 25010 evaluation; 100 respondents rated the platform 4.89/5."),
+            ("Presentation", "presented and defended Baylo with the team at our capstone presentation."),
         ],
         arch=[("Frontend", "React, TypeScript, Tailwind"), ("Backend", "FastAPI, 9 route modules"), ("Database", "PostgreSQL on Neon (serverless), 13 tables"),
               ("AI", "Google Gemini API for item value, category, screening and trade matching"),

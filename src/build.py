@@ -356,30 +356,6 @@ home = f"""
   <section class="box" id="experience" aria-labelledby="exp-h">
     <h2 id="exp-h">Experience</h2>
     <article class="job job-split">
-        <div class="job-photos">
-        <figure class="job-photo">
-          <img src="images/baylo/group_photo.webp" alt="The Baylo team and our adviser at the capstone presentation, with the title slide behind us" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">
-          <figcaption>Presenting Baylo with my team at FEU Alabang.</figcaption>
-        </figure>
-        <!-- Second photo is a placeholder: swap in another capstone photo when you have one. -->
-        <figure class="job-photo">
-          <img src="images/baylo/web1.webp" alt="Baylo's home page" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">
-          <figcaption>Baylo's home page.</figcaption>
-        </figure>
-      </div>
-      <div class="job-text">
-        <h3>Capstone Project Developer &amp; Researcher</h3>
-        <p class="kind">Baylo, FEU Alabang capstone, 4-person team</p>
-        <ul class="list">
-          <li>Worked in a team of four: my three teammates built the mobile app, and I built the web platform and its backend on my own.</li>
-          <li>Connected the web platform to the team's mobile app through a shared backend and Firebase, so accounts, listings, chat and notifications are the same on web and mobile.</li>
-          <li>Planned the system with the team, from research and wireframes to the final design, and kept the web and mobile sides in step as features changed.</li>
-          <li>Led the research: ran the survey and the ISO/IEC 25010 evaluation, where 100 respondents rated the platform 4.89/5.</li>
-          <li>Presented and defended Baylo with the team at our capstone presentation.</li>
-        </ul>
-      </div>
-    </article>
-    <article class="job job-split">
       <div class="job-photos">
         <figure class="job-photo">
           <img src="images/corestudio/live-feed.png" alt="The anti-exploit admin dashboard's live feed, listing recent detections such as teleport, fly and walkspeed with the action taken for each" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">
