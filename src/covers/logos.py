@@ -22,11 +22,11 @@ def tile_baylo():
     return defs, base + body
 
 def tile_lakbay():
-    defs, base = _tile_base("tl", "#24957B", "#0E4A44")
-    body = ('<path d="M60 20 C 43 20 31 32 31 47 C 31 67 60 94 60 94 C 60 94 89 67 89 47 C 89 32 77 20 60 20 Z" fill="#F7EEDC"/>'
-            '<circle cx="60" cy="47" r="14" fill="#126A5C"/>'
-            '<path d="M60 36 L63.4 44 L72 47 L63.4 50 L60 58 L56.6 50 L48 47 L56.6 44 Z" fill="#F5C518"/>'
-            '<path d="M24 102 Q 60 82 96 102" fill="none" stroke="#F5C518" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 9"/>')
+    defs, base = _tile_base("tl", "#F7B731", "#B36B00")
+    body = ('<path d="M60 20 C 43 20 31 32 31 47 C 31 67 60 94 60 94 C 60 94 89 67 89 47 C 89 32 77 20 60 20 Z" fill="#FFFFFF"/>'
+            '<circle cx="60" cy="47" r="14" fill="#1C2127"/>'
+            '<path d="M60 36 L63.4 44 L72 47 L63.4 50 L60 58 L56.6 50 L48 47 L56.6 44 Z" fill="#F2A516"/>'
+            '<path d="M24 102 Q 60 82 96 102" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 9"/>')
     return defs, base + body
 
 def tile_farm():

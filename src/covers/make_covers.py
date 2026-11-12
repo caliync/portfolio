@@ -20,13 +20,13 @@ def tile_uri(slug):
 
 P = [
     dict(slug="lakbay-lokal", bg="images/projects/lakbay-start.webp", floor="images/projects/lakbay-plan.webp",
-         fonts="family=Newsreader:ital,opsz,wght@1,6..72,500&family=Schibsted+Grotesk:wght@500;700;800",
-         wash="linear-gradient(180deg, rgba(232,244,238,.90) 0%, rgba(214,236,228,.82) 55%, rgba(18,74,66,.55) 100%)",
-         word='<span style="font-family:Schibsted Grotesk;font-weight:800;color:#123F3A;letter-spacing:-.04em">Lakbay</span> '
-              '<span style="font-family:Newsreader;font-style:italic;font-weight:500;color:#B8860B;letter-spacing:-.02em">Lokal</span>',
-         wsize=122, glow="#F7F1E1", sub_font="Schibsted Grotesk", sub_color="#123F3A",
+         fonts="family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@700;800",
+         wash="linear-gradient(180deg, rgba(238,240,242,.92) 0%, rgba(238,240,242,.84) 55%, rgba(28,33,39,.45) 100%)",
+         word='<span style="font-family:Bricolage Grotesque;font-weight:800;color:#1C2127;letter-spacing:-.03em">Lakbay</span> '
+              '<span style="font-family:Bricolage Grotesque;font-weight:800;color:#B36B00;letter-spacing:-.03em">Lokal</span>',
+         wsize=122, glow="#FFFFFF", sub_font="Figtree", sub_color="#1C2127",
          sub="A day planner for small, local places<br>near where you're staying<br>Alabang, Muntinlupa",
-         floor_tint="rgba(18,74,66,.10)", base="#0E3F39"),
+         floor_tint="rgba(28,33,39,.08)", base="#2A2F36"),
     dict(slug="wildwood-site", cover="wildwood", hero="images/projects/farm-title.webp", bg="images/projects/site-forest.webp", floor="images/projects/site-world.webp",
          fonts="family=Marcellus&family=Barlow+Condensed:wght@600;700",
          wash="linear-gradient(180deg, rgba(10,22,20,.55) 0%, rgba(10,22,20,.35) 50%, rgba(6,12,11,.80) 100%)",

@@ -95,8 +95,8 @@ PROJECTS = [
         detail='It only recommends real places from its own list of about 220 and picks checked places first, while Gemini only rewords stored facts. Plans can be edited, swapped for indoor places on rainy days, shown on a map, added to a calendar, and followed offline on the day.',
         stack=["Python", "FastAPI", "JavaScript", "SQLite", "Gemini API", "Leaflet", "Render"],
         thumb="images/projects/lakbay-plan.webp",
-        shots=[("images/projects/lakbay-start.webp", "Lakbay Lokal start screen asking where you are staying, next to a three-step how it works panel", "Seven short questions, starting from where you're staying."),
-               ("images/projects/lakbay-plan.webp", "A planned day in Lakbay Lokal with times, travel between stops, and swap and directions buttons", "A planned day: times, travel between stops, swaps and the rainy-day option.")],
+        shots=[("images/projects/lakbay-start.webp", "Lakbay Lokal's start screen: where you're staying, dates and who is coming, then how far you'll go, with a ring showing that distance", "Where you're staying, when, who's coming, and how far you'll go."),
+               ("images/projects/lakbay-plan.webp", "A planned day in Lakbay Lokal: a timeline of stops with times and travel between them, each fact marked checked or estimated, beside a map with numbered pins", "A planned day: times, travel between stops, how sure each fact is, and the map.")],
         mission=[
             "Big travel sites send everyone to the same places. Lakbay Lokal points travellers to small, local, lesser-known places near where they're staying.",
             "It only recommends places from its own list and never makes one up. The list has about 220 real places: 34 popular Alabang and Muntinlupa places I researched from public pages, plus 186 from OpenStreetMap that the site marks \"Details not checked yet\". The planner picks checked places first.",
