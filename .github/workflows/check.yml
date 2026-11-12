@@ -1,7 +1,7 @@
 name: Check the site
 
 # Rebuilds the pages from src/ and fails if they differ from what is committed,
-# so the published HTML can never drift from its source.
+# so the published HTML can never drift from its source; then tests the built site in a real browser.
 on:
   push:
   pull_request:
@@ -28,3 +28,7 @@ jobs:
         run: npm run build
       - name: Fail if the committed pages are out of date
         run: git diff --exit-code -- index.html projects student.html developer.html assets/icons.svg sitemap.xml
+      - name: Install the test browser
+        run: npx playwright install --with-deps chromium
+      - name: Test pages, screen sizes, accessibility and links
+        run: npm test

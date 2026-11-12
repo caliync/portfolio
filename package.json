@@ -8,9 +8,12 @@
     "pdfs": "node src/resume/make_pdfs.js",
     "check": "node --check assets/site.js && node --check assets/library.js",
     "og": "python3 src/og/make_og.py && node src/og/shoot.js",
-    "stats": "python3 src/stats.py"
+    "stats": "python3 src/stats.py",
+    "test": "playwright test"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.63.0",
     "simple-icons": "16.36.0"
   }
 }

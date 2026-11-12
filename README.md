@@ -56,7 +56,7 @@ npm ci
 npm run build
 ```
 
-`npm ci` only installs the icon set the build reads from. A GitHub Action rebuilds the pages on every push and fails if the committed HTML doesn't match `src/`, so the two can't drift apart.
+`npm ci` installs the icon set the build reads from and the test tools. A GitHub Action rebuilds the pages on every push and fails if the committed HTML doesn't match `src/`, so the two can't drift apart.
 
 The covers and PDFs need [Playwright](https://playwright.dev) with Chromium installed:
 
@@ -75,6 +75,14 @@ npm run og
 `npm run stats` refreshes the GitHub numbers (commits, last update) before a build; reading the private Lakbay Lokal repo needs a `GITHUB_TOKEN`. On the live site, the numbers for public repos also refresh in the visitor's browser.
 
 `npm run og` remakes the link-preview images. The build also writes `sitemap.xml` for search engines.
+
+## Tests
+
+```bash
+npm test
+```
+
+27 checks in a real browser (Playwright): every page loads without errors and fits phone, tablet and desktop screens; passes automated accessibility checks (axe) in light and dark mode; has no broken local links or files; shows link previews; and skips three.js where the library doesn't move. They run on every push in GitHub Actions. The first time, install the browser with `npx playwright install chromium`.
 
 ## Projects on the site
 

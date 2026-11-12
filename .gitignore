@@ -2,3 +2,5 @@ node_modules/
 src/covers/out/
 __pycache__/
 src/og/out/
+test-results/
+playwright-report/

@@ -265,7 +265,7 @@ def card(p):
     return f"""
       <article class="card">
         <div class="card-img art-box" data-shots="{shots_json}">
-          <button type="button" class="art-scene" aria-label="Show the real screens of {E(p['name'])}">
+          <button type="button" class="art-scene" aria-label="See the real screens of {E(p['name'])}">
             <img class="art-svg art-cover" src="images/covers/{p['slug']}.webp" alt="{E(p['name'])} cover" width="991" height="1300" decoding="async">
             <span class="art-hint">{ICON_EYE}<span>See the real screens</span></span>
           </button>
