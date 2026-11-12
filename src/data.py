@@ -61,6 +61,7 @@ CERTS = [
 PROJECTS = [
     dict(
         slug="baylo", name="Baylo",
+        og='A community bartering app for Barangay Balibago. I built the web platform and its backend; 100 respondents rated it 4.89/5.',  # one line for link previews
         kind="Capstone project, 4-person team",
         summary="A community bartering app for Barangay Balibago, Santa Rosa, Laguna, built by our team of four. I was the only web developer and built the whole web platform on my own; my three teammates built the mobile app. Residents post items, chat and trade with their neighbours, and Gemini estimates each item's value and finds good trade matches.",
         stack=["React", "TypeScript", "Tailwind", "FastAPI", "PostgreSQL", "Firebase", "Gemini API", "Docker", "Google Cloud Run"],
@@ -88,6 +89,7 @@ PROJECTS = [
     ),
     dict(
         slug="lakbay-lokal", name="Lakbay Lokal",
+        og="A trip planner that builds a timed day of small, local places near where you're staying. In progress.",  # one line for link previews
         kind="Personal project, in progress",
         summary="A free trip planner for the Philippines that I'm building on my own. It turns where you're staying and how far you'll go into a timed day of small, local places, with travel time between each stop.",
         detail='It only recommends real places from its own list of about 220 and picks checked places first, while Gemini only rewords stored facts. Plans can be edited, swapped for indoor places on rainy days, shown on a map, added to a calendar, and followed offline on the day.',
@@ -113,6 +115,7 @@ PROJECTS = [
     ),
     dict(
         slug="wildwood", name="Wildwood",
+        og="A cozy 3D browser game where you earn an animal's trust, plus the 3D website that opens it.",  # one line for link previews
         kind="Personal project, 3D browser game and its website",
         summary="A cozy 3D browser game where you earn an animal's trust instead of catching it, plus the 3D website I built for it, with a field guide, a map of the world and a button that opens the game. Farm by day, hold off wolf raids at night.",
         stack=["three.js", "GSAP", "JavaScript"],

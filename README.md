@@ -15,6 +15,7 @@ src/data.py           all the content: projects, skills, credentials, contact
 src/build.py          turns data.py into index.html and projects/*.html
 src/covers/           makes the poster covers on the project cards
 src/resume/           my CV and ATS resume as HTML, and the script that prints them to PDF
+src/og/               makes the link-preview images in images/og/
 
 index.html            the whole site (generated)
 projects/             a "How I built it" page for each project (generated)
@@ -63,6 +64,12 @@ npm run covers
 ```bash
 npm run pdfs
 ```
+
+```bash
+npm run og
+```
+
+`npm run og` remakes the link-preview images. The build also writes `sitemap.xml` for search engines.
 
 ## Projects on the site
 

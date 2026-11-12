@@ -24,6 +24,48 @@ OUT = ARGS.out
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:ital,wght@0,400..700;1,400&display=swap">')
 
+SITE = "https://caliync.github.io/portfolio/"  # the live address; link previews and search need absolute URLs
+
+def meta(path, title, desc, image, image_alt, kind, ld):
+    """Search and link-preview tags: canonical address, Open Graph, Twitter card and structured data."""
+    url = SITE + ("" if path == "index.html" else path)
+    img = SITE + image
+    tags = [
+        f'<link rel="canonical" href="{url}">',
+        f'<meta property="og:type" content="{kind}">',
+        f'<meta property="og:site_name" content="Casey Yncierto">',
+        f'<meta property="og:url" content="{url}">',
+        f'<meta property="og:title" content="{E(title)}">',
+        f'<meta property="og:description" content="{E(desc)}">',
+        f'<meta property="og:image" content="{img}">',
+        '<meta property="og:image:type" content="image/jpeg">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        f'<meta property="og:image:alt" content="{E(image_alt)}">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        f'<meta name="twitter:title" content="{E(title)}">',
+        f'<meta name="twitter:description" content="{E(desc)}">',
+        f'<meta name="twitter:image" content="{img}">',
+        '<meta name="theme-color" content="#160A0C" media="(prefers-color-scheme: dark)">',
+        '<meta name="theme-color" content="#F1EBE3" media="(prefers-color-scheme: light)">',
+    ]
+    if ld:
+        # "</" can't appear inside a script tag, so escape it in the JSON
+        data = json.dumps(ld, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+        tags.append(f'<script type="application/ld+json">{data}</script>')
+    return "\n".join(tags)
+
+PERSON = {
+    "@type": "Person", "@id": SITE + "#casey",
+    "name": "Casey Allison R. Yncierto", "alternateName": "Casey Yncierto",
+    "url": SITE, "jobTitle": "Web and mobile application developer",
+    "email": "mailto:" + EMAIL,
+    "address": {"@type": "PostalAddress", "addressLocality": "Calamba City", "addressRegion": "Laguna", "addressCountry": "PH"},
+    "affiliation": {"@type": "CollegeOrUniversity", "name": "Far Eastern University - Alabang"},
+    "knowsAbout": [t for _, names in ARSENAL for t in names],
+    "sameAs": [LINKEDIN, GITHUB],
+}
+
 THREE_URL = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
 THREE_SRI = "sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu"  # same bytes as npm three@0.128.0
 
@@ -59,7 +101,8 @@ def ver(name):
     """Short content hash, so browsers fetch a file again whenever it changes."""
     return hashlib.sha1(open(os.path.join(ROOT, "assets", name), "rb").read()).hexdigest()[:8]
 
-def page(path, title, desc, body, r="", bg="intro"):
+def page(path, title, desc, body, r="", bg="intro", image="images/og/home.jpg",
+         image_alt="Casey Yncierto, web and mobile application developer", kind="website", ld=None):
     # The home page draws the 3D library; library.js fetches three.js itself, and falls back to the
     # still picture for reduced motion or when WebGL is missing. Other pages only ever show the still picture.
     if bg == "intro":
@@ -76,8 +119,7 @@ def page(path, title, desc, body, r="", bg="intro"):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{E(title)}</title>
 <meta name="description" content="{E(desc)}">
-<meta property="og:title" content="{E(title)}">
-<meta property="og:description" content="{E(desc)}">
+{meta(path, title, desc, image, image_alt, kind, ld)}
 <script>try{{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
 <link rel="icon" type="image/svg+xml" href="{r}assets/logo.svg?v={ver('logo.svg')}">
 {FONTS}
@@ -374,13 +416,16 @@ def to_panels(html):
                  + '\n'.join(out) + '\n</div>\n</div>\n<div class="hs-progress" aria-hidden="true"><span></span></div>\n')
     return head + main_html + '</main>' + tail
 home = to_panels(home)
-page("index.html", "Casey Yncierto", "Casey Allison R. Yncierto, web and mobile application developer and IT student at FEU Alabang.", home)
+page("index.html", "Casey Yncierto · Web and mobile application developer",
+     "Casey Allison R. Yncierto, a fourth-year IT student at FEU Alabang who builds web and mobile apps, "
+     "open to frontend and full-stack internships.", home,
+     ld={"@context": "https://schema.org", "@graph": [PERSON, {"@type": "WebSite", "url": SITE, "name": "Casey Yncierto", "author": {"@id": SITE + "#casey"}}]})
 
 # Old pages send visitors to the right part of the one page.
 for old, anchor in [("student.html", "#about"), ("developer.html", "#projects")]:
     open(os.path.join(OUT, old), "w").write(
         f'<!doctype html><meta charset="utf-8"><title>Casey Yncierto</title>'
-        f'<meta http-equiv="refresh" content="0; url=index.html{anchor}"><link rel="canonical" href="index.html">'
+        f'<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=index.html{anchor}"><link rel="canonical" href="{SITE}">'
         f'<p><a href="index.html{anchor}">Go to the portfolio</a></p>')
 
 # ---------- project pages: flat background, plain readable boxes ----------
@@ -435,14 +480,24 @@ for i, p in enumerate(PROJECTS):
 </main>
 {foot()}
 """
-    page(f"projects/{p['slug']}.html", f"{p['name']} - Casey Yncierto", p["summary"], body, r, bg="flat")
+    team = p["slug"] == "baylo"  # the capstone was a team of four; Casey built the web side
+    page(f"projects/{p['slug']}.html", f"{p['name']} · Casey Yncierto", p["og"], body, r, bg="flat",
+         image=f"images/og/{p['slug']}.jpg", image_alt=f"{p['name']}: {p['og']}", kind="article",
+         ld={"@context": "https://schema.org", "@type": "CreativeWork", "name": p["name"], "description": p["summary"],
+             "url": SITE + f"projects/{p['slug']}.html", "image": SITE + f"images/og/{p['slug']}.jpg",
+             "keywords": ", ".join(p["stack"]), ("contributor" if team else "creator"): {"@id": SITE + "#casey", "@type": "Person", "name": "Casey Allison R. Yncierto"}})
 
 # The two Wildwood pages became one; keep their old links working.
 for old in ("wildwood-farm", "wildwood-site"):
     with open(os.path.join(OUT, "projects", old + ".html"), "w") as f:
         f.write('<!doctype html><meta charset="utf-8"><title>Wildwood - Casey Yncierto</title>'
-                '<meta http-equiv="refresh" content="0; url=wildwood.html"><link rel="canonical" href="wildwood.html">'
+                '<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=wildwood.html">'
+                f'<link rel="canonical" href="{SITE}projects/wildwood.html">'
                 '<p><a href="wildwood.html">Go to the Wildwood project</a></p>')
 
 write_sprite()
+urls = [SITE] + [SITE + f"projects/{p['slug']}.html" for p in PROJECTS]
+with open(os.path.join(OUT, "sitemap.xml"), "w") as f:
+    f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls) + "</urlset>\n")
 print("built")
