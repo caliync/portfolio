@@ -56,7 +56,7 @@ export const ghStats = ghStatsJson as Record<string, RepoStats>
 
 const MONTHS = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ')
 
-/** "2026-11-15T14:27:36Z" -> "Nov 15, 2026", the same format site.js uses when it refreshes. */
+/** "2026-11-15T14:27:36Z" -> "Nov 15, 2026", the same format lib/githubStats.ts uses when it refreshes. */
 export function ghDate(iso: string): string {
   const [y, m, d] = iso.slice(0, 10).split('-')
   return `${MONTHS[Number(m) - 1]} ${Number(d)}, ${y}`

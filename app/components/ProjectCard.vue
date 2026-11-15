@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// A project on the home page. The cover is a button: site.js swaps it for the real screenshots
+// A project on the home page. The cover is a button: lib/coverReveal.ts swaps it for the real screenshots
 // listed in data-shots, with previous/next controls.
 import type { Project } from '~/utils/content'
 

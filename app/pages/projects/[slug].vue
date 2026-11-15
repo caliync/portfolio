@@ -7,6 +7,8 @@ definePageMeta({
   validate: (route) => projects.some((p) => p.slug === route.params.slug),
 })
 
+useBrowserFeatures({ library: false })
+
 const slug = useRoute().params.slug as string
 const i = projects.findIndex((p) => p.slug === slug)
 const p = projects[i]!

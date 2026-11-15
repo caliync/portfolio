@@ -1,9 +1,6 @@
 import versions from '~/generated.json'
 import { site } from '~/utils/content'
 
-const THREE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'
-const THREE_SRI = 'sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu' // same bytes as npm three@0.128.0
-
 /** "" on the home page, "../" on project pages: links stay relative, as they were before the port. */
 export function useRel(): string {
   return useRoute().path.startsWith('/projects/') ? '../' : ''
@@ -28,7 +25,7 @@ interface PageHead {
   bg: 'intro' | 'flat'
 }
 
-/** Title, search and link-preview tags, the theme and font setup, and the browser scripts. */
+/** Title, search and link-preview tags, and the theme and font setup. */
 export function useSiteHead(p: PageHead) {
   const rel = useRel()
   const url = site.url + p.path
@@ -71,21 +68,5 @@ export function useSiteHead(p: PageHead) {
       // Apply a saved light/dark choice before the first paint.
       { innerHTML: "try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}" },
     ],
-  })
-
-  // The browser scripts run once Vue has taken over the page, so their changes to the page
-  // (theme label, sideways scroll, refreshed GitHub numbers) never fight hydration.
-  onMounted(() => {
-    const add = (src: string, data: Record<string, string> = {}) => {
-      const s = document.createElement('script')
-      s.src = src
-      s.async = false // keep the order: site.js first
-      Object.assign(s.dataset, data)
-      document.body.appendChild(s)
-    }
-    add(asset(rel, 'site.js'))
-    // The home page draws the 3D library; library.js fetches three.js itself, and falls back to the
-    // still picture for reduced motion or when WebGL is missing. Other pages only show the still picture.
-    if (p.bg === 'intro') add(asset(rel, 'library.js'), { three: THREE_URL, threeSri: THREE_SRI })
   })
 }
