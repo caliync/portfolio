@@ -46,6 +46,6 @@ write('public/sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xml
   + urls.map((u) => `  <url><loc>${u}</loc></url>\n`).join('') + '</urlset>\n')
 
 const versions = { icons: hash(sprite) }
-for (const f of ['site.css', 'site.js', 'library.js', 'logo.svg']) versions[f] = hash(read(`public/assets/${f}`))
+for (const f of ['site.css', 'logo.svg']) versions[f] = hash(read(`public/assets/${f}`))
 write('app/generated.json', JSON.stringify(versions, null, 2) + '\n')
 console.log(`prebuild: ${used.size} icons, ${urls.length} sitemap urls`)

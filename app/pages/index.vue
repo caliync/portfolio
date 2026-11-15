@@ -1,10 +1,12 @@
 <script setup lang="ts">
-// The home page: one shelf of panels. On a laptop site.js turns scrolling into a sideways
+// The home page: one shelf of panels. On a laptop lib/shelfScroll.ts turns scrolling into a sideways
 // glide along the shelf; on a phone you swipe; with reduced motion it's a plain vertical page.
 import { about, credentials, experience, projects, site, skills } from '~/utils/content'
 
 // GitHub Pages also serves this page as /portfolio/index.html.
 definePageMeta({ alias: ['/index.html'] })
+
+useBrowserFeatures({ library: true })
 
 const nav = [
   ['About', '#about'], ['Experience', '#experience'], ['Projects', '#projects'],

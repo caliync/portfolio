@@ -18,8 +18,11 @@ app/components/       the pieces the pages are made of: project cards, tags, Git
 app/utils/content.ts  types for the content, so a typo in data/ fails the type check
 scripts/prebuild.mjs  makes the icon sprite and sitemap, and stops the build if a case study has a blank
 scripts/serve.mjs     serves the built site under /portfolio/, like GitHub Pages
-public/assets/        styles (light and dark mode), site.js (theme, sideways scrolling, image viewer)
-                      and library.js (the 3D library; it fetches three.js r128 only when it will move)
+app/lib/              the browser-side behaviour, in typed modules that clean up after themselves:
+                      theme switch, sideways scrolling, image viewer, cover reveal, live GitHub
+                      numbers, and library.ts (the 3D library; it fetches three.js r128 only when
+                      it will move)
+public/assets/        the styles (light and dark mode), logo and icon sprite
 public/images/        covers, screenshots, certificates and link-preview images
 src/diagrams/         the architecture diagrams, as SVG
 src/stats.py          takes a snapshot of each project's GitHub numbers into data/github-stats.json

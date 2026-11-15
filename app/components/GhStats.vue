@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Commits and last update for each repository, from the snapshot src/stats.py takes.
-// Public repos link to the code, and site.js refreshes their numbers in the browser.
+// Public repos link to the code, and lib/githubStats.ts refreshes their numbers in the browser.
 import { ghStats, ghDate } from '~/utils/content'
 
 const props = withDefaults(defineProps<{ repos: { repo: string; label: string }[]; cls?: string }>(), { cls: 'gh' })

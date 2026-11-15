@@ -77,6 +77,20 @@ test('reduced motion: the still library replaces the 3D one, and three.js is nev
   expect(threeRequested).toBe(false);
 });
 
+test('no WebGL: the still library takes over, without errors', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await offline(page);
+  // A browser where three.js loads but cannot make a WebGL renderer.
+  await page.addInitScript(() => {
+    window.THREE = { WebGLRenderer: function () { throw new Error('WebGL is not available'); } };
+  });
+  await page.goto('index.html', { waitUntil: 'networkidle' });
+  await expect(page.locator('.bg-still')).toHaveCount(1);
+  await expect(page.locator('canvas.bg3d')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 test('project pages never fetch three.js', async ({ page }) => {
   let threeRequested = false;
   page.on('request', (r) => { if (r.url().includes('three.min.js')) threeRequested = true; });
