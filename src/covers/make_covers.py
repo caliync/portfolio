@@ -1,5 +1,5 @@
 """Poster-style project covers (991x1300). Writes one HTML page per cover into out/;
-shoot.js then screenshots them into images/covers/. Run: python src/covers/make_covers.py && node src/covers/shoot.js
+shoot.js then screenshots them into public/images/covers/. Run: python src/covers/make_covers.py && node src/covers/shoot.js
 
 Real screenshot behind a colour wash, the project's own fonts, and the logo tile
 standing on the real screen laid flat like a print on a table."""
@@ -7,7 +7,7 @@ import sys, os, base64
 import logos as art
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(os.path.dirname(HERE))
+ROOT = os.path.join(os.path.dirname(os.path.dirname(HERE)), "public")  # images live in public/
 OUT = os.path.join(HERE, "out")   # scratch folder, not committed
 os.makedirs(OUT, exist_ok=True)
 

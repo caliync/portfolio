@@ -534,3 +534,12 @@ mark.fill { background: #FFF1B8; color: #2A1214; padding: 0 var(--space-1); bord
 .gh a:hover { color: var(--link); text-decoration-color: currentColor; }
 .gh-label { color: var(--ink); font-weight: 600; }
 .gh-foot { margin: 0; }
+
+/* Moving between the home page and a project page: a short crossfade instead of a hard cut, with the
+   top bar held in place. Browsers without view transitions just load the page as before. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  .bar { view-transition-name: bar; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--t-std); animation-timing-function: var(--ease); }
+  ::view-transition-group(bar) { animation-duration: var(--t-std); animation-timing-function: var(--ease); }
+}

@@ -2,7 +2,7 @@
 const { chromium } = require('playwright');
 const path = require('path');
 
-const root = path.resolve(__dirname, '..', '..');
+const root = path.resolve(__dirname, '..', '..', 'public');
 const jobs = [['resume.html', 'casey-ats-resume.pdf'], ['cv.html', 'casey-cv.pdf']];
 
 (async () => {

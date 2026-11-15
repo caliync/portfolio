@@ -1,0 +1,24 @@
+[
+  {
+    "title": "UI/UX Designer and Gameplay Scripter",
+    "type": "Freelance",
+    "where": "CoreStudio, Roblox game team, 2026",
+    "points": [
+      "Joined CoreStudio's Roblox team to design the game's UI/UX and write gameplay scripts in Luau.",
+      "Built a modular, server-authoritative anti-exploit system that catches speed hacks, teleporting, flying, jump cheats, humanoid tampering and remote spam.",
+      "Added an in-game admin dashboard, saved bans, optional Discord webhook alerts, and a configurable strike system that kicks and then bans repeat offenders."
+    ]
+  },
+  {
+    "title": "Server Admin and Plugin Developer",
+    "type": "Part-time",
+    "where": "BattleAsya Minecraft server, 2019 to 2022",
+    "points": [
+      "Helped run BattleAsya as an admin and developer. The server had about 14,000 players, with up to 5,000 online at once, and kept that player base for several years.",
+      "Built custom Java plugins with the Spigot API, so they ran on Spigot, Paper and Bukkit servers.",
+      "Built a report and ticket system: when a player reports a cheater in-game, a Discord bot I made with JDA and DiscordSRV opens a ticket channel on the server's Discord, so staff can review it.",
+      "Wrote plugins that fixed bugs and blocked exploits, keeping the server stable for a large live player base.",
+      "The server still runs my ticket and report plugin today, years after I built it."
+    ]
+  }
+]
