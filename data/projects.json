@@ -139,6 +139,13 @@
     ],
     "shots": [
       {
+        "src": "images/projects/lakbay-home.webp",
+        "alt": "Lakbay Lokal's homepage: the headline \"Plan a day in Alabang, then let us point you there\" over a photo collage, a short trip search in the top bar, and counts of 220 places listed and 4 trust labels on every fact",
+        "caption": "The homepage: what the planner does, a quick trip search, and the five steps from planning to the day guide.",
+        "width": 1280,
+        "height": 800
+      },
+      {
         "src": "images/projects/lakbay-start.webp",
         "alt": "Lakbay Lokal's start screen: where you're staying, dates and who is coming, then how far you'll go, with a ring showing that distance",
         "caption": "Where you're staying, when, who's coming, and how far you'll go.",

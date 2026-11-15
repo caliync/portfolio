@@ -1,7 +1,7 @@
 // The site's content, typed. Everything lives in data/*.json so the pages, the tests and the
 // Python tools (covers, link previews, GitHub numbers) all read the same files.
 import projectsJson from '~~/data/projects.json'
-import caseStudiesJson from '~~/data/case-studies.json'
+import caseStudiesJson from '~/case-studies.json' // made from content/case-studies/*.md by scripts/prebuild.mjs
 import skillsJson from '~~/data/skills.json'
 import credentialsJson from '~~/data/credentials.json'
 import experienceJson from '~~/data/experience.json'

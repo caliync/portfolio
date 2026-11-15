@@ -11,7 +11,8 @@ The background is a 3D library made with three.js. On a laptop, scrolling slides
 The site is built with Nuxt (Vue 3 and TypeScript) and generated to plain static HTML, so GitHub Pages serves finished pages and the content is readable before any JavaScript runs. All the content lives in JSON files in `data/`, so I edit my projects and skills in one place.
 
 ```
-data/                 all the content: projects, case studies, skills, credentials, experience, contact
+data/                 the content: projects, skills, credentials, experience, contact
+content/case-studies/ one Markdown file per case study
 app/pages/            the home page and the "How I built it" page for each project
 app/components/       the pieces the pages are made of: project cards, tags, GitHub numbers, case study
 app/utils/content.ts  types for the content, so a typo in data/ fails the type check

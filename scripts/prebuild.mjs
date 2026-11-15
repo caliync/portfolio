@@ -2,9 +2,11 @@
 //   public/assets/icons.svg   the brand icons the pages use, in one cached file
 //   public/sitemap.xml        for search engines
 //   app/generated.json        short content hashes, so browsers fetch a file again when it changes
+//   app/case-studies.json     the case studies, read from content/case-studies/*.md
 // It also stops the build if a case study still has an unfilled ?{blank}.
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
+import { readCaseStudies } from './case-studies.mjs'
 
 const read = (p) => readFileSync(new URL(`../${p}`, import.meta.url))
 const json = (p) => JSON.parse(read(p))
@@ -14,12 +16,13 @@ const hash = (buf) => createHash('sha1').update(buf).digest('hex').slice(0, 8)
 const projects = json('data/projects.json')
 const skills = json('data/skills.json')
 const site = json('data/site.json')
-const caseStudies = json('data/case-studies.json')
+const caseStudies = readCaseStudies(new URL('../content/case-studies/', import.meta.url))
+write('app/case-studies.json', JSON.stringify(caseStudies, null, 2) + '\n')
 
 // Case studies: no ?{blanks} may reach the live site.
 const blanks = JSON.stringify(caseStudies).match(/\?\{[^}]*\}/g) ?? []
 if (blanks.length) {
-  console.error(`${blanks.length} case-study blanks still need filling in data/case-studies.json, starting with ${blanks[0]}`)
+  console.error(`${blanks.length} case-study blanks still need filling in content/case-studies/*.md, starting with ${blanks[0]}`)
   process.exit(1)
 }
 
