@@ -1,19 +1,17 @@
 """Link-preview images (1200x630) for the home page and each project, in the site's style.
-Writes one HTML page per image into out/; shoot.js screenshots them into images/og/.
+Writes one HTML page per image into out/; shoot.js screenshots them into public/images/og/.
 
     python src/og/make_og.py && node src/og/shoot.js
 """
-import base64, html, os, sys
+import base64, html, json, os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(os.path.dirname(HERE))
+REPO = os.path.dirname(os.path.dirname(HERE))
+ROOT = os.path.join(REPO, "public")  # images and the logo
 OUT = os.path.join(HERE, "out")
 os.makedirs(OUT, exist_ok=True)
 
-# data.py reads the icon folder from the environment; previews don't use icons, so any path will do.
-os.environ.setdefault("SIMPLE_ICONS_DIR", os.path.join(ROOT, "node_modules", "simple-icons", "icons"))
-sys.path.insert(0, os.path.dirname(HERE))
-from data import PROJECTS  # noqa: E402
+PROJECTS = json.load(open(os.path.join(REPO, "data", "projects.json")))
 
 E = html.escape
 

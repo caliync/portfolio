@@ -1,11 +1,11 @@
-// Screenshots the preview pages that make_og.py wrote and saves them as JPEG in images/og/.
+// Screenshots the preview pages that make_og.py wrote and saves them as JPEG in public/images/og/.
 // JPEG, not WebP: some link-preview crawlers still skip WebP images.
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 
 const out = path.resolve(__dirname, 'out');
-const dest = path.resolve(__dirname, '..', '..', 'images', 'og');
+const dest = path.resolve(__dirname, '..', '..', 'public', 'images', 'og');
 
 (async () => {
   fs.mkdirSync(dest, { recursive: true });
@@ -16,7 +16,7 @@ const dest = path.resolve(__dirname, '..', '..', 'images', 'og');
     await page.goto('file://' + path.join(out, file), { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({ path: path.join(dest, name + '.jpg'), type: 'jpeg', quality: 86 });
-    console.log('wrote images/og/' + name + '.jpg');
+    console.log('wrote public/images/og/' + name + '.jpg');
   }
   await browser.close();
 })();

@@ -1,19 +1,29 @@
 {
   "name": "portfolio",
   "private": true,
-  "description": "Casey Yncierto's portfolio. The site is static; these packages are only used to build and check it.",
+  "description": "Casey Yncierto's portfolio, built with Nuxt and generated to static HTML for GitHub Pages.",
   "scripts": {
-    "build": "python3 src/build.py",
-    "covers": "python3 src/covers/make_covers.py && node src/covers/shoot.js",
-    "pdfs": "node src/resume/make_pdfs.js",
-    "check": "node --check assets/site.js && node --check assets/library.js",
-    "og": "python3 src/og/make_og.py && node src/og/shoot.js",
+    "dev": "node scripts/prebuild.mjs && nuxt dev",
+    "generate": "node scripts/prebuild.mjs && nuxt generate",
+    "preview": "node scripts/serve.mjs",
+    "typecheck": "node scripts/prebuild.mjs && nuxt typecheck",
+    "test": "playwright test",
     "stats": "python3 src/stats.py",
-    "test": "playwright test"
+    "covers": "python3 src/covers/make_covers.py && node src/covers/shoot.cjs",
+    "og": "python3 src/og/make_og.py && node src/og/shoot.cjs",
+    "pdfs": "node src/resume/make_pdfs.cjs",
+    "postinstall": "nuxt prepare"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
     "@playwright/test": "1.63.0",
-    "simple-icons": "16.36.0"
-  }
+    "simple-icons": "16.36.0",
+    "typescript": "5.9.3",
+    "vue-tsc": "3.3.14"
+  },
+  "dependencies": {
+    "nuxt": "4.6.4",
+    "vue": "3.5.45"
+  },
+  "type": "module"
 }

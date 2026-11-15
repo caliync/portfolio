@@ -1,8 +1,8 @@
 """Snapshot of each project's GitHub repository: commit count and last update.
 
-    python src/stats.py      # then: npm run build
+    python src/stats.py      # then: npm run generate
 
-Writes src/github_stats.json, which build.py bakes into the pages, so the numbers show without
+Writes data/github-stats.json, which the pages show at build time, so the numbers show without
 JavaScript. For public repos, site.js also refreshes them live in the visitor's browser.
 
 Private repos (Lakbay Lokal) can only be read with a token: set GITHUB_TOKEN to one that can read them.
@@ -18,11 +18,11 @@ import urllib.error
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "github_stats.json")
+DATA = os.path.join(os.path.dirname(HERE), "data")
+OUT = os.path.join(DATA, "github-stats.json")
 API = "https://api.github.com/repos/"
-os.environ.setdefault("SIMPLE_ICONS_DIR", "")  # data.py reads it at import; stats don't need icons
-sys.path.insert(0, HERE)
-from data import PROJECTS, SITE_REPO  # noqa: E402
+PROJECTS = json.load(open(os.path.join(DATA, "projects.json")))
+SITE_REPO = json.load(open(os.path.join(DATA, "site.json")))["siteRepo"]
 
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 CTX = ssl.create_default_context(cafile=os.environ.get("SSL_CERT_FILE") or None)
@@ -45,7 +45,7 @@ def repo_stats(full):
 
 
 def main():
-    repos = sorted({full for p in PROJECTS for full, _ in p.get("repos", [])} | {SITE_REPO})
+    repos = sorted({full for p in PROJECTS for r in p["repos"] for full in [r["repo"]]} | {SITE_REPO})
     old = json.load(open(OUT)) if os.path.exists(OUT) else {}
     stats = {}
     for full in repos:

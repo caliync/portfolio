@@ -8,30 +8,23 @@ The background is a 3D library made with three.js. On a laptop, scrolling slides
 
 ## What's in here
 
-The pages are plain HTML, CSS and JavaScript, so nothing has to be built for the site to run. The HTML is generated from one content file by a small Python script, so I edit my projects and skills in one place.
+The site is built with Nuxt (Vue 3 and TypeScript) and generated to plain static HTML, so GitHub Pages serves finished pages and the content is readable before any JavaScript runs. All the content lives in JSON files in `data/`, so I edit my projects and skills in one place.
 
 ```
-src/data.py           all the content: projects, skills, credentials, contact
-src/build.py          turns data.py into index.html and projects/*.html
-src/casestudies.py    the engineering case studies on the project pages (architecture, decisions, API, data)
+data/                 all the content: projects, case studies, skills, credentials, experience, contact
+app/pages/            the home page and the "How I built it" page for each project
+app/components/       the pieces the pages are made of: project cards, tags, GitHub numbers, case study
+app/utils/content.ts  types for the content, so a typo in data/ fails the type check
+scripts/prebuild.mjs  makes the icon sprite and sitemap, and stops the build if a case study has a blank
+scripts/serve.mjs     serves the built site under /portfolio/, like GitHub Pages
+public/assets/        styles (light and dark mode), site.js (theme, sideways scrolling, image viewer)
+                      and library.js (the 3D library; it fetches three.js r128 only when it will move)
+public/images/        covers, screenshots, certificates and link-preview images
 src/diagrams/         the architecture diagrams, as SVG
-src/stats.py          takes a snapshot of each project's GitHub numbers into src/github_stats.json
+src/stats.py          takes a snapshot of each project's GitHub numbers into data/github-stats.json
 src/covers/           makes the poster covers on the project cards
 src/resume/           my CV and ATS resume as HTML, and the script that prints them to PDF
-src/og/               makes the link-preview images in images/og/
-
-index.html            the whole site (generated)
-projects/             a "How I built it" page for each project (generated)
-assets/site.css       styles, light and dark mode
-assets/site.js        theme switch, menu, sideways scrolling, image viewer
-assets/library.js     the 3D library background; it fetches three.js r128 only when the library will move
-assets/icons.svg      the brand icons the pages use, in one cached file (generated)
-assets/logo.svg       my CY logo, also the tab icon
-assets/logos/         project logos
-images/               covers, screenshots and certificates
-images/library-*.webp the still library shown on project pages, with reduced motion, or when 3D can't run
-casey-cv.pdf          my CV
-casey-ats-resume.pdf  my ATS resume
+src/og/               makes the link-preview images
 ```
 
 Click a project cover on the site to see the real screenshots.
@@ -39,42 +32,44 @@ Click a project cover on the site to see the real screenshots.
 ## Running it locally
 
 ```bash
-python3 -m http.server 8000
-```
-
-Then go to http://localhost:8000.
-
-## Changing the content
-
-Edit `src/data.py`, then rebuild:
-
-```bash
 npm ci
 ```
 
 ```bash
-npm run build
+npm run dev
 ```
 
-`npm ci` installs the icon set the build reads from and the test tools. A GitHub Action rebuilds the pages on every push and fails if the committed HTML doesn't match `src/`, so the two can't drift apart.
+Or build the real static site and look at it the way GitHub Pages serves it:
 
-The covers and PDFs need [Playwright](https://playwright.dev) with Chromium installed:
+```bash
+npm run generate
+```
+
+```bash
+npm run preview
+```
+
+Then go to http://127.0.0.1:4173/portfolio/.
+
+## Changing the content
+
+Edit the files in `data/`, then `npm run generate`. `npm run typecheck` checks the content and the code against their types.
+
+The covers, link previews and PDFs need [Playwright](https://playwright.dev) with Chromium installed:
 
 ```bash
 npm run covers
 ```
 
 ```bash
-npm run pdfs
-```
-
-```bash
 npm run og
 ```
 
-`npm run stats` refreshes the GitHub numbers (commits, last update) before a build; reading the private Lakbay Lokal repo needs a `GITHUB_TOKEN`. On the live site, the numbers for public repos also refresh in the visitor's browser.
+```bash
+npm run pdfs
+```
 
-`npm run og` remakes the link-preview images. The build also writes `sitemap.xml` for search engines.
+`npm run stats` refreshes the GitHub numbers (commits, last update); reading the private Lakbay Lokal repo needs a `GITHUB_TOKEN`. On the live site, the numbers for public repos also refresh in the visitor's browser.
 
 ## Tests
 
@@ -82,7 +77,9 @@ npm run og
 npm test
 ```
 
-27 checks in a real browser (Playwright): every page loads without errors and fits phone, tablet and desktop screens; passes automated accessibility checks (axe) in light and dark mode; has no broken local links or files; shows link previews; and skips three.js where the library doesn't move. They run on every push in GitHub Actions. The first time, install the browser with `npx playwright install chromium`.
+27 checks in a real browser (Playwright), run against the generated site: every page loads without errors and fits phone, tablet and desktop screens; passes automated accessibility checks (axe) in light and dark mode; has no broken local links or files; shows link previews; and skips three.js where the library doesn't move. The first time, install the browser with `npx playwright install chromium`.
+
+On every push, a GitHub Action type-checks, generates and tests the site. Pushes to `cali/portfolio` then publish that build to GitHub Pages.
 
 ## Projects on the site
 

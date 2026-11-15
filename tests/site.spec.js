@@ -1,10 +1,11 @@
 // What a visitor relies on: pages load cleanly, nothing spills sideways on any screen size,
 // the pages pass automated accessibility checks, every local link and file exists, and the
 // still library takes over when motion is reduced.
-const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 
-const PAGES = ['/index.html', '/projects/baylo.html', '/projects/lakbay-lokal.html', '/projects/wildwood.html'];
+// Relative to the base URL (…/portfolio/), the same paths the live site uses.
+const PAGES = ['index.html', 'projects/baylo.html', 'projects/lakbay-lokal.html', 'projects/wildwood.html'];
 const SCREENS = { phone: { width: 375, height: 812 }, tablet: { width: 768, height: 1024 }, desktop: { width: 1440, height: 900 } };
 
 // The 3D library comes from a CDN and the GitHub numbers from GitHub's API; tests must not depend on either.
@@ -70,7 +71,7 @@ test('reduced motion: the still library replaces the 3D one, and three.js is nev
   let threeRequested = false;
   page.on('request', (r) => { if (r.url().includes('three.min.js')) threeRequested = true; });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/index.html', { waitUntil: 'networkidle' });
+  await page.goto('index.html', { waitUntil: 'networkidle' });
   await expect(page.locator('.bg-still')).toHaveCount(1);
   await expect(page.locator('canvas.bg3d')).toHaveCount(0);
   expect(threeRequested).toBe(false);
@@ -89,7 +90,7 @@ test('link previews: every page has a canonical URL and a 1200x630 preview image
     const canonical = await page.getAttribute('link[rel=canonical]', 'href');
     expect(canonical, path).toMatch(/^https:\/\/caliync\.github\.io\/portfolio\//);
     const img = await page.getAttribute('meta[property="og:image"]', 'content');
-    const local = new URL(img).pathname.replace(/^\/portfolio/, '');
+    const local = new URL(img).pathname;
     expect((await request.get(local)).status(), local).toBe(200);
     const ld = await page.locator('script[type="application/ld+json"]').textContent();
     expect(() => JSON.parse(ld), path).not.toThrow();

@@ -4,3 +4,13 @@ __pycache__/
 src/og/out/
 test-results/
 playwright-report/
+
+# made by scripts/prebuild.mjs
+public/assets/icons.svg
+public/sitemap.xml
+app/generated.json
+# Nuxt
+.nuxt/
+.output/
+.data/
+dist
