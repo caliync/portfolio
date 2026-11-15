@@ -4,6 +4,7 @@
 import type { Cleanup } from './dom'
 
 const TTL = 6 * 60 * 60 * 1000
+const BACKOFF = 30 * 60 * 1000   // after GitHub says "rate limit", leave it alone for half an hour
 const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
 
 interface Numbers { commits: number; pushed: string }
@@ -19,8 +20,15 @@ function remember(repo: string, d: Numbers) {
   try { localStorage.setItem(`gh:${repo}`, JSON.stringify({ at: Date.now(), ...d })) } catch { /* not remembered */ }
 }
 
+function backingOff(): boolean {
+  try { return Date.now() - Number(localStorage.getItem('gh:backoff') || 0) < BACKOFF } catch { return false }
+}
+
 async function getJSON<T>(url: string, signal: AbortSignal): Promise<{ body: T; link: string }> {
   const r = await fetch(url, { headers: { Accept: 'application/vnd.github+json' }, signal })
+  if (r.status === 403 || r.status === 429) {
+    try { localStorage.setItem('gh:backoff', String(Date.now())) } catch { /* not remembered */ }
+  }
   if (!r.ok) throw new Error(String(r.status))
   return { body: (await r.json()) as T, link: r.headers.get('Link') ?? '' }
 }
@@ -28,6 +36,7 @@ async function getJSON<T>(url: string, signal: AbortSignal): Promise<{ body: T; 
 async function load(repo: string, signal: AbortSignal): Promise<Numbers> {
   const hit = cached(repo)
   if (hit) return hit
+  if (backingOff()) throw new Error('backing off')
   const api = `https://api.github.com/repos/${repo}`
   const info = await getJSON<{ default_branch: string; pushed_at: string }>(api, signal)
   // One commit per page: the "last" page number is the commit count.

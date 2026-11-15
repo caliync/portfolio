@@ -12,7 +12,6 @@ useHead({
   meta: [{ name: 'robots', content: 'noindex' }],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: `${home}assets/logo.svg` },
-    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:ital,wght@0,400..700;1,400&display=swap' },
     { rel: 'stylesheet', href: `${home}assets/site.css` },
   ],
   script: [{ innerHTML: "try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}" }],

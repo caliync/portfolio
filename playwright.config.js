@@ -5,6 +5,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: 'tests',
+  testMatch: '**/*.spec.js',   // tests/unit/*.test.ts belong to Vitest (npm run test:unit)
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

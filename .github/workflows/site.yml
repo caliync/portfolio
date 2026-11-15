@@ -26,12 +26,16 @@ jobs:
       - run: npm ci
       - name: Type-check
         run: npm run typecheck
+      - name: Unit and component tests
+        run: npm run test:unit
       - name: Generate the site
         run: npm run generate
       - name: Install the test browser
         run: npx playwright install --with-deps chromium
       - name: Test pages, screen sizes, accessibility and links
         run: npm test
+      - name: Lighthouse scores (performance, accessibility, best practices, SEO)
+        run: npm run lighthouse
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/cali/portfolio'
         with:
