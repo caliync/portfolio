@@ -41,7 +41,7 @@ const symbols = [...used].sort().map((slug) => {
 const sprite = `<svg xmlns="http://www.w3.org/2000/svg">${symbols.join('')}</svg>\n`
 write('public/assets/icons.svg', sprite)
 
-const urls = [site.url, ...projects.map((p) => `${site.url}projects/${p.slug}.html`)]
+const urls = [site.url, `${site.url}how-its-built.html`, ...projects.map((p) => `${site.url}projects/${p.slug}.html`)]
 write('public/sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
   + urls.map((u) => `  <url><loc>${u}</loc></url>\n`).join('') + '</urlset>\n')
 

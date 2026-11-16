@@ -42,6 +42,8 @@ describe('GhStats', () => {
     expect(li.get('[data-gh="commits"]').text()).toMatch(/^\d+$/)
     expect(li.get('time[data-gh="updated"]').attributes('datetime')).toMatch(/^\d{4}-\d\d-\d\dT/)
     expect(li.get('.gh-label').text()).toBe('Website:')
+    // the space after the label is easy to lose when the template is compiled; it must be there
+    expect(li.element.textContent).toMatch(/Website: \d+ commits/)
   })
 
   it('shows a private repository without a link, and says so', () => {

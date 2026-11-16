@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       // Project pages keep their old addresses, projects/<slug>.html, so existing links still work.
-      routes: ['/', ...projects.map((p) => `/projects/${p.slug}.html`)],
+      routes: ['/', '/how-its-built.html', ...projects.map((p) => `/projects/${p.slug}.html`)],
       crawlLinks: false,
       failOnError: true,
     },
