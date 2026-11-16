@@ -66,6 +66,9 @@ export function useSiteHead(p: PageHead) {
     ],
     script: [
       { type: 'application/ld+json', innerHTML: ld },
+      // The page behaviour (scrolling, theme, viewer, 3D library). A module script is deferred, so it
+      // runs after the page is parsed, and it never blocks the first paint.
+      { src: asset(rel, 'js/site.js'), type: 'module', tagPosition: 'bodyClose' },
       // Apply a saved light/dark choice before the first paint.
       { innerHTML: "try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}" },
     ],

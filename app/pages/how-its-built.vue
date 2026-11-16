@@ -4,8 +4,6 @@
 import { site } from '~/utils/content'
 
 definePageMeta({ path: '/how-its-built.html' })
-useBrowserFeatures({ library: false })
-
 const description = 'How this portfolio is built: Nuxt and TypeScript generating static HTML, what is tested on every push, the real numbers, and what I would still change.'
 useSiteHead({
   path: 'how-its-built.html',
@@ -24,9 +22,9 @@ useSiteHead({
 })
 
 const parts = [
-  ['Framework', 'Nuxt 4 and Vue 3, written in TypeScript with strict type checking. The pages are generated to plain HTML at build time, so they show up in search and link previews without any JavaScript.'],
+  ['Framework', 'Nuxt 4 and Vue 3, written in TypeScript with strict type checking. The pages are generated to plain HTML at build time, so they show up in search and link previews without any JavaScript. Vue runs only at build time; it is not sent to your browser.'],
   ['Content', 'Projects, skills, experience and credentials are typed JSON files. The two case studies are Markdown. A mistyped heading or a blank that was never filled in stops the build.'],
-  ['Behaviour', 'The theme switch, sideways scrolling, image viewer, cover reveals and live GitHub numbers are small TypeScript modules. Each one undoes what it set up when the page goes away.'],
+  ['Behaviour', 'The theme switch, sideways scrolling, image viewer, cover reveals and live GitHub numbers are small TypeScript modules, bundled into one script of about 5 KB. Each one can undo what it set up.'],
   ['Background', 'A 3D library drawn with three.js r128. Every texture is drawn in code, so there are no image files. It is fetched only for visitors who will see it move: reduced motion, data saver or no WebGL get a still picture instead.'],
   ['Styling', 'One hand-written stylesheet with tokens for spacing, type, colour and motion, in light and dark mode. No CSS framework.'],
   ['Fonts and icons', 'Karla and Young Serif are served from this site, and the brand icons come from one cached SVG file.'],
@@ -37,26 +35,27 @@ const checks = [
   ['Type check', 'Strict TypeScript over the pages, components and browser modules.'],
   ['Unit and component tests (Vitest)', 'The Markdown reader and the errors it must give, unfilled-blank handling, the GitHub numbers, the image viewer, cover reveal, copy guard and theme switch.'],
   ['Browser tests (Playwright)', 'Every page on a phone, a tablet and a desktop width; automated accessibility checks (axe) in light and dark mode; broken links and files; link previews; the fallbacks for reduced motion and for no WebGL.'],
-  ['Lighthouse', 'On a throttled phone profile. The build fails if performance drops under 75, or accessibility, best practices or SEO under 95.'],
+  ['Lighthouse', 'On a throttled phone profile. The build fails if performance drops under 85, or accessibility, best practices or SEO under 95.'],
 ]
 
 const numbers = [
-  ['85 KB', 'of JavaScript a page downloads, gzipped. Most of it is Vue and Nuxt.'],
+  ['5 KB', 'of JavaScript a page downloads, gzipped. The home page also fetches a 6 KB file for the 3D library, and three.js itself only when the library will move.'],
   ['0', 'requests to other websites before the first paint. The fonts come from this site.'],
-  ['2.5 s', 'to first paint on a throttled phone profile, measured with Lighthouse in November 2026. It was 3.4 s while the fonts came from Google.'],
-  ['81', 'Lighthouse performance score (out of 100) on a project page. Accessibility, best practices and SEO all scored 100 in the same run.'],
+  ['1.2 s', 'to first paint on a project page, on Lighthouse\'s throttled phone profile (slow 4G, a CPU four times slower), measured in November 2026.'],
+  ['94 to 97', 'Lighthouse performance score (out of 100) on a project page, in two runs. Accessibility, best practices and SEO scored 100 in both.'],
 ]
 
 const decisions = [
   ['Static HTML, not a server', 'Nothing on this site changes between visits, so there is nothing to run on a server. GitHub Pages serves finished pages for free.'],
   ['A small Markdown reader, not Nuxt Content', 'Nuxt Content puts a database in the browser, which is far more than two case studies need. About 80 lines turn each Markdown file into the same data the pages already use, and fail with the file name when something is wrong.'],
-  ['Fonts from this site', 'Loading them from Google added a round trip before any text could appear. Hosting two small font files cut the first paint from 3.4 s to 2.5 s.'],
+  ['Fonts from this site', 'Loading them from Google added a round trip before any text could appear, so the two fonts are hosted here and the three the page starts with are preloaded.'],
   ['Page transitions in CSS', 'The fade between pages is eight lines of CSS (view transitions). It adds no JavaScript, and it does nothing with reduced motion or in a browser that does not support it.'],
+  ['No Vue in the browser', 'Nuxt can send Vue to the browser to take over each page, but nothing here needs it: the pages are finished HTML and the behaviour is plain TypeScript. I first shipped it anyway, about 85 KB of JavaScript per page. Leaving it out brought that to 5 KB and gave the project page back its speed on a slow phone.'],
   ['A fallback for the 3D library', 'The first version of the library crashed in a browser without WebGL and left an empty canvas. It now falls back to the still picture, and a test keeps it that way.'],
 ]
 
 const again = [
-  'Every page downloads Vue, even though the page behaviour is plain TypeScript. If the site stays this small, I would look at shipping less of it.',
+  'The interactive parts touch the page directly instead of going through Vue. That keeps the browser script tiny, but it means Vue\'s reactivity is not used for them. If the site grows real interactive features, I would build those as Vue components.',
   'The screenshots on the project pages are bigger than a phone needs, about 300 KB over a whole page according to Lighthouse. They are below the fold, so the first paint is not affected, but smaller versions would be kinder to mobile data.',
   'Lighthouse cannot measure the 3D scene. The build machine has no graphics card, so the home page is measured with the still picture. I have not measured the 3D scene on a real phone yet.',
 ]

@@ -6,8 +6,6 @@ import { about, credentials, experience, projects, site, skills } from '~/utils/
 // GitHub Pages also serves this page as /portfolio/index.html.
 definePageMeta({ alias: ['/index.html'] })
 
-useBrowserFeatures({ library: true })
-
 const nav = [
   ['About', '#about'], ['Experience', '#experience'], ['Projects', '#projects'],
   ['Skills', '#skills'], ['Credentials', '#credentials'], ['Contact', '#contact'],
