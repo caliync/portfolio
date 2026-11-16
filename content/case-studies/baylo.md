@@ -3,7 +3,7 @@ diagram: baylo
 diagram_alt: "Architecture: the web app I built, hosted on Firebase Hosting, and the mobile app my teammates built both call one FastAPI backend, which runs in Docker on Google Cloud Run. The backend stores data in PostgreSQL on Neon and calls the Gemini API. Both apps also use Firebase for sign-in, real-time chat and notifications."
 numbers:
   - value: "4.89/5"
-    text: "ISO/IEC 25010 rating from 100 respondents, in the evaluation I led"
+    text: "ISO/IEC 25010 rating from 100 respondents who tried Baylo in person and answered our capstone survey, in the evaluation I led"
   - value: "9"
     text: "API route modules in the FastAPI backend"
   - value: "13"
