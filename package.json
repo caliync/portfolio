@@ -23,6 +23,7 @@
     "@vitejs/plugin-vue": "^6.0.11",
     "@vue/test-utils": "^2.4.6",
     "chrome-launcher": "^1.2.0",
+    "esbuild": "^0.28.2",
     "happy-dom": "^18.0.1",
     "lighthouse": "^13.0.1",
     "simple-icons": "16.36.0",

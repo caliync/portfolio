@@ -15,3 +15,4 @@ app/generated.json
 .data/
 dist
 app/case-studies.json
+public/assets/js

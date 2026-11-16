@@ -16,13 +16,15 @@ content/case-studies/ one Markdown file per case study
 app/pages/            the home page and the "How I built it" page for each project
 app/components/       the pieces the pages are made of: project cards, tags, GitHub numbers, case study
 app/utils/content.ts  types for the content, so a typo in data/ fails the type check
-scripts/prebuild.mjs  makes the icon sprite and sitemap, and stops the build if a case study has a blank
+scripts/prebuild.mjs  makes the icon sprite and sitemap, bundles the browser script, and stops the build
+                      if a case study has a blank
 scripts/serve.mjs     serves the built site under /portfolio/, like GitHub Pages
 scripts/lighthouse.mjs  the Lighthouse check
 app/lib/              the browser-side behaviour, in typed modules that clean up after themselves:
                       theme switch, sideways scrolling, image viewer, cover reveal, live GitHub
                       numbers, and library.ts (the 3D library; it fetches three.js r128 only when
-                      it will move)
+                      it will move). entry.ts starts them; esbuild bundles it into public/assets/js
+                      (about 5 KB gzipped), so no Vue or Nuxt code is sent to the browser
 public/assets/        the styles (light and dark mode), logo and icon sprite
 public/images/        covers, screenshots, certificates and link-preview images
 src/diagrams/         the architecture diagrams, as SVG
@@ -43,6 +45,8 @@ npm ci
 ```bash
 npm run dev
 ```
+
+The browser script is bundled when the command starts, so restart it after changing `app/lib/`.
 
 Or build the real static site and look at it the way GitHub Pages serves it:
 
@@ -94,7 +98,7 @@ npm test
 npm run lighthouse
 ```
 
-Runs Lighthouse on the home page and a project page (on a throttled phone profile) and fails if performance drops under 75 or accessibility, best practices or SEO under 95. The home page is measured with the still library, because a CI machine has no graphics card to draw the 3D scene; how the 3D scene runs on a real phone isn't covered.
+Runs Lighthouse on the home page and a project page (on a throttled phone profile) and fails if performance drops under 85 or accessibility, best practices or SEO under 95. The home page is measured with the still library, because a CI machine has no graphics card to draw the 3D scene; how the 3D scene runs on a real phone isn't covered.
 
 On every push, a GitHub Action type-checks, generates, tests and runs Lighthouse on the site. Pushes to `cali/portfolio` then publish that build to GitHub Pages.
 

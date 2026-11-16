@@ -15,7 +15,7 @@ import lighthouse from 'lighthouse'
 
 const PORT = 4190
 const BASE = `http://127.0.0.1:${PORT}/portfolio/`
-const FLOORS = { performance: 75, accessibility: 95, 'best-practices': 95, seo: 95 }
+const FLOORS = { performance: 85, accessibility: 95, 'best-practices': 95, seo: 95 }
 const PAGES = [
   { path: '', name: 'Home' },
   { path: 'projects/baylo.html', name: 'Baylo' },

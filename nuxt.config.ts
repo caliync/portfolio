@@ -21,6 +21,9 @@ export default defineNuxtConfig({
       failOnError: true,
     },
   },
+  // The pages are finished HTML, and the behaviour is plain TypeScript (app/lib/entry.ts), so the
+  // browser doesn't need Vue or Nuxt: this leaves their scripts out of the pages.
+  features: { noScripts: 'production' },
   experimental: {
     // All content is bundled at build time; there is no per-page data to fetch.
     payloadExtraction: false,

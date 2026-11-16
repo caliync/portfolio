@@ -1,11 +1,14 @@
 // Runs before `nuxt generate`. It writes the files that are made from the content:
 //   public/assets/icons.svg   the brand icons the pages use, in one cached file
 //   public/sitemap.xml        for search engines
+//   public/assets/js/         the browser script (app/lib/entry.ts), bundled
 //   app/generated.json        short content hashes, so browsers fetch a file again when it changes
 //   app/case-studies.json     the case studies, read from content/case-studies/*.md
 // It also stops the build if a case study still has an unfilled ?{blank}.
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
+import { rmSync } from 'node:fs'
+import { build } from 'esbuild'
 import { readCaseStudies } from './case-studies.mjs'
 
 const read = (p) => readFileSync(new URL(`../${p}`, import.meta.url))
@@ -45,7 +48,23 @@ const urls = [site.url, `${site.url}how-its-built.html`, ...projects.map((p) => 
 write('public/sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
   + urls.map((u) => `  <url><loc>${u}</loc></url>\n`).join('') + '</urlset>\n')
 
+// The browser script: app/lib/entry.ts and what it imports, bundled and minified. The 3D library
+// is split into its own file, which the page fetches only when it has a canvas for it.
+const jsDir = new URL('../public/assets/js/', import.meta.url).pathname
+rmSync(jsDir, { recursive: true, force: true })
+await build({
+  entryPoints: { site: new URL('../app/lib/entry.ts', import.meta.url).pathname },
+  outdir: jsDir,
+  bundle: true,
+  splitting: true,
+  format: 'esm',
+  target: 'es2020',
+  minify: true,
+  legalComments: 'none',
+  tsconfigRaw: { compilerOptions: { target: 'es2020' } },
+})
+
 const versions = { icons: hash(sprite) }
-for (const f of ['site.css', 'logo.svg']) versions[f] = hash(read(`public/assets/${f}`))
+for (const f of ['site.css', 'logo.svg', 'js/site.js']) versions[f] = hash(read(`public/assets/${f}`))
 write('app/generated.json', JSON.stringify(versions, null, 2) + '\n')
 console.log(`prebuild: ${used.size} icons, ${urls.length} sitemap urls`)
