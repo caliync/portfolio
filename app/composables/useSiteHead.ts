@@ -58,9 +58,10 @@ export function useSiteHead(p: PageHead) {
     link: [
       { rel: 'canonical', href: url },
       { rel: 'icon', type: 'image/svg+xml', href: asset(rel, 'logo.svg') },
-      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:ital,wght@0,400..700;1,400&display=swap' },
+      // The three fonts every page starts with, fetched alongside the stylesheet instead of after it.
+      { rel: 'preload', as: 'font', type: 'font/woff2', href: `${rel}assets/fonts/karla-normal-latin.woff2`, crossorigin: '' },
+      { rel: 'preload', as: 'font', type: 'font/woff2', href: `${rel}assets/fonts/young-serif-normal-latin.woff2`, crossorigin: '' },
+      { rel: 'preload', as: 'font', type: 'font/woff2', href: `${rel}assets/fonts/karla-italic-latin.woff2`, crossorigin: '' },
       { rel: 'stylesheet', href: asset(rel, 'site.css') },
     ],
     script: [

@@ -18,6 +18,7 @@ app/components/       the pieces the pages are made of: project cards, tags, Git
 app/utils/content.ts  types for the content, so a typo in data/ fails the type check
 scripts/prebuild.mjs  makes the icon sprite and sitemap, and stops the build if a case study has a blank
 scripts/serve.mjs     serves the built site under /portfolio/, like GitHub Pages
+scripts/lighthouse.mjs  the Lighthouse check
 app/lib/              the browser-side behaviour, in typed modules that clean up after themselves:
                       theme switch, sideways scrolling, image viewer, cover reveal, live GitHub
                       numbers, and library.ts (the 3D library; it fetches three.js r128 only when
@@ -78,12 +79,24 @@ npm run pdfs
 ## Tests
 
 ```bash
+npm run test:unit
+```
+
+36 fast checks in a simulated browser (Vitest): the Markdown case-study reader (including the errors it must give), the case-study text and blank handling, the GitHub numbers display, and the browser behaviours: image viewer, cover reveal, copy guard, theme switch and the live GitHub refresh with its rate-limit back-off.
+
+```bash
 npm test
 ```
 
 27 checks in a real browser (Playwright), run against the generated site: every page loads without errors and fits phone, tablet and desktop screens; passes automated accessibility checks (axe) in light and dark mode; has no broken local links or files; shows link previews; and skips three.js where the library doesn't move. The first time, install the browser with `npx playwright install chromium`.
 
-On every push, a GitHub Action type-checks, generates and tests the site. Pushes to `cali/portfolio` then publish that build to GitHub Pages.
+```bash
+npm run lighthouse
+```
+
+Runs Lighthouse on the home page and a project page (on a throttled phone profile) and fails if performance drops under 75 or accessibility, best practices or SEO under 95. The home page is measured with the still library, because a CI machine has no graphics card to draw the 3D scene; how the 3D scene runs on a real phone isn't covered.
+
+On every push, a GitHub Action type-checks, generates, tests and runs Lighthouse on the site. Pushes to `cali/portfolio` then publish that build to GitHub Pages.
 
 ## Projects on the site
 
