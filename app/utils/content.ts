@@ -62,4 +62,4 @@ export function ghDate(iso: string): string {
   return `${MONTHS[Number(m) - 1]} ${Number(d)}, ${y}`
 }
 
-export const about = aboutJson as { role: string; paragraphs: string[]; subjects: string[]; interests: string[]; contactLine: string }
+export const about = aboutJson as { role: string; availability: string; paragraphs: string[]; subjects: string[]; interests: string[]; contactLine: string }
