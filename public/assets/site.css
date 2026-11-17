@@ -472,7 +472,6 @@ img { -webkit-user-drag: none; }
 @media (max-width: 640px) { .cred-grid { grid-template-columns: 1fr; } }
 .cred-item { padding: var(--space-4) var(--space-5); border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: var(--r-md); background: var(--chip); font-size: var(--fs-body); line-height: 1.5; font-weight: 600; }
 .panel-cred .certs { grid-template-columns: repeat(auto-fit, minmax(230px, 340px)); justify-content: start; }
-.cred-sub-2 { margin-top: var(--space-6); }
 
 /* Motion: small, soft lifts on hover (Premium: no bounce) */
 .card:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -18px rgba(0, 0, 0, .55); }
@@ -624,11 +623,7 @@ mark.fill { background: #FFF1B8; color: #2A1214; padding: 0 var(--space-1); bord
 /* Hero: what Casey is looking for, and the main action. Over the library photo in light mode
    it uses the hero's light text colour, like the other hero lines (see the light-mode rules). */
 .avail { margin: var(--space-3) 0 0; font-size: var(--fs-lede); color: var(--ink); text-shadow: 0 2px 24px var(--bg); }
-@media (max-width: 560px) {
-  .hero .reach-row .dl { width: 100%; }
-  .hero .dl-main { flex: 1 1 100%; justify-content: center; }
-  .hero .dl .dl-btn:not(.dl-main) { flex: 1 1 0; justify-content: center; }
-}
+
 
 /* Experience: both jobs in one panel, side by side on wide screens. */
 @media (min-width: 900px) {
@@ -636,11 +631,22 @@ mark.fill { background: #FFF1B8; color: #2A1214; padding: 0 var(--space-1); bord
   .jobs .job + .job { margin-top: 0; padding-top: 0; border-top: 0; padding-left: var(--space-6); border-left: 1px solid var(--line); }
 }
 
-/* Credentials: certificates beside seminars and organizations. */
-.cred-cols { display: grid; gap: var(--space-8); }
-@media (min-width: 900px) {
-  .cred-cols { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
-  .cred-cols .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cred-cols .cred-grid { grid-template-columns: 1fr; gap: var(--space-3); }
-  .cred-cols .cred-orgs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Credentials: one group per row (certificates, seminars, organizations), each on the same
+   two-column grid, so everything lines up. Certificates are compact: image left, text right. */
+.cred-stack { display: grid; gap: var(--space-6); }
+.cred-stack .cred-sub { margin-bottom: var(--space-3); font-size: var(--fs-xl); }
+.cred-stack .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.cred-stack .cred-grid { gap: var(--space-4); }
+.cred-stack .cert { flex-direction: row; }
+.cred-stack .cert-img { flex: 0 0 42%; aspect-ratio: 3 / 2; border-bottom: 0; border-right: 1px solid var(--line); }
+.cred-stack .cert-text { padding: var(--space-3) var(--space-4); border-top: 0; display: flex; flex-direction: column; justify-content: center; }
+.cred-stack .cert h3 { font-size: var(--fs-base); }
+.cred-stack .cert p { margin-top: var(--space-1); font-size: var(--fs-sm); }
+@media (max-width: 640px) { .cred-stack .certs { grid-template-columns: 1fr; } }
+
+/* Contact: the main ways to reach Casey, as buttons, above the copyable details. */
+.contact-actions { margin: 0 0 var(--space-7); }
+@media (max-width: 560px) {
+  .contact-actions .dl-solid { flex: 1 1 100%; justify-content: center; }
+  .contact-actions .dl-btn:not(.dl-solid) { flex: 1 1 0; justify-content: center; }
 }

@@ -21,7 +21,7 @@ const nav = [
 const nth = (base: string, i: number) => (i === 0 ? base : `${base}-${i + 1}`)
 const hid = (base: string, i: number) => (i === 0 ? base : `${base}${i + 1}`)
 
-const description = 'Casey Allison R. Yncierto, a fourth-year IT student at FEU Alabang who builds web and mobile apps, open to frontend and full-stack internships.'
+const description = 'Casey Allison R. Yncierto, a fourth-year IT student at FEU Alabang who builds web and mobile apps, open to UI/UX and frontend internships.'
 useSiteHead({
   path: '',
   title: `${site.name} · ${about.role}`,
@@ -70,11 +70,6 @@ useSiteHead({
             <p class="role">{{ about.role }}</p>
             <p class="avail">{{ about.availability }}</p>
             <div class="reach-row">
-              <div class="dl">
-                <a class="dl-btn dl-solid dl-main" href="#projects">See my projects <span aria-hidden="true">&rarr;</span></a>
-                <a class="dl-btn" href="casey-cv.pdf" target="_blank" rel="noopener"><Ico name="out" /><span>CV</span></a>
-                <a class="dl-btn" href="casey-ats-resume.pdf" target="_blank" rel="noopener"><Ico name="out" /><span>ATS</span></a>
-              </div>
               <ContactIcons />
             </div>
             <p class="hs-hint" aria-hidden="true"><span class="h-scroll">Scroll to browse the shelves</span><span class="h-swipe">Swipe to browse the shelves</span> <span class="arrow">&rarr;</span></p>
@@ -124,7 +119,7 @@ useSiteHead({
 
         <section id="skills" class="panel ">
           <div class="box panel-box">
-            <h2 id="skills-h">My arsenal</h2>
+            <h2 id="skills-h">Skills</h2>
             <div class="arsenal">
               <div v-for="g in skills.arsenal" :key="g.group" class="kit"><h3 class="sub">{{ g.group }}</h3><TagList :names="g.items" /></div>
             </div>
@@ -134,7 +129,7 @@ useSiteHead({
         <section id="credentials" class="panel panel-cred">
           <div class="box panel-box">
             <h2 id="cred-h">Credentials</h2>
-            <div class="cred-cols">
+            <div class="cred-stack">
               <div class="cred-block">
                 <h3 class="cred-sub">Certificates</h3>
                 <ul class="certs">
@@ -147,12 +142,14 @@ useSiteHead({
                     </div>
                   </li>
                 </ul>
-                <h3 class="cred-sub cred-sub-2">Organizations</h3>
-                <ul class="cred-grid cred-orgs"><li v-for="t in credentials.organizations" :key="t" class="cred-item">{{ t }}</li></ul>
               </div>
               <div class="cred-block">
                 <h3 class="cred-sub">Seminars</h3>
                 <ul class="cred-grid"><li v-for="t in credentials.seminars" :key="t" class="cred-item">{{ t }}</li></ul>
+              </div>
+              <div class="cred-block">
+                <h3 class="cred-sub">Organizations</h3>
+                <ul class="cred-grid"><li v-for="t in credentials.organizations" :key="t" class="cred-item">{{ t }}</li></ul>
               </div>
             </div>
           </div>
@@ -162,6 +159,11 @@ useSiteHead({
           <div class="box panel-box">
             <h2 id="contact-h">Contact</h2>
             <p class="contact-line">{{ about.contactLine }}</p>
+            <div class="dl contact-actions">
+              <a class="dl-btn dl-solid" :href="`mailto:${site.email}`"><Ico name="outlook" /><span>Email me</span></a>
+              <a class="dl-btn" href="casey-cv.pdf" target="_blank" rel="noopener"><Ico name="out" /><span>CV</span></a>
+              <a class="dl-btn" href="casey-ats-resume.pdf" target="_blank" rel="noopener"><Ico name="out" /><span>ATS</span></a>
+            </div>
             <dl class="rows copy-ok">
               <div><dt>Email</dt><dd><a :href="`mailto:${site.email}`">{{ site.email }}</a></dd></div>
               <div><dt>LinkedIn</dt><dd><a :href="site.linkedin">linkedin.com/in/casey-yncierto</a></dd></div>

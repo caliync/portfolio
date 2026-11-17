@@ -1,6 +1,6 @@
 # portfolio
 
-My portfolio site. I'm Casey, a 4th year BSIT student at FEU Alabang (Web and Mobile Applications), looking for a frontend or full-stack internship.
+My portfolio site. I'm Casey, a 4th year BSIT student at FEU Alabang (Web and Mobile Applications), looking for a UI/UX or frontend internship.
 
 Live at https://caliync.github.io/portfolio/
 

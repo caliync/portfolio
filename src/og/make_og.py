@@ -58,7 +58,7 @@ card("home", """<div class="text">
   <h1>Casey Yncierto</h1>
   <div class="rule"></div>
   <p class="role">Web and mobile application developer</p>
-  <p class="line">Fourth-year IT student at FEU Alabang, open to frontend and full-stack internships.</p>
+  <p class="line">Fourth-year IT student at FEU Alabang, open to UI/UX and frontend internships.</p>
 </div>""", 1000, 96)
 
 for p in PROJECTS:

@@ -42,7 +42,8 @@
     "JDA": "discord",
     "DiscordSRV": "discord",
     "Leaflet": null,
-    "Canva": null
+    "Canva": null,
+    "Adobe Illustrator": null
   },
   "arsenal": [
     {
@@ -51,8 +52,7 @@
         "Python",
         "TypeScript",
         "JavaScript",
-        "Java",
-        "Kotlin"
+        "Java"
       ]
     },
     {
@@ -77,28 +77,21 @@
       ]
     },
     {
-      "group": "AI and machine learning",
-      "items": [
-        "Gemini API",
-        "TensorFlow",
-        "OpenCV"
-      ]
-    },
-    {
       "group": "Cloud and tools",
       "items": [
         "Docker",
         "Google Cloud Run",
         "Render",
         "Git",
-        "Linux",
-        "Android Studio"
+        "Linux"
       ]
     },
     {
       "group": "Design",
       "items": [
         "Figma",
+        "Adobe Illustrator",
+        "Canva",
         "Blender"
       ]
     }
