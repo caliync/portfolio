@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Commits and last update for each repository, from the snapshot src/stats.py takes.
+// Commits and last update for each repository, from the snapshot tools/stats.py takes.
 // Public repos link to the code, and lib/githubStats.ts refreshes their numbers in the browser.
 import { ghStats, ghDate } from '~/utils/content'
 

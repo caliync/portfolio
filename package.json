@@ -10,10 +10,11 @@
     "test": "playwright test",
     "test:unit": "vitest run",
     "lighthouse": "node scripts/lighthouse.mjs",
-    "stats": "python3 src/stats.py",
-    "covers": "python3 src/covers/make_covers.py && node src/covers/shoot.cjs",
-    "og": "python3 src/og/make_og.py && node src/og/shoot.cjs",
-    "pdfs": "node src/resume/make_pdfs.cjs",
+    "stats": "python3 tools/stats.py",
+    "covers": "python3 tools/covers/make_covers.py && node tools/covers/shoot.cjs",
+    "og": "python3 tools/og/make_og.py && node tools/og/shoot.cjs",
+    "diagrams": "python3 tools/diagrams/make_diagrams.py",
+    "pdfs": "node tools/resume/make_pdfs.cjs",
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {

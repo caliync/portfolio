@@ -1,7 +1,7 @@
 node_modules/
-src/covers/out/
+tools/covers/out/
 __pycache__/
-src/og/out/
+tools/og/out/
 test-results/
 playwright-report/
 

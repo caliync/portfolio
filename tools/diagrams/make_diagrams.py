@@ -1,13 +1,14 @@
 """Architecture diagrams for the case studies, as plain SVG.
 
 Each diagram comes in two shapes: wide for desktop and tall for phones, so the labels stay readable.
-Colours come from the site's CSS (.dg rules in assets/site.css), so the diagrams follow light and dark mode.
+Colours come from the site's CSS (.dg rules in public/assets/site.css), so the diagrams follow light and dark mode.
 
-    python src/diagrams/make_diagrams.py
+    npm run diagrams
 """
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(os.path.dirname(os.path.dirname(HERE)), "content", "diagrams")  # the site reads them from here
 
 
 def box(x, y, w, h, title, lines, mine=False):
@@ -33,7 +34,7 @@ def svg(name, variant, size, parts):
     defs = (f'<defs><marker id="{mid}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" '
             f'orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ahead"/></marker></defs>')
     body = "".join(p(mid) if callable(p) else p for p in parts)
-    with open(os.path.join(HERE, f"{name}-{variant}.svg"), "w") as f:
+    with open(os.path.join(OUT, f"{name}-{variant}.svg"), "w") as f:
         f.write(f'<svg viewBox="0 0 {size[0]} {size[1]}" xmlns="http://www.w3.org/2000/svg">{defs}{body}</svg>\n')
 
 
@@ -95,4 +96,4 @@ svg("lakbay", "tall", (340, 700), [
     edge(86, 416, 86, 466),
     edge(254, 416, 254, 466),
 ])
-print("wrote diagrams into", HERE)
+print("wrote diagrams into", OUT)

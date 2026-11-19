@@ -1,5 +1,5 @@
 // Unit and component tests (npm run test:unit). They run in a simulated browser (happy-dom), so
-// they're fast and need no real browser; tests/site.spec.js covers the real thing.
+// they're fast and need no real browser; tests/e2e/ covers the real thing.
 import { fileURLToPath } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
