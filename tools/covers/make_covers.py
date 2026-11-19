@@ -1,5 +1,5 @@
 """Poster-style project covers (991x1300). Writes one HTML page per cover into out/;
-shoot.js then screenshots them into public/images/covers/. Run: python src/covers/make_covers.py && node src/covers/shoot.js
+shoot.js then screenshots them into public/images/covers/. Run: npm run covers
 
 Real screenshot behind a colour wash, the project's own fonts, and the logo tile
 standing on the real screen laid flat like a print on a table."""

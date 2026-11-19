@@ -5,8 +5,8 @@ import type { CaseStudy, Labelled } from '~/utils/content'
 
 const props = defineProps<{ c: CaseStudy | undefined; arch: Labelled[] }>()
 
-// Each diagram has a wide shape for desktop and a tall one for phones (src/diagrams/make_diagrams.py).
-const svgs = import.meta.glob('~~/src/diagrams/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+// Each diagram has a wide shape for desktop and a tall one for phones (content/diagrams, drawn by tools/diagrams/make_diagrams.py).
+const svgs = import.meta.glob('~~/content/diagrams/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 function diagram(variant: 'wide' | 'tall') {
   const key = Object.keys(svgs).find((k) => k.endsWith(`/${props.c!.diagram}-${variant}.svg`))!
   const m = svgs[key]!.trim().match(/^<svg([^>]*)>([\s\S]*)<\/svg>$/)!

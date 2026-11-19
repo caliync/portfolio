@@ -1,6 +1,6 @@
 """Snapshot of each project's GitHub repository: commit count and last update.
 
-    python src/stats.py      # then: npm run generate
+    npm run stats            # then: npm run generate
 
 Writes data/github-stats.json, which the pages show at build time, so the numbers show without
 JavaScript. For public repos, the page also refreshes them live in the visitor's browser.

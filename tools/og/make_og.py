@@ -1,7 +1,7 @@
 """Link-preview images (1200x630) for the home page and each project, in the site's style.
 Writes one HTML page per image into out/; shoot.js screenshots them into public/images/og/.
 
-    python src/og/make_og.py && node src/og/shoot.js
+    npm run og
 """
 import base64, html, json, os
 
