@@ -368,7 +368,7 @@ export async function startLibrary(): Promise<Cleanup> {
 
   // ---------- input ----------
   const mouse = new T.Vector2(9, 9)
-  let hasMouse = false, look = [0, 0], lookGoal = [0, 0]
+  let hasMouse = false   // the cursor only picks books; the camera does not follow it
   const ray = new T.Raycaster()
   let hovered = -1, mouseMoved = false, lastPX = 0, lastPY = 0
   const shelfFront = new T.Plane(new T.Vector3(0, 0, 1), 0.15), hitV = new T.Vector3()
@@ -389,9 +389,9 @@ export async function startLibrary(): Promise<Cleanup> {
     lastPX = e.clientX; lastPY = e.clientY
     if (e.pointerType !== 'mouse') return
     mouse.set(e.clientX / window.innerWidth * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1)
-    lookGoal = [mouse.x, mouse.y]; hasMouse = true; mouseMoved = true
+    hasMouse = true; mouseMoved = true
   })
-  L.on(document, 'pointerleave', () => { hasMouse = false; lookGoal = [0, 0] })
+  L.on(document, 'pointerleave', () => { hasMouse = false })
 
   // ---------- frame ----------
   const START_X = START + 8
@@ -404,10 +404,9 @@ export async function startLibrary(): Promise<Cleanup> {
   function frame(now: number) {
     const t = now / 1000, dt = Math.min(0.05, (now - lastT) / 1000 || 0.016); lastT = now
     camX += (START_X + progress() - camX) * (reducedMotion ? 1 : 0.09)
-    look[0]! += (lookGoal[0]! - look[0]!) * 0.05; look[1]! += (lookGoal[1]! - look[1]!) * 0.05
     const bob = reducedMotion ? 0 : Math.sin(t * 0.35) * 0.05
-    camera.position.set(camX + look[0]! * 0.6, 2.1 + bob + look[1]! * 0.3, 7.2)
-    camera.lookAt(camX + look[0]! * 0.25, 2.2 + look[1]! * 0.1, 0)
+    camera.position.set(camX, 2.1 + bob, 7.2)
+    camera.lookAt(camX, 2.2, 0)
 
     // lamps are evenly spaced, so the five nearest are a window around the closest one
     const step = lampXs.length > 1 ? lampXs[1]! - lampXs[0]! : 1
