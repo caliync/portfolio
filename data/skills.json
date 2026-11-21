@@ -42,8 +42,7 @@
     "JDA": "discord",
     "DiscordSRV": "discord",
     "Leaflet": null,
-    "Canva": null,
-    "Adobe Illustrator": null
+    "Canva": null
   },
   "arsenal": [
     {
@@ -90,7 +89,6 @@
       "group": "Design",
       "items": [
         "Figma",
-        "Adobe Illustrator",
         "Canva",
         "Blender"
       ]
