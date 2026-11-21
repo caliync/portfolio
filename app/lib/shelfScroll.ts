@@ -42,7 +42,9 @@ export function startShelfScroll(): Cleanup {
   const base = () => hs.getBoundingClientRect().top + window.scrollY
 
   function setup() {
-    const mode = reduce.matches ? 'off' : (wide.matches ? 'wide' : 'swipe')
+    // Phones always swipe sideways. With reduced motion the swipe stays, but the fades and glides go;
+    // only the big sideways-scrolling layout falls back to the plain vertical page.
+    const mode = wide.matches ? (reduce.matches ? 'off' : 'wide') : 'swipe'
     shelf.mode = mode
     shelf.active = mode !== 'off'
     shelf.span = (panels.length - 1) * (mode === 'swipe' ? 4.5 : 7)
@@ -100,6 +102,12 @@ export function startShelfScroll(): Cleanup {
 
     panels.forEach((p, i) => {
       const d = (i * vw - x) / vw, a = Math.abs(d), b = boxOf(p)
+      if (reduce.matches) {   // no fading or sliding, just the sections themselves
+        b.style.opacity = ''; b.style.transform = ''
+        if (p._staged) { (p._kids ?? []).forEach((c) => { c.style.opacity = ''; c.style.transform = '' }); p._staged = false }
+        p.toggleAttribute('inert', a > 0.6)
+        return
+      }
       // A section that is arriving fades in gently; one that is leaving goes about 40% faster.
       const arriving = dir > 0 ? d > 0 : d < 0
       const k = arriving ? (swipe ? 1.5 : 1.7) : (swipe ? 2.2 : 2.6)
@@ -135,7 +143,7 @@ export function startShelfScroll(): Cleanup {
       const link = links[key]
       if (swipe && link) {
         const nav = link.parentElement!
-        nav.scrollTo({ left: link.offsetLeft - nav.offsetLeft - (nav.clientWidth - link.offsetWidth) / 2, behavior: 'smooth' })
+        if (nav.scrollWidth > nav.clientWidth) nav.scrollTo({ left: link.offsetLeft - nav.offsetLeft - (nav.clientWidth - link.offsetWidth) / 2, behavior: reduce.matches ? 'auto' : 'smooth' })
       }
     }
   }
@@ -163,7 +171,7 @@ export function startShelfScroll(): Cleanup {
 
   function goTo(i: number, smooth: boolean) {
     i = clamp(i, 0, panels.length - 1)
-    if (shelf.mode === 'swipe') track.scrollTo({ left: i * vw, behavior: smooth ? 'smooth' : 'auto' })
+    if (shelf.mode === 'swipe') track.scrollTo({ left: i * vw, behavior: smooth && !reduce.matches ? 'smooth' : 'auto' })
     else if (smooth) { current = i; glide(base() + i * vw) }
     else window.scrollTo({ top: base() + i * vw, behavior: 'instant' })
   }

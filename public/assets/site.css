@@ -657,3 +657,27 @@ mark.fill { background: #FFF1B8; color: #2A1214; padding: 0 var(--space-1); bord
 @media (pointer: coarse) {
   .rows dd a, .gh-foot a, [data-gh-repo] a { display: inline-block; padding-block: 0.3rem; }
 }
+
+
+/* Phone layout: the section links move into a menu opened by a burger button next to the theme
+   switch. The bar is only this compact while the sideways swipe is on (html.hs-swipe). */
+.bar-tools { justify-self: end; display: flex; align-items: center; gap: var(--space-2); }
+.burger { display: none; width: 44px; height: 44px; flex: none; padding: 0; place-content: center; gap: 5px;
+  border: 1px solid var(--line); border-radius: 50%; background: var(--box); cursor: pointer; }
+.burger:hover { border-color: var(--accent); }
+.burger span { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--accent-text); transition: transform var(--t-std) var(--ease), opacity var(--t-std) var(--ease); }
+.bar.menu-open .burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.bar.menu-open .burger span:nth-child(2) { opacity: 0; }
+.bar.menu-open .burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.hs-swipe .burger { display: grid; }
+.hs-swipe .bar-in { grid-template-columns: 1fr auto; }
+.hs-swipe .bar nav {
+  display: none; position: absolute; top: 100%; left: var(--space-4); right: var(--space-4);
+  flex-direction: column; gap: 0; margin: var(--space-2) 0 0; padding: var(--space-2) var(--space-4);
+  overflow: visible; -webkit-mask-image: none; mask-image: none;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius, 14px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+}
+.hs-swipe .bar.menu-open nav { display: flex; }
+.hs-swipe .bar nav a, .hs-swipe .bar nav .nav-extra { display: flex; padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
+.hs-swipe .bar nav a:last-child { border-bottom: 0; }

@@ -56,8 +56,11 @@ useSiteHead({
   <header class="bar">
     <div class="bar-in">
       <a class="mark" href="#top" :aria-label="`${site.name}, back to top`"><img :src="asset('', 'logo.svg')" alt="CY" width="44" height="44"></a>
-      <nav aria-label="Sections"><a v-for="l in nav" :key="l.href" :href="l.href" :class="{ 'nav-extra': !l.essential }">{{ l.text }}</a></nav>
-      <ThemeButton />
+      <nav id="site-menu" aria-label="Sections"><a v-for="l in nav" :key="l.href" :href="l.href" :class="{ 'nav-extra': !l.essential }">{{ l.text }}</a></nav>
+      <div class="bar-tools">
+        <ThemeButton />
+        <button type="button" class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu"><span /><span /><span /></button>
+      </div>
     </div>
   </header>
 

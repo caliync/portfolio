@@ -8,6 +8,7 @@ import { startCopyGuard } from './copyGuard'
 import { startCoverReveal } from './coverReveal'
 import { startGithubStats } from './githubStats'
 import { startImageViewer } from './imageViewer'
+import { startMenu } from './menu'
 import { startNavHighlight } from './navHighlight'
 import { startShelfScroll } from './shelfScroll'
 import { startTheme } from './theme'
@@ -18,6 +19,7 @@ startCoverReveal()
 startImageViewer()
 startShelfScroll()
 startNavHighlight()
+startMenu()
 startCopyGuard()
 startGithubStats()
 
