@@ -1,0 +1,42 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "description": "Casey Yncierto's portfolio, built with Nuxt and generated to static HTML for GitHub Pages.",
+  "scripts": {
+    "dev": "node scripts/prebuild.mjs && nuxt dev",
+    "generate": "node scripts/prebuild.mjs && nuxt generate",
+    "preview": "node scripts/serve.mjs",
+    "typecheck": "node scripts/prebuild.mjs && nuxt typecheck",
+    "test": "playwright test",
+    "test:unit": "vitest run",
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "stats": "python3 tools/stats.py",
+    "covers": "python3 tools/covers/make_covers.py && node tools/covers/shoot.cjs",
+    "og": "python3 tools/og/make_og.py && node tools/og/shoot.cjs",
+    "diagrams": "python3 tools/diagrams/make_diagrams.py",
+    "pdfs": "node tools/resume/make_pdfs.cjs",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.63.0",
+    "@types/three": "^0.128.0",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "@vue/test-utils": "^2.4.6",
+    "chrome-launcher": "^1.2.0",
+    "esbuild": "^0.28.2",
+    "happy-dom": "^18.0.1",
+    "lighthouse": "^13.0.1",
+    "simple-icons": "16.36.0",
+    "typescript": "5.9.3",
+    "unplugin-auto-import": "^20.2.0",
+    "vitest": "^3.2.4",
+    "vue-tsc": "3.3.14",
+    "yaml": "^2.8.1"
+  },
+  "dependencies": {
+    "nuxt": "4.6.4",
+    "vue": "3.5.45"
+  },
+  "type": "module"
+}

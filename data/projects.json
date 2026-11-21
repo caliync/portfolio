@@ -1,0 +1,351 @@
+[
+  {
+    "slug": "baylo",
+    "name": "Baylo",
+    "og": "A community bartering app for Barangay Balibago. I built the web platform and its backend; 100 respondents rated it 4.89/5.",
+    "kind": "Capstone project, 4-person team",
+    "summary": "A community bartering app for Barangay Balibago, Santa Rosa, Laguna, built by our team of four. I was the only web developer and built the whole web platform on my own; my three teammates built the mobile app. In the mobile app, residents post items, chat and trade with their neighbours, and Gemini estimates each item's value and finds good trade matches.",
+    "stack": [
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "FastAPI",
+      "PostgreSQL",
+      "Firebase",
+      "Gemini API",
+      "Docker",
+      "Google Cloud Run"
+    ],
+    "score": {
+      "value": "4.89",
+      "of": "/5",
+      "text": "from 100 respondents in the ISO/IEC 25010 evaluation I led"
+    },
+    "shots": [
+      {
+        "src": "images/baylo/web1.webp",
+        "alt": "Baylo home page with the Baylo logo over a record shop photo and a row of categories",
+        "caption": "The home page: search, categories and the app download.",
+        "width": 1889,
+        "height": 941
+      },
+      {
+        "src": "images/baylo/web2.webp",
+        "alt": "Baylo listings page with filters, trending items and recently added items",
+        "caption": "Browsing listings, with filters for condition and price, and matches.",
+        "width": 1889,
+        "height": 853
+      },
+      {
+        "src": "images/baylo/group_photo.webp",
+        "alt": "The Baylo team and our adviser at the capstone presentation, with the title slide behind us",
+        "caption": "Presenting Baylo with my team at FEU Alabang.",
+        "width": 2048,
+        "height": 1152
+      }
+    ],
+    "mission": [
+      "Baylo is our capstone at FEU Alabang. It lets residents of Barangay Balibago discover, swap and share items with their neighbours.",
+      "We were a team of four. We planned the system together, from research and wireframes to the final design. My teammates built the mobile app. I built the web platform and its backend on my own, and led the research and evaluation."
+    ],
+    "roles": [
+      {
+        "title": "Web platform",
+        "text": "built Baylo's web platform alone: a FastAPI backend with 9 route modules over a 13-table PostgreSQL database, and a React, TypeScript and Tailwind web app where residents browse and search listings and barangay officials monitor activity in the admin dashboard. Trading happens in the mobile app."
+      },
+      {
+        "title": "AI features",
+        "text": "built and tested the AI value estimate, matching and real-time notifications on the web first, then moved the final versions into the mobile app. With Gemini, it estimates an item's value and category from its photos, screens listings for prohibited items, and scores how well two items match for a trade (value, category, condition, interest)."
+      },
+      {
+        "title": "Real-time features",
+        "text": "wired up Firebase for sign-in, real-time chat and notifications."
+      },
+      {
+        "title": "Admin tools",
+        "text": "built an admin dashboard for users, listings, reports and trades."
+      },
+      {
+        "title": "Deployment",
+        "text": "deployed the backend to Google Cloud Run in a Docker container."
+      },
+      {
+        "title": "Teamwork",
+        "text": "planned the system with the team, from research and wireframes to the final design, and kept the web and mobile sides in step as features changed. Both apps share one backend and Firebase, so accounts, listings, chat and notifications match on web and mobile."
+      },
+      {
+        "title": "Research and evaluation",
+        "text": "led the survey and the ISO/IEC 25010 evaluation; 100 respondents rated the platform 4.89/5."
+      },
+      {
+        "title": "Presentation",
+        "text": "presented and defended Baylo with the team at our capstone presentation."
+      }
+    ],
+    "arch": [
+      {
+        "label": "Frontend",
+        "text": "React, TypeScript, Tailwind"
+      },
+      {
+        "label": "Backend",
+        "text": "FastAPI, 9 route modules"
+      },
+      {
+        "label": "Database",
+        "text": "PostgreSQL on Neon (serverless), 13 tables"
+      },
+      {
+        "label": "AI",
+        "text": "Google Gemini API for item value, category, screening and trade matching"
+      },
+      {
+        "label": "Sign-in, chat and notifications",
+        "text": "Firebase"
+      },
+      {
+        "label": "Hosting",
+        "text": "Web app on Firebase Hosting; backend in a Docker container on Google Cloud Run"
+      },
+      {
+        "label": "Mobile app",
+        "text": "built by my teammates"
+      }
+    ],
+    "links": [],
+    "repos": []
+  },
+  {
+    "slug": "lakbay-lokal",
+    "name": "Lakbay Lokal",
+    "repos": [
+      {
+        "repo": "caliync/LakbayLokal",
+        "label": ""
+      }
+    ],
+    "og": "A trip planner that builds a timed day of small, local places near where you're staying. In progress.",
+    "kind": "Personal project, in progress",
+    "summary": "A free trip planner for the Philippines that I'm building on my own. It turns where you're staying and how far you'll go into a timed day of small, local places, with travel time between each stop.",
+    "detail": "It only recommends real places from its own list of about 220 and picks checked places first, while Gemini only rewords stored facts. Plans can be edited, swapped for indoor places on rainy days, shown on a map, added to a calendar, and followed offline on the day.",
+    "stack": [
+      "Python",
+      "FastAPI",
+      "JavaScript",
+      "SQLite",
+      "Gemini API",
+      "Leaflet",
+      "Render"
+    ],
+    "shots": [
+      {
+        "src": "images/projects/lakbay-home.webp",
+        "alt": "Lakbay Lokal's homepage: the headline \"Plan a day in Alabang, then let us point you there\" over a photo collage, a short trip search in the top bar, and counts of 220 places listed and 4 trust labels on every fact",
+        "caption": "The homepage: what the planner does, a quick trip search, and the five steps from planning to the day guide.",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "src": "images/projects/lakbay-start.webp",
+        "alt": "Lakbay Lokal's start screen: where you're staying, dates and who is coming, then how far you'll go, with a ring showing that distance",
+        "caption": "Where you're staying, when, who's coming, and how far you'll go.",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "src": "images/projects/lakbay-plan.webp",
+        "alt": "A planned day in Lakbay Lokal: a timeline of stops with times and travel between them, each fact marked checked or estimated, beside a map with numbered pins",
+        "caption": "A planned day: times, travel between stops, how sure each fact is, and the map.",
+        "width": 1280,
+        "height": 800
+      }
+    ],
+    "mission": [
+      "Big travel sites send everyone to the same places. Lakbay Lokal points travellers to small, local, lesser-known places near where they're staying.",
+      "It only recommends places from its own list and never makes one up. The list has about 220 real places: 34 popular Alabang and Muntinlupa places I researched from public pages, plus 186 from OpenStreetMap that the site marks \"Details not checked yet\". The planner picks checked places first."
+    ],
+    "roles": [
+      {
+        "title": "Planning engine",
+        "text": "filters places by budget, group, opening hours and interests, scores them, and builds each day outward from the stay. Travel time comes from straight-line distance, adjusted for winding roads and a trike or jeepney's speed, plus time to find a ride."
+      },
+      {
+        "title": "Grounded AI",
+        "text": "Gemini only rewrites a stop's stored facts as a sentence or two and is told not to add any. If there's no key or the call fails, a template writes the text instead."
+      },
+      {
+        "title": "Traveller features",
+        "text": "editable plans, a rainy-day swap to indoor places, a day map, calendar and Markdown exports, saved drafts, and a guide for the day itself with a compass and directions. A service worker keeps the plan and guide working offline."
+      },
+      {
+        "title": "Owner sign-ups",
+        "text": "a form where small business owners add their place. Nothing goes live until I check it and approve it with a script."
+      },
+      {
+        "title": "Testing and deployment",
+        "text": "unit tests for the engine, browser tests with Playwright, and deployment on Render."
+      }
+    ],
+    "arch": [
+      {
+        "label": "Backend",
+        "text": "Python, FastAPI"
+      },
+      {
+        "label": "Data",
+        "text": "SQLite, with every place record checked against a JSON Schema; OpenStreetMap import scripts"
+      },
+      {
+        "label": "Frontend",
+        "text": "HTML, CSS and JavaScript, Leaflet maps"
+      },
+      {
+        "label": "AI",
+        "text": "Google Gemini API, free tier, with a template fallback"
+      },
+      {
+        "label": "Offline",
+        "text": "service worker"
+      },
+      {
+        "label": "Hosting",
+        "text": "Render"
+      }
+    ],
+    "links": [
+      {
+        "text": "Open the live site",
+        "href": "https://lakbay-lokal.onrender.com/"
+      }
+    ],
+    "score": null
+  },
+  {
+    "slug": "wildwood",
+    "name": "Wildwood",
+    "repos": [
+      {
+        "repo": "caliync/wildwood-site",
+        "label": "Website"
+      },
+      {
+        "repo": "caliync/wildwood-farm",
+        "label": "Game"
+      }
+    ],
+    "og": "A cozy 3D browser game where you earn an animal's trust, plus the 3D website that opens it.",
+    "kind": "Personal project, 3D browser game and its website",
+    "summary": "A cozy 3D browser game where you earn an animal's trust instead of catching it, plus the 3D website I built for it, with a field guide, a map of the world and a button that opens the game. Farm by day, hold off wolf raids at night.",
+    "stack": [
+      "Nuxt",
+      "Vue",
+      "three.js",
+      "GSAP",
+      "JavaScript"
+    ],
+    "shots": [
+      {
+        "src": "images/projects/site-forest.webp",
+        "alt": "A dark 3D forest clearing with a campfire, mist and tall pines",
+        "caption": "The website's opening forest scene.",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "src": "images/projects/site-guide.webp",
+        "alt": "The field guide showing a 3D rusty knife with a list of weapons and its stats",
+        "caption": "The field guide, with day, dusk and night lighting.",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "src": "images/projects/site-world.webp",
+        "alt": "A 3D map of the game world with forests, a creek, fields and clouds",
+        "caption": "The map of six regions.",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "src": "images/projects/farm-title.webp",
+        "alt": "Wildwood Farm title screen over the farm, with Play, How to play and Settings buttons",
+        "caption": "The game's title screen.",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "src": "images/projects/farm-play.webp",
+        "alt": "The player standing on the farm next to crop plots, with the hotbar, hearts and minimap on screen",
+        "caption": "In the game: hotbar, hearts, day clock and minimap.",
+        "width": 1280,
+        "height": 800
+      }
+    ],
+    "mission": [
+      "In Wildwood Farm you befriend animals instead of catching them. You offer the food an animal loves and stay still while its trust fills, and friends move into your barn and leave you gifts. Around that, you grow and cook crops, fish the creek, forge better weapons, and hold the farm through wolf raids at night.",
+      "The game needed a home page that feels like the game before anyone presses Play, so I built a website for it. It tells the story, shows what's in the world, and opens the game."
+    ],
+    "roles": [
+      {
+        "title": "Gameplay systems",
+        "text": "taming, farming (rain makes crops grow twice as fast), fishing with five fish that bite at different times and weather, cooking, and forging at the Blacksmith from enemy drops."
+      },
+      {
+        "title": "Night raids",
+        "text": "programmed wolf raids that players fend off with gates, watchtowers and spike traps, with a morning report after each raid night."
+      },
+      {
+        "title": "Walking buddy",
+        "text": "any barn animal can follow the player, dig up treats and warn about wolves."
+      },
+      {
+        "title": "Controls and saves",
+        "text": "playable on keyboard, mouse or touch, with progress saved in the browser."
+      },
+      {
+        "title": "Website rebuilt in Nuxt",
+        "text": "rebuilt the website with Nuxt 4, Vue 3 and GSAP: one component per section, prerendered to static HTML so the text shows straight away, with the 3D scenes loading right after in their own chunk."
+      },
+      {
+        "title": "Website forest scene",
+        "text": "a 3D clearing with a smoking campfire, fireflies, ground mist, and a bunny and owl living there."
+      },
+      {
+        "title": "Faster and sturdier 3D",
+        "text": "merged the hero's and the map's static props by material, so each frame needs about 185 draw calls instead of about 350 (hero) and 475 (map). A scene that throws is now dropped instead of freezing every 3D scene, resolution steps down when frames stay slow, and the map shows a list of regions when WebGL isn't available."
+      },
+      {
+        "title": "Field guide and map",
+        "text": "weapons, animals and structures you can rotate and zoom under day, dusk and night lighting, and a 3D map of six regions where picking one flies the camera there."
+      }
+    ],
+    "arch": [
+      {
+        "label": "Website",
+        "text": "Nuxt 4 and Vue 3, prerendered to static HTML; one component per section"
+      },
+      {
+        "label": "3D",
+        "text": "three.js r128 for both; the website's forest, field-guide viewer and world map are separate scenes in their own chunk, with bloom post-processing and orbit controls. Every model is built in code, so there are no model files to load"
+      },
+      {
+        "label": "Motion",
+        "text": "GSAP with ScrollTrigger on the website"
+      },
+      {
+        "label": "Game",
+        "text": "plain JavaScript in one index.html, no build step; progress saved in the browser's local storage"
+      },
+      {
+        "label": "Hosting",
+        "text": "GitHub Pages; the website is built and published by GitHub Actions"
+      }
+    ],
+    "links": [
+      {
+        "text": "Visit the site",
+        "href": "https://caliync.github.io/wildwood-site/"
+      }
+    ],
+    "score": null
+  }
+]

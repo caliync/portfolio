@@ -1,0 +1,22 @@
+{
+  "role": "Web and mobile application developer",
+  "school": "BS Information Technology, 4th year · FEU Alabang",
+  "paragraphs": [
+    "I'm a fourth-year student at Far Eastern University - Alabang, taking a Bachelor of Science in Information Technology with a specialization in web and mobile applications. I build full-stack web apps and design their UI/UX, from the interface people use to the backend behind it and the deployment that keeps it live.",
+    "I focus on web development, UI/UX design and system design, and I'm still learning machine learning. Most of what I know comes from building real projects: the web platform for my capstone, Roblox gameplay systems, Java plugins for a Minecraft server, and a trip planner I'm building on my own."
+  ],
+  "subjects": [
+    "Web and mobile development",
+    "Software development",
+    "Database management",
+    "System design"
+  ],
+  "interests": [
+    "User experience",
+    "Interaction design",
+    "Machine learning",
+    "Component-based JavaScript frameworks"
+  ],
+  "contactLine": "I'm looking for a UI/UX or frontend internship. Email is the fastest way to reach me, and my CV and resume are below.",
+  "availability": "Open to UI/UX and frontend internships"
+}

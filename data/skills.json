@@ -1,0 +1,97 @@
+{
+  "tech": {
+    "Python": "python",
+    "TypeScript": "typescript",
+    "JavaScript": "javascript",
+    "Kotlin": "kotlin",
+    "Luau": "luau",
+    "C++": "cplusplus",
+    "Dart": "dart",
+    "Java": "openjdk",
+    "PHP": "php",
+    "SQL": null,
+    "HTML and CSS": "html5",
+    "React": "react",
+    "Vue": "vuedotjs",
+    "Nuxt": "nuxt",
+    "Node.js": "nodedotjs",
+    "Tailwind": "tailwindcss",
+    "FastAPI": "fastapi",
+    "three.js": "threedotjs",
+    "GSAP": "greensock",
+    "Firebase": "firebase",
+    "WordPress": "wordpress",
+    "Flutter": "flutter",
+    "Android Studio": "androidstudio",
+    "PostgreSQL": "postgresql",
+    "SQLite": "sqlite",
+    "Google Cloud Run": "googlecloud",
+    "Render": "render",
+    "TensorFlow": "tensorflow",
+    "OpenCV": "opencv",
+    "MediaPipe": "mediapipe",
+    "Gemini API": "googlegemini",
+    "Redis": "redis",
+    "Docker": "docker",
+    "Linux": "linux",
+    "Git": "git",
+    "Blender": "blender",
+    "Roblox Studio": "robloxstudio",
+    "Figma": "figma",
+    "Spigot API": null,
+    "JDA": "discord",
+    "DiscordSRV": "discord",
+    "Leaflet": null,
+    "Canva": null
+  },
+  "arsenal": [
+    {
+      "group": "Languages",
+      "items": [
+        "Python",
+        "TypeScript",
+        "JavaScript",
+        "Java"
+      ]
+    },
+    {
+      "group": "Frontend",
+      "items": [
+        "React",
+        "Vue",
+        "Nuxt",
+        "Tailwind",
+        "three.js",
+        "GSAP"
+      ]
+    },
+    {
+      "group": "Backend and data",
+      "items": [
+        "FastAPI",
+        "Node.js",
+        "Firebase",
+        "PostgreSQL",
+        "SQLite"
+      ]
+    },
+    {
+      "group": "Cloud and tools",
+      "items": [
+        "Docker",
+        "Google Cloud Run",
+        "Render",
+        "Git",
+        "Linux"
+      ]
+    },
+    {
+      "group": "Design",
+      "items": [
+        "Figma",
+        "Canva",
+        "Blender"
+      ]
+    }
+  ]
+}
