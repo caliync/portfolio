@@ -19,14 +19,9 @@ def tile_uri(slug):
     return "data:image/svg+xml;base64," + base64.b64encode(art.logo_svg(slug).encode()).decode()
 
 P = [
-    dict(slug="tripitinerary", bg="images/projects/trip-intake.webp", floor="images/projects/trip-plan.webp",
-         fonts="family=Plus+Jakarta+Sans:wght@700;800",
-         wash="linear-gradient(180deg, rgba(240,246,247,.93) 0%, rgba(240,246,247,.85) 55%, rgba(14,58,77,.50) 100%)",
-         word='<span style="font-family:Plus Jakarta Sans;font-weight:800;color:#0E3A4D;letter-spacing:-.03em">Trip</span>'
-              '<span style="font-family:Plus Jakarta Sans;font-weight:800;color:#C9780F;letter-spacing:-.03em">Itinerary</span>',
-         wsize=118, glow="#FFFFFF", sub_font="Plus Jakarta Sans", sub_color="#0E3A4D",
-         sub="Day-by-day trip plans<br>that fit the road and your needs<br>Calamba, Laguna",
-         floor_tint="rgba(14,58,77,.10)", base="#16303B"),
+    dict(slug="tripitinerary", logo="assets/logos/tripitinerary.png", bg="images/projects/trip-intake.webp", floor="images/projects/trip-plan.webp",
+         fonts="family=Plus+Jakarta+Sans:wght@600;700;800",
+         title="AI-Powered TripItinerary", sub="Day-by-day trips for Calamba, Laguna"),
     dict(slug="wildwood-site", cover="wildwood", hero="images/projects/farm-title.webp", bg="images/projects/site-forest.webp", floor="images/projects/site-world.webp",
          fonts="family=Marcellus&family=Barlow+Condensed:wght@600;700",
          wash="linear-gradient(180deg, rgba(10,22,20,.55) 0%, rgba(10,22,20,.35) 50%, rgba(6,12,11,.80) 100%)",
@@ -75,7 +70,36 @@ html,body{{margin:0;width:991px;height:1300px;overflow:hidden;background:{base}}
 <div class="grain"></div>
 </body></html>"""
 
+TPL_LOGO = """<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?{fonts}&display=block" rel="stylesheet">
+<style>
+html,body{{margin:0;width:991px;height:1300px;overflow:hidden;background:#EAF2FC}}
+.bg{{position:absolute;inset:-40px;background:url({bg}) center/cover;filter:blur(14px) saturate(1.1)}}
+.wash{{position:absolute;inset:0;background:linear-gradient(180deg,rgba(246,250,255,.97) 0%,rgba(238,246,255,.93) 52%,rgba(18,60,124,.38) 100%)}}
+.logo{{position:absolute;top:118px;left:50%;width:680px;margin-left:-340px;display:block;filter:drop-shadow(0 18px 26px rgba(18,60,124,.22))}}
+.title{{position:absolute;top:690px;left:0;right:0;text-align:center;font:800 31px/1.1 "Plus Jakarta Sans";letter-spacing:.14em;text-transform:uppercase;color:#12326B}}
+.rule{{position:absolute;top:748px;left:50%;width:84px;height:5px;margin-left:-42px;border-radius:3px;background:linear-gradient(90deg,#2A6FCC,#E0921F)}}
+.sub{{position:absolute;top:780px;left:60px;right:60px;text-align:center;font:600 30px/1.3 "Plus Jakarta Sans";color:#3C5A8C}}
+.stage{{position:absolute;left:0;right:0;bottom:0;height:470px;perspective:1100px;perspective-origin:50% 0%}}
+.floor{{position:absolute;left:50%;bottom:-130px;width:1100px;height:700px;margin-left:-550px;border-radius:26px;overflow:hidden;
+  transform:rotateX(62deg);transform-origin:50% 100%;background:url({floor}) center/cover;
+  box-shadow:0 -2px 0 rgba(255,255,255,.5) inset, 0 40px 80px rgba(8,30,70,.55)}}
+.floor:after{{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,60,124,.28),rgba(18,60,124,.04) 45%,rgba(0,0,0,.05))}}
+.pin{{position:absolute;right:46px;top:44px;width:96px;height:96px;border-radius:24px;background:#fff;box-shadow:0 10px 24px -10px rgba(8,30,70,.5);display:grid;place-items:center}}
+.pin img{{width:78px}}
+</style></head><body>
+<div class="bg"></div><div class="wash"></div>
+<img class="logo" src="{logo}">
+<div class="title">{title}</div><div class="rule"></div><div class="sub">{sub}</div>
+<div class="stage"><div class="floor"></div></div>
+</body></html>"""
+
 for p in P:
+    if p.get("logo"):
+        html = TPL_LOGO.format(fonts=p["fonts"], bg=uri(os.path.join(ROOT, p["bg"])), floor=uri(os.path.join(ROOT, p["floor"])),
+                               logo=uri(os.path.join(ROOT, p["logo"])), title=p["title"], sub=p["sub"])
+        open(os.path.join(OUT, p["slug"] + ".html"), "w").write(html)
+        continue
     if p.get("hero"):
         hero_html = f'<div class="pshadow"></div><div class="photo" style="background-image:url({uri(os.path.join(ROOT, p["hero"]))})"></div>'
     else:

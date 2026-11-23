@@ -119,21 +119,18 @@
     "slug": "tripitinerary",
     "name": "AI-Powered TripItinerary",
     "repos": [],
-    "og": "A trip planner for Calamba, Laguna that builds a timed, day-by-day route from where you stay and flags access for wheelchair users. In progress.",
+    "og": "A trip planner for Calamba, Laguna that builds a timed day-by-day route from where you stay and flags access for wheelchair users.",
     "kind": "Personal project, in progress",
-    "summary": "A trip planner for Calamba, Laguna that I'm building. You enter where you're staying, your dates, who is going, your budget, any access needs and what you enjoy, and it plans each day as a timed route that starts and ends at your stay, with drive times between stops.",
-    "detail": "It plans around wheelchair access, minimal walking and low-sensory needs, and says plainly when a place's access hasn't been checked. Any stop can be swapped for another place nearby. The planner is rule-based today, and the AI step is designed in but not switched on yet.",
+    "summary": "A trip planner for Calamba, Laguna. Enter where you're staying, your dates, who's going and what you enjoy, and it builds each day as a timed route that starts and ends at your stay.",
+    "detail": "It plans around wheelchair access, minimal walking and low-sensory needs, and says so when a place's access hasn't been checked. Any stop can be swapped for a nearby one. The planner is rule-based today; the AI step is designed in but not switched on yet.",
     "stack": [
       "Python",
       "FastAPI",
-      "Pydantic",
       "SQLite",
       "Nuxt",
       "Vue",
       "TypeScript",
-      "Tailwind",
-      "Leaflet",
-      "OSRM"
+      "Tailwind"
     ],
     "shots": [
       {
@@ -228,7 +225,11 @@
         "href": "https://github.com/caliync/AI-Powered-TripItinerary-"
       }
     ],
-    "score": null
+    "score": {
+      "value": "102",
+      "of": " tests",
+      "text": "pass in the backend, and CI checks that the website's types match the API"
+    }
   },
   {
     "slug": "wildwood",
