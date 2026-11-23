@@ -16,7 +16,7 @@ numbers:
 
 ### The AI is only allowed to pick from a list
 
-The planner builds every day from stored places. The schema also defines the one shape an AI step may return: place IDs from that day's candidate list, each with a short reason, and nothing else. No coordinates, no times, no drive legs. Any ID that isn't in the candidate list gets the whole answer rejected. The AI step isn't switched on in the beta, so plans come from the rule-based planner, but the boundary is already in the types and tested.
+The planner builds every day from stored places. The AI step is planned for later, to understand a traveller's free-text wishes and to write the reason for each stop, and the schema already defines the one shape it may return: place IDs from that day's candidate list, each with a short reason, and nothing else. No coordinates, no times, no drive legs. Any ID that isn't in the candidate list gets the whole answer rejected. Until then plans come from the rule-based planner, and the text a traveller types is already saved for that step.
 
 ### Same answers, same plan
 
@@ -28,7 +28,7 @@ Drive times come from OSRM, multiplied by rush-hour factors for the region. The 
 
 ### Access is shown as known or not checked
 
-Step-free access is labelled as known or not checked, never guessed. For a wheelchair user the plan only suggests places that suit the need, and the ones it hasn't checked are shown with a note to call ahead. Resorts that may be private are kept in a separate table the planner never reads, so it never offers a place a walk-in guest can't enter.
+Accessibility is part of the idea, not an extra. A traveller says what access they need, and each stop shows its wheelchair access and a note for rough terrain. Places with unknown access are still shown, with a clear warning, and only places known to be inaccessible are left out. Access is never guessed: if it hasn't been checked, the plan says so. Resorts that may be private are kept in a separate table the planner never reads, so it never offers a place a walk-in guest can't enter.
 
 ### One definition of the types
 
@@ -67,4 +67,4 @@ Every request is checked by Pydantic models before the planner runs, and errors 
 
 ## What I'd change
 
-The AI step is the next piece. It's designed and typed, but not wired up, because I wanted the rule-based plans to be solid first. Next I'd turn it on behind a flag and compare its picks with the planner's, and add more Laguna towns beyond Calamba.
+The AI step is the next piece. It's designed and typed, but not wired up, because I wanted the rule-based plans to be solid first. Next I'd turn it on behind a flag and compare its picks with the planner's, and add more Laguna towns beyond Calamba. The beta's limits are plain: Calamba only, by car only, no user accounts (a plan is kept by its link), and drive times are estimates when the route service is down.

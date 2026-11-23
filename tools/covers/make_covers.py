@@ -19,7 +19,7 @@ def tile_uri(slug):
     return "data:image/svg+xml;base64," + base64.b64encode(art.logo_svg(slug).encode()).decode()
 
 P = [
-    dict(slug="lakbaywise", logo="assets/logos/lakbaywise.png", bg="images/projects/trip-intake.webp", floor="images/projects/trip-plan.webp",
+    dict(slug="lakbaywise", logo="assets/logos/lakbaywise.png", bg="images/projects/lakbaywise-home.webp", floor="images/projects/lakbaywise-plan.webp",
          fonts="family=Plus+Jakarta+Sans:wght@600;700;800",
          title="LakbayWise", sub="AI-powered trip itineraries, starting in Calamba, Laguna"),
     dict(slug="wildwood-site", cover="wildwood", hero="images/projects/farm-title.webp", bg="images/projects/site-forest.webp", floor="images/projects/site-world.webp",

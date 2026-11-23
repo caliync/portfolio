@@ -121,8 +121,8 @@
     "repos": [],
     "og": "An AI-powered trip itinerary planner that supports accessibility, starting in Calamba and growing across Laguna.",
     "kind": "Personal project, in progress",
-    "summary": "LakbayWise is an AI-powered trip itinerary planner that supports accessibility. Enter where you're staying, your dates, who's going and what you enjoy, and it builds each day as a timed route that starts and ends at your stay.",
-    "detail": "It plans around wheelchair access, minimal walking and low-sensory needs, and says so when a place's access hasn't been checked. I'm starting with Calamba and adding the rest of Laguna one town at a time. The AI step is designed in but not switched on yet, so today's plans come from a rule-based planner.",
+    "summary": "LakbayWise is an AI-powered trip itinerary planner that supports accessibility. Tell it where you're staying and what you enjoy, and it builds each day as a timed route that starts and ends at your stay.",
+    "detail": "Every stop shows its wheelchair access, with a plain warning when it hasn't been checked. You can remove a stop, add places near your route, and share or print the plan. I'm starting in Calamba and growing across Laguna; the AI step is planned for later.",
     "stack": [
       "Python",
       "FastAPI",
@@ -134,23 +134,30 @@
     ],
     "shots": [
       {
-        "src": "images/projects/trip-intake.webp",
-        "alt": "The trip form: dates, who is going, budget, access needs such as wheelchair user and minimal walking, and interests such as hot springs and Filipino food, beside a summary card with a Plan my trip button",
-        "caption": "Tell it where you stay, who is going, your budget, access needs and interests.",
+        "src": "images/projects/lakbaywise-home.webp",
+        "alt": "LakbayWise's home page: the headline \"Plan a day in Laguna\" over a photo of a red car on a country road, with a search bar for where you're staying, arrival and leaving dates and who is going",
+        "caption": "The home page: where you're staying, your dates and who is going.",
+        "width": 1280,
+        "height": 768
+      },
+      {
+        "src": "images/projects/lakbaywise-intake.webp",
+        "alt": "The Plan your trip form with the stay, dates and group size filled in, a budget of 10,000 pesos, and a summary card beside it with a Plan my trip button",
+        "caption": "The five-step form, with a live summary of the trip.",
         "width": 1280,
         "height": 937
       },
       {
-        "src": "images/projects/trip-plan.webp",
-        "alt": "A planned day: a timeline of stops with times, drive times between them and access labels, beside a map with numbered stops",
-        "caption": "A planned day: times, drive times, access labels and the route on the map.",
+        "src": "images/projects/lakbaywise-plan.webp",
+        "alt": "A two-day plan from Hotel Marciano with Share and Print buttons, trip details, day tabs, a summary of stops, driving time and food cost, a note about rush hour, and a morning stop with an access label, beside a map of the route",
+        "caption": "A planned day: stops by morning, afternoon and evening, drive times, costs, access labels and the route map.",
         "width": 1280,
         "height": 937
       },
       {
-        "src": "images/projects/trip-swap.webp",
-        "alt": "A panel in dark mode that offers three nearby places to swap for a seafood restaurant, each with its distance and drive-time change",
-        "caption": "Swapping a stop: nearby places that fit the same time slot, in dark mode.",
+        "src": "images/projects/lakbaywise-more.webp",
+        "alt": "The end of a day's plan with a dinner stop that warns it has no step-free access information, then a More places near your route section with filters and cards that can be added to the morning, afternoon or evening",
+        "caption": "After the plan: add more places near the route, or remove a stop and undo it.",
         "width": 1280,
         "height": 937
       }
@@ -162,23 +169,23 @@
     "roles": [
       {
         "title": "Planner",
-        "text": "built a rule-based planner that centres each day on the best unused sight within about 3 km, puts outdoor places early and at sunset, times lunch and dinner, and caps a day at 8 stops. The same answers give the same plan."
+        "text": "built a rule-based planner that builds each day around one area: it centres the day on the best unused sight within about 3 km, splits it into morning, afternoon and evening, puts outdoor places early and at sunset, and places lunch and dinner at normal mealtimes. The same answers give the same plan."
       },
       {
-        "title": "Drive times",
-        "text": "added OSRM drive times with rush-hour factors for the region. If OSRM doesn't answer, the planner falls back to a straight-line estimate and each day says so."
+        "title": "Accessibility",
+        "text": "let travellers say what access they need, and show each stop's wheelchair access and a note for rough terrain. Places with unknown access are still shown, with a clear warning; only places known to be inaccessible are left out. Access is never guessed."
       },
       {
-        "title": "Access and warnings",
-        "text": "labelled each place's step-free access as known or not checked, and added warnings for rush-hour drives, light days and estimated drive times."
+        "title": "Drive times and costs",
+        "text": "added OSRM drive times with rush-hour factors, and a straight-line estimate when OSRM doesn't answer. Costs appear only where there is a basis, such as about ₱375 per person for a meal and from ₱800 for a hot spring, and every amount is labelled an estimate."
       },
       {
-        "title": "Swaps",
-        "text": "built stop swaps: up to 5 places with the same role within 3 km. A version check stops two browser tabs from overwriting each other's plan."
+        "title": "Editing a plan",
+        "text": "built remove with undo, adding a place from \"More places near your route\" to the morning, afternoon or evening, the route map, and sharing a plan by link or printing it. A version check stops two browser tabs from overwriting each other."
       },
       {
         "title": "Website",
-        "text": "built the Nuxt 3, Vue 3 and TypeScript site with a Tailwind design system, a Leaflet map, light and dark mode, and a mock mode for designing without the backend."
+        "text": "built the Nuxt 3, Vue 3 and TypeScript site: a landing page and a five-step form, with a Tailwind design system, a Leaflet map, light and dark mode, and a mock mode for designing without the backend. Typing what you like is matched to interests by keywords in English and Tagalog."
       },
       {
         "title": "Owner form",
