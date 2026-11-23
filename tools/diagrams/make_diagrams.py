@@ -68,8 +68,8 @@ svg("baylo", "tall", (340, 600), [
     edge(86, 336, 86, 386),
     edge(254, 336, 254, 386),
 ])
-# TripItinerary: a Nuxt app calls one FastAPI server; the planner decides, OSRM and Nominatim help.
-svg("tripitinerary", "wide", (960, 470), [
+# LakbayWise: a Nuxt app calls one FastAPI server; the planner decides, OSRM and Nominatim help.
+svg("lakbaywise", "wide", (960, 470), [
     box(20, 40, 250, 130, "Nuxt 3 website", ["Vue 3, TypeScript, Tailwind", "Leaflet map", "Types made from the API"], mine=True),
     box(20, 230, 250, 104, "Owner form", ["Business owners add", "their place for review"]),
     box(350, 40, 270, 150, "FastAPI backend", ["Pydantic checks every request", "Plans, swaps, add and remove", "Stored plans with a version"], mine=True),
@@ -84,7 +84,7 @@ svg("tripitinerary", "wide", (960, 470), [
     edge(620, 92, 696, 92, "drive times", (626, 84)),
     edge(145, 334, 145, 386, faint=True),
 ])
-svg("tripitinerary", "tall", (340, 700), [
+svg("lakbaywise", "tall", (340, 700), [
     box(10, 10, 320, 104, "Nuxt 3 website", ["Vue, TypeScript, Tailwind, Leaflet", "Types made from the API"], mine=True),
     box(10, 170, 320, 104, "FastAPI backend", ["Pydantic checks every request", "Stored plans with a version"], mine=True),
     box(10, 330, 320, 84, "Planner", ["Pick, time and warn · no AI in the beta"], mine=True),

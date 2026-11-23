@@ -19,9 +19,9 @@ def tile_uri(slug):
     return "data:image/svg+xml;base64," + base64.b64encode(art.logo_svg(slug).encode()).decode()
 
 P = [
-    dict(slug="tripitinerary", logo="assets/logos/tripitinerary.png", bg="images/projects/trip-intake.webp", floor="images/projects/trip-plan.webp",
+    dict(slug="lakbaywise", logo="assets/logos/lakbaywise.png", bg="images/projects/trip-intake.webp", floor="images/projects/trip-plan.webp",
          fonts="family=Plus+Jakarta+Sans:wght@600;700;800",
-         title="AI-Powered TripItinerary", sub="Day-by-day trips for Calamba, Laguna"),
+         title="LakbayWise", sub="AI-powered trip itineraries, starting in Calamba, Laguna"),
     dict(slug="wildwood-site", cover="wildwood", hero="images/projects/farm-title.webp", bg="images/projects/site-forest.webp", floor="images/projects/site-world.webp",
          fonts="family=Marcellus&family=Barlow+Condensed:wght@600;700",
          wash="linear-gradient(180deg, rgba(10,22,20,.55) 0%, rgba(10,22,20,.35) 50%, rgba(6,12,11,.80) 100%)",

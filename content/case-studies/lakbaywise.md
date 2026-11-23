@@ -1,5 +1,5 @@
 ---
-diagram: tripitinerary
+diagram: lakbaywise
 diagram_alt: "Architecture: a Nuxt 3 website with a Leaflet map calls a FastAPI backend over HTTPS. The backend checks each request with Pydantic and runs the planner, which reads places from SQLite and asks OSRM for drive times, with estimates if OSRM is down. Business owners add places through a form that waits for review. GitHub Actions runs the linter, 102 backend tests and a check that the website's types match the API."
 numbers:
   - value: "102"
@@ -37,6 +37,10 @@ The backend's Pydantic models are the only definition of a trip. The website's T
 ### Two tabs can't overwrite each other
 
 A plan has a version number. A swap or an add sends the version it saw, and the backend rejects it if the plan changed since, so one tab can't silently undo the other's edit.
+
+### One town at a time
+
+The goal is all of Laguna, but each town has its own settings: its map bounds, centre, search radius and rush-hour windows. Adding a town means adding data and checking its drive times, not changing the planner. Calamba comes first so each plan can be checked before the next town is added.
 
 ## The API
 

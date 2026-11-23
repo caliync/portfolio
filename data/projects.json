@@ -116,13 +116,13 @@
     "repos": []
   },
   {
-    "slug": "tripitinerary",
-    "name": "AI-Powered TripItinerary",
+    "slug": "lakbaywise",
+    "name": "LakbayWise",
     "repos": [],
-    "og": "A trip planner for Calamba, Laguna that builds a timed day-by-day route from where you stay and flags access for wheelchair users.",
+    "og": "An AI-powered trip itinerary planner that supports accessibility, starting in Calamba and growing across Laguna.",
     "kind": "Personal project, in progress",
-    "summary": "A trip planner for Calamba, Laguna. Enter where you're staying, your dates, who's going and what you enjoy, and it builds each day as a timed route that starts and ends at your stay.",
-    "detail": "It plans around wheelchair access, minimal walking and low-sensory needs, and says so when a place's access hasn't been checked. Any stop can be swapped for a nearby one. The planner is rule-based today; the AI step is designed in but not switched on yet.",
+    "summary": "LakbayWise is an AI-powered trip itinerary planner that supports accessibility. Enter where you're staying, your dates, who's going and what you enjoy, and it builds each day as a timed route that starts and ends at your stay.",
+    "detail": "It plans around wheelchair access, minimal walking and low-sensory needs, and says so when a place's access hasn't been checked. I'm starting with Calamba and adding the rest of Laguna one town at a time. The AI step is designed in but not switched on yet, so today's plans come from a rule-based planner.",
     "stack": [
       "Python",
       "FastAPI",
@@ -156,8 +156,8 @@
       }
     ],
     "mission": [
-      "Trip sites give everyone the same list of places and leave you to work out the drive between them. TripItinerary starts from where you're staying and builds each day in one area, so you spend the day at places and less of it in traffic.",
-      "It is aimed at travellers who need to know about access before they go. It shows wheelchair access where it is known, flags places where it isn't, and only plans places it has data for. It covers Calamba only for now and plans car trips."
+      "Trip sites give everyone the same list of places and leave you to work out the drive between them. LakbayWise is an AI-powered trip itinerary planner that supports accessibility. It starts from where you're staying and builds each day in one area, so you spend the day at places and less of it in traffic.",
+      "It is made for travellers who need to know about access before they go. It shows wheelchair access where it is known, flags places where it isn't, and only plans places it has data for. My goal is the whole of Laguna, but I'm going one town at a time and starting with Calamba. For now it plans car trips."
     ],
     "roles": [
       {

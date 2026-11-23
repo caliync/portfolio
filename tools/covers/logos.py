@@ -47,7 +47,7 @@ def tile_site():
             '<circle cx="94" cy="28" r="6.5" fill="#F5C518"/>')
     return defs, base + body
 
-TILES = {"baylo": tile_baylo, "tripitinerary": tile_trip, "wildwood-farm": tile_farm, "wildwood-site": tile_site}
+TILES = {"baylo": tile_baylo, "lakbaywise": tile_trip, "wildwood-farm": tile_farm, "wildwood-site": tile_site}
 
 def logo_svg(slug, baylo_href="baylo-mark.png"):
     defs, body = TILES[slug]()
@@ -104,7 +104,7 @@ def baylo():
              + '<rect x="0" y="394" width="400" height="46" fill="#0E0507"/>' + houses)
     return _wrap(inner, defs, "The Baylo logo, circled by arrows, with a record and a camera being swapped")
 
-# ---------------------------------------------------------------- TripItinerary: a day route on a map
+# ---------------------------------------------------------------- LakbayWise: a day route on a map
 def _pin(x, y, fill, dot):
     return (f'<g transform="translate({x} {y})"><path d="M0 0 C -9 -14 -12 -20 -12 -26 A12 12 0 1 1 12 -26 C 12 -20 9 -14 0 0 Z" fill="{fill}" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/>'
             f'<circle cy="-26" r="4.8" fill="{dot}"/></g>')
@@ -125,9 +125,9 @@ def trip():
           f'<path class="a-route" d="{route}" fill="none" stroke="#E0921F" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 12"/>'
           + _pin(84, 332, "#14566B", CREAM) + _pin(96, 236, "#E0921F", CREAM) + _pin(300, 152, "#E0921F", CREAM) + _pin(306, 316, "#E0921F", CREAM)
           + '</g></g>'
-        + card("tripitinerary", 125, 150, 1.25, BAYLO)
+        + card("lakbaywise", 125, 150, 1.25, BAYLO)
     )
-    return _wrap(inner, defs, "The TripItinerary logo above a map with a dotted route")
+    return _wrap(inner, defs, "The LakbayWise logo above a map with a dotted route")
 
 # ---------------------------------------------------------------- Wildwood Site: a forest island at night
 def _pine(x, y, s=1.0):
@@ -203,4 +203,4 @@ def wildwood_farm():
     )
     return _wrap(inner, defs, "A farm at dusk: a red barn, crops, the moon rising and a wolf watching from the hill")
 
-ART = {"baylo": baylo, "tripitinerary": trip, "wildwood-site": wildwood_site, "wildwood-farm": wildwood_farm}
+ART = {"baylo": baylo, "lakbaywise": trip, "wildwood-site": wildwood_site, "wildwood-farm": wildwood_farm}
