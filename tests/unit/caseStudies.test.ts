@@ -83,8 +83,8 @@ describe('parseCaseStudy', () => {
 describe('the real case studies', () => {
   const all = readCaseStudies(pathToFileURL(`${process.cwd()}/content/case-studies/`))
 
-  it('are there for Baylo and Lakbay Lokal', () => {
-    expect(Object.keys(all).sort()).toEqual(['baylo', 'lakbay-lokal'])
+  it('are there for Baylo and TripItinerary', () => {
+    expect(Object.keys(all).sort()).toEqual(['baylo', 'tripitinerary'])
   })
 
   it('have no unfilled ?{blanks} (the build refuses to publish them)', () => {

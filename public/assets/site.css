@@ -577,7 +577,8 @@ img { -webkit-user-drag: none; }
   display: grid; place-items: center; font: 700 var(--fs-sm) var(--sans); color: var(--on-accent); background: var(--accent); }
 .decisions h3 { margin: 0 0 var(--space-2); font-family: var(--serif); font-weight: 400; font-size: var(--fs-xl); line-height: 1.3; }
 .decisions p { margin: 0; }
-.rows-api code { font-size: var(--fs-sm); }
+.rows-api code { font-size: var(--fs-sm); overflow-wrap: anywhere; }
+.rows-api dt, .rows-api dd { min-width: 0; }
 mark.fill { background: #FFF1B8; color: #2A1214; padding: 0 var(--space-1); border-radius: var(--r-xs); font-style: italic; }
 
 /* GitHub numbers under a project, and for this site's code in the footer */

@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 // Relative to the base URL (…/portfolio/), the same paths the live site uses.
-const PAGES = ['index.html', 'projects/baylo.html', 'projects/lakbay-lokal.html', 'projects/wildwood.html', 'how-its-built.html'];
+const PAGES = ['index.html', 'projects/baylo.html', 'projects/tripitinerary.html', 'projects/wildwood.html', 'how-its-built.html'];
 const SCREENS = { phone: { width: 375, height: 812 }, tablet: { width: 768, height: 1024 }, desktop: { width: 1440, height: 900 } };
 
 // The 3D library comes from a CDN and the GitHub numbers from GitHub's API; tests must not depend on either.

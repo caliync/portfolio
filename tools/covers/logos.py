@@ -21,12 +21,12 @@ def tile_baylo():
     body = '<image href="{BAYLO}" x="25" y="27" width="70" height="66" preserveAspectRatio="xMidYMid meet"/>'
     return defs, base + body
 
-def tile_lakbay():
-    defs, base = _tile_base("tl", "#F7B731", "#B36B00")
-    body = ('<path d="M60 20 C 43 20 31 32 31 47 C 31 67 60 94 60 94 C 60 94 89 67 89 47 C 89 32 77 20 60 20 Z" fill="#FFFFFF"/>'
-            '<circle cx="60" cy="47" r="14" fill="#1C2127"/>'
-            '<path d="M60 36 L63.4 44 L72 47 L63.4 50 L60 58 L56.6 50 L48 47 L56.6 44 Z" fill="#F2A516"/>'
-            '<path d="M24 102 Q 60 82 96 102" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 9"/>')
+def tile_trip():
+    defs, base = _tile_base("tt", "#1C7490", "#0E3A4D")
+    body = ('<path d="M26 92 C 30 62 52 70 58 54 S 82 40 94 30" fill="none" stroke="#F2A516" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 9"/>'
+            '<circle cx="26" cy="92" r="8" fill="#FFFFFF"/><circle cx="26" cy="92" r="3.4" fill="#0E3A4D"/>'
+            '<circle cx="58" cy="54" r="10" fill="#F2A516"/><circle cx="58" cy="54" r="4" fill="#FFFFFF"/>'
+            '<circle cx="94" cy="30" r="10" fill="#F2A516"/><circle cx="94" cy="30" r="4" fill="#FFFFFF"/>')
     return defs, base + body
 
 def tile_farm():
@@ -47,7 +47,7 @@ def tile_site():
             '<circle cx="94" cy="28" r="6.5" fill="#F5C518"/>')
     return defs, base + body
 
-TILES = {"baylo": tile_baylo, "lakbay-lokal": tile_lakbay, "wildwood-farm": tile_farm, "wildwood-site": tile_site}
+TILES = {"baylo": tile_baylo, "tripitinerary": tile_trip, "wildwood-farm": tile_farm, "wildwood-site": tile_site}
 
 def logo_svg(slug, baylo_href="baylo-mark.png"):
     defs, body = TILES[slug]()
@@ -104,39 +104,30 @@ def baylo():
              + '<rect x="0" y="394" width="400" height="46" fill="#0E0507"/>' + houses)
     return _wrap(inner, defs, "The Baylo logo, circled by arrows, with a record and a camera being swapped")
 
-# ---------------------------------------------------------------- Lakbay Lokal: a day route on a map
+# ---------------------------------------------------------------- TripItinerary: a day route on a map
 def _pin(x, y, fill, dot):
     return (f'<g transform="translate({x} {y})"><path d="M0 0 C -9 -14 -12 -20 -12 -26 A12 12 0 1 1 12 -26 C 12 -20 9 -14 0 0 Z" fill="{fill}" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/>'
             f'<circle cy="-26" r="4.8" fill="{dot}"/></g>')
 
-def lakbay():
-    defs = ('<linearGradient id="bg-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E3128"/><stop offset="1" stop-color="#0B1411"/></linearGradient>'
+def trip():
+    defs = ('<linearGradient id="bg-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12394A"/><stop offset="1" stop-color="#08181F"/></linearGradient>'
             '<clipPath id="cp-l"><rect x="36" y="88" width="328" height="290" rx="16"/></clipPath>'
-            '<filter id="sh-l" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="12" stdDeviation="11" flood-color="#000" flood-opacity=".55"/></filter>'
-            f'<radialGradient id="sun-l"><stop offset="0" stop-color="{GOLD}" stop-opacity=".5"/><stop offset="1" stop-color="{GOLD}" stop-opacity="0"/></radialGradient>')
-    trees = "".join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="#6E8C58"/><circle cx="{x - 2}" cy="{y - 2}" r="{r * 0.55:.1f}" fill="#86A56B"/>'
-                    for x, y, r in [(64, 300, 9), (130, 340, 7), (250, 350, 8), (336, 236, 9), (110, 160, 7), (300, 330, 6), (60, 200, 6)])
+            '<filter id="sh-l" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="12" stdDeviation="11" flood-color="#000" flood-opacity=".55"/></filter>')
     route = "M84 332 C 66 300 74 262 96 236 S 112 132 164 120 S 262 110 300 152 S 326 252 306 316"
     inner = (
-        '<rect width="400" height="440" fill="url(#bg-l)"/><circle cx="352" cy="62" r="70" fill="url(#sun-l)"/>'
+        '<rect width="400" height="440" fill="url(#bg-l)"/>'
         + _stars([(36, 54, 1.4), (70, 90, 1.2), (180, 40, 1.4), (240, 70, 1.2), (20, 160, 1.2)])
-        + '<g transform="rotate(-3 200 233)"><g filter="url(#sh-l)"><rect x="36" y="88" width="328" height="290" rx="16" fill="#EFE3CC"/></g>'
-          '<g clip-path="url(#cp-l)"><rect x="36" y="88" width="328" height="290" fill="#EFE3CC"/>'
-          '<path d="M36 262 C 90 224 130 256 170 232 S 250 264 300 240 S 340 262 364 252 V378 H36 Z" fill="#CBD6A8"/>'
-          '<path d="M36 342 C 100 312 150 342 210 322 S 310 342 364 322 V378 H36 Z" fill="#B3C48C"/>'
-          '<path d="M36 186 C 100 160 150 202 205 176 S 300 212 364 176" fill="none" stroke="#8FB2C9" stroke-width="16" stroke-linecap="round"/>'
-          '<ellipse cx="190" cy="352" rx="38" ry="14" fill="#8FB2C9"/>'
-          + trees +
-          f'<path class="a-route" d="{route}" fill="none" stroke="{RED}" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 12"/>'
-          + _pin(84, 332, RED, CREAM) + _pin(96, 236, RED, CREAM) + _pin(300, 152, RED, CREAM) + _pin(306, 316, GOLD, "#2A1214")
-          + '<g transform="translate(332 122)"><circle r="22" fill="#F7EEDC" stroke="#B7A27C" stroke-width="2"/>'
-            f'<polygon points="0,-17 5,0 0,-3 -5,0" fill="{RED}"/><polygon points="0,17 5,0 0,3 -5,0" fill="#B7A27C"/></g>'
-          '</g></g>'
-        + card("lakbay-lokal", 125, 150, 1.25, BAYLO)
-        + "".join(f'<rect x="{x}" y="394" width="96" height="22" rx="11" fill="#2A1A1A" stroke="#5A3A3A"/><circle cx="{x + 14}" cy="405" r="5" fill="{GOLD}"/><rect x="{x + 28}" y="401" width="{w}" height="8" rx="4" fill="{CREAM}" opacity=".5"/>'
-                  for x, w in [(48, 52), (152, 40), (256, 58)])
+        + '<g transform="rotate(-3 200 233)"><g filter="url(#sh-l)"><rect x="36" y="88" width="328" height="290" rx="16" fill="#DDECEF"/></g>'
+          '<g clip-path="url(#cp-l)"><rect x="36" y="88" width="328" height="290" fill="#DDECEF"/>'
+          '<path d="M36 262 C 90 224 130 256 170 232 S 250 264 300 240 S 340 262 364 252 V378 H36 Z" fill="#C5DDD0"/>'
+          '<path d="M36 342 C 100 312 150 342 210 322 S 310 342 364 322 V378 H36 Z" fill="#B0D0BF"/>'
+          '<path d="M60 150 H340 M60 220 H340 M120 100 V370 M250 100 V370" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".8"/>'
+          f'<path class="a-route" d="{route}" fill="none" stroke="#E0921F" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 12"/>'
+          + _pin(84, 332, "#14566B", CREAM) + _pin(96, 236, "#E0921F", CREAM) + _pin(300, 152, "#E0921F", CREAM) + _pin(306, 316, "#E0921F", CREAM)
+          + '</g></g>'
+        + card("tripitinerary", 125, 150, 1.25, BAYLO)
     )
-    return _wrap(inner, defs, "The Lakbay Lokal logo above a map with a dotted route")
+    return _wrap(inner, defs, "The TripItinerary logo above a map with a dotted route")
 
 # ---------------------------------------------------------------- Wildwood Site: a forest island at night
 def _pine(x, y, s=1.0):
@@ -212,4 +203,4 @@ def wildwood_farm():
     )
     return _wrap(inner, defs, "A farm at dusk: a red barn, crops, the moon rising and a wolf watching from the hill")
 
-ART = {"baylo": baylo, "lakbay-lokal": lakbay, "wildwood-site": wildwood_site, "wildwood-farm": wildwood_farm}
+ART = {"baylo": baylo, "tripitinerary": trip, "wildwood-site": wildwood_site, "wildwood-farm": wildwood_farm}

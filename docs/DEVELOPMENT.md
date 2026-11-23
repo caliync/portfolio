@@ -73,7 +73,7 @@ The helpers in `tools/` need Python 3, and Playwright with Chromium for the ones
 | `npm run og` | Remakes the link-preview images |
 | `npm run diagrams` | Redraws the architecture diagrams |
 | `npm run pdfs` | Prints my CV and ATS resume to PDF |
-| `npm run stats` | Refreshes the GitHub numbers. The private Lakbay Lokal repo needs a `GITHUB_TOKEN`. |
+| `npm run stats` | Refreshes the GitHub numbers. Only private repos need a `GITHUB_TOKEN`. |
 
 ## Checks
 

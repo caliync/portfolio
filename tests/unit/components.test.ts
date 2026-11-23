@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import Cs from '~/components/Cs.vue'
 import GhStats from '~/components/GhStats.vue'
 import ProjectCard from '~/components/ProjectCard.vue'
-import { ghDate, projects } from '~/utils/content'
+import { ghDate, ghStats, projects } from '~/utils/content'
 
 // The brand-icon component needs Nuxt's router; the tests only care that it's there.
 const stubs = { Ico: { template: '<svg class="ico" />' }, TagList: true, ScoreLine: true, GhStats: true }
@@ -47,7 +47,9 @@ describe('GhStats', () => {
   })
 
   it('shows a private repository without a link, and says so', () => {
-    const w = mountStats([{ repo: 'caliync/LakbayLokal', label: '' }])
+    // None of the portfolio's repos is private now, so add one just for this test.
+    ghStats['caliync/private-example'] = { commits: 12, private: true, pushed_at: '2026-11-14T03:03:23Z', url: null }
+    const w = mountStats([{ repo: 'caliync/private-example', label: '' }])
     expect(w.find('a').exists()).toBe(false)
     expect(w.find('li[data-gh-repo]').exists()).toBe(false)   // the live refresh must never try a private repo
     expect(w.text()).toContain('private repository')

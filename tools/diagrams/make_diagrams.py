@@ -68,29 +68,29 @@ svg("baylo", "tall", (340, 600), [
     edge(86, 336, 86, 386),
     edge(254, 336, 254, 386),
 ])
-# Lakbay Lokal: one FastAPI server; the planner decides, Gemini only rewords.
-svg("lakbay", "wide", (960, 470), [
-    box(20, 40, 250, 130, "Browser app", ["HTML, CSS, JavaScript", "Leaflet map", "Works offline (service worker)"], mine=True),
-    box(20, 230, 250, 104, "Owner sign-up form", ["Business owners add", "their place"]),
-    box(350, 40, 270, 150, "FastAPI on Render", ["Checks every request", "Rate limits, security headers", "One worker"], mine=True),
-    box(350, 250, 270, 104, "Planner", ["Filter, score, fill each day", "Same trip, same plan"], mine=True),
-    box(700, 40, 240, 104, "Gemini API", ["Rewords stored facts only", "Template if it fails"]),
-    box(700, 250, 240, 104, "SQLite", ["220 places + tags", "Rebuilt on each deploy"]),
-    box(20, 390, 920, 64, "Private GitHub repo", ["Owner sign-ups wait here until I review and approve them"]),
+# TripItinerary: a Nuxt app calls one FastAPI server; the planner decides, OSRM and Nominatim help.
+svg("tripitinerary", "wide", (960, 470), [
+    box(20, 40, 250, 130, "Nuxt 3 website", ["Vue 3, TypeScript, Tailwind", "Leaflet map", "Types made from the API"], mine=True),
+    box(20, 230, 250, 104, "Owner form", ["Business owners add", "their place for review"]),
+    box(350, 40, 270, 150, "FastAPI backend", ["Pydantic checks every request", "Plans, swaps, add and remove", "Stored plans with a version"], mine=True),
+    box(350, 250, 270, 104, "Planner", ["Pick, time and warn", "No AI in the beta"], mine=True),
+    box(700, 40, 240, 104, "OSRM and Nominatim", ["Drive times and stay lookup", "Estimates if they fail"]),
+    box(700, 250, 240, 104, "SQLite", ["Places from OpenStreetMap", "and a hand-checked list"]),
+    box(20, 390, 920, 64, "GitHub Actions", ["Lint, 102 backend tests, and a check that the website's types match the API"]),
     edge(270, 100, 346, 110, "HTTPS, JSON", (278, 92)),
     edge(270, 282, 346, 160),
     edge(485, 190, 485, 246),
     edge(620, 300, 696, 300, "SQL", (646, 292)),
-    edge(620, 92, 696, 92, "facts only", (630, 84)),
+    edge(620, 92, 696, 92, "drive times", (626, 84)),
     edge(145, 334, 145, 386, faint=True),
 ])
-svg("lakbay", "tall", (340, 700), [
-    box(10, 10, 320, 104, "Browser app", ["HTML, CSS, JavaScript, Leaflet", "Works offline · by me"], mine=True),
-    box(10, 170, 320, 104, "FastAPI on Render", ["Checks requests, rate limits", "by me"], mine=True),
-    box(10, 330, 320, 84, "Planner", ["Filter, score, fill each day · by me"], mine=True),
-    box(10, 470, 152, 104, "SQLite", ["220 places", "+ tags"]),
-    box(178, 470, 152, 104, "Gemini API", ["Rewords facts", "Template fallback"]),
-    box(10, 600, 320, 84, "Private GitHub repo", ["Owner sign-ups, reviewed by me"]),
+svg("tripitinerary", "tall", (340, 700), [
+    box(10, 10, 320, 104, "Nuxt 3 website", ["Vue, TypeScript, Tailwind, Leaflet", "Types made from the API"], mine=True),
+    box(10, 170, 320, 104, "FastAPI backend", ["Pydantic checks every request", "Stored plans with a version"], mine=True),
+    box(10, 330, 320, 84, "Planner", ["Pick, time and warn · no AI in the beta"], mine=True),
+    box(10, 470, 152, 104, "SQLite", ["OSM places", "+ hand-checked"]),
+    box(178, 470, 152, 104, "OSRM", ["Drive times,", "estimates if down"]),
+    box(10, 600, 320, 84, "GitHub Actions", ["Lint, tests, type check"]),
     edge(170, 116, 170, 166, "HTTPS, JSON", (182, 146)),
     edge(170, 276, 170, 326),
     edge(86, 416, 86, 466),

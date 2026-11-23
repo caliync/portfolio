@@ -116,106 +116,116 @@
     "repos": []
   },
   {
-    "slug": "lakbay-lokal",
-    "name": "Lakbay Lokal",
-    "repos": [
-      {
-        "repo": "caliync/LakbayLokal",
-        "label": ""
-      }
-    ],
-    "og": "A trip planner that builds a timed day of small, local places near where you're staying. In progress.",
+    "slug": "tripitinerary",
+    "name": "AI-Powered TripItinerary",
+    "repos": [],
+    "og": "A trip planner for Calamba, Laguna that builds a timed, day-by-day route from where you stay and flags access for wheelchair users. In progress.",
     "kind": "Personal project, in progress",
-    "summary": "A free trip planner for the Philippines that I'm building on my own. It turns where you're staying and how far you'll go into a timed day of small, local places, with travel time between each stop.",
-    "detail": "It only recommends real places from its own list of about 220 and picks checked places first, while Gemini only rewords stored facts. Plans can be edited, swapped for indoor places on rainy days, shown on a map, added to a calendar, and followed offline on the day.",
+    "summary": "A trip planner for Calamba, Laguna that I'm building. You enter where you're staying, your dates, who is going, your budget, any access needs and what you enjoy, and it plans each day as a timed route that starts and ends at your stay, with drive times between stops.",
+    "detail": "It plans around wheelchair access, minimal walking and low-sensory needs, and says plainly when a place's access hasn't been checked. Any stop can be swapped for another place nearby. The planner is rule-based today, and the AI step is designed in but not switched on yet.",
     "stack": [
       "Python",
       "FastAPI",
-      "JavaScript",
+      "Pydantic",
       "SQLite",
-      "Gemini API",
+      "Nuxt",
+      "Vue",
+      "TypeScript",
+      "Tailwind",
       "Leaflet",
-      "Render"
+      "OSRM"
     ],
     "shots": [
       {
-        "src": "images/projects/lakbay-home.webp",
-        "alt": "Lakbay Lokal's homepage: the headline \"Plan a day in Alabang, then let us point you there\" over a photo collage, a short trip search in the top bar, and counts of 220 places listed and 4 trust labels on every fact",
-        "caption": "The homepage: what the planner does, a quick trip search, and the five steps from planning to the day guide.",
+        "src": "images/projects/trip-intake.webp",
+        "alt": "The trip form: dates, who is going, budget, access needs such as wheelchair user and minimal walking, and interests such as hot springs and Filipino food, beside a summary card with a Plan my trip button",
+        "caption": "Tell it where you stay, who is going, your budget, access needs and interests.",
         "width": 1280,
-        "height": 800
+        "height": 937
       },
       {
-        "src": "images/projects/lakbay-start.webp",
-        "alt": "Lakbay Lokal's start screen: where you're staying, dates and who is coming, then how far you'll go, with a ring showing that distance",
-        "caption": "Where you're staying, when, who's coming, and how far you'll go.",
+        "src": "images/projects/trip-plan.webp",
+        "alt": "A planned day: a timeline of stops with times, drive times between them and access labels, beside a map with numbered stops",
+        "caption": "A planned day: times, drive times, access labels and the route on the map.",
         "width": 1280,
-        "height": 800
+        "height": 937
       },
       {
-        "src": "images/projects/lakbay-plan.webp",
-        "alt": "A planned day in Lakbay Lokal: a timeline of stops with times and travel between them, each fact marked checked or estimated, beside a map with numbered pins",
-        "caption": "A planned day: times, travel between stops, how sure each fact is, and the map.",
+        "src": "images/projects/trip-swap.webp",
+        "alt": "A panel in dark mode that offers three nearby places to swap for a seafood restaurant, each with its distance and drive-time change",
+        "caption": "Swapping a stop: nearby places that fit the same time slot, in dark mode.",
         "width": 1280,
-        "height": 800
+        "height": 937
       }
     ],
     "mission": [
-      "Big travel sites send everyone to the same places. Lakbay Lokal points travellers to small, local, lesser-known places near where they're staying.",
-      "It only recommends places from its own list and never makes one up. The list has about 220 real places: 34 popular Alabang and Muntinlupa places I researched from public pages, plus 186 from OpenStreetMap that the site marks \"Details not checked yet\". The planner picks checked places first."
+      "Trip sites give everyone the same list of places and leave you to work out the drive between them. TripItinerary starts from where you're staying and builds each day in one area, so you spend the day at places and less of it in traffic.",
+      "It is aimed at travellers who need to know about access before they go. It shows wheelchair access where it is known, flags places where it isn't, and only plans places it has data for. It covers Calamba only for now and plans car trips."
     ],
     "roles": [
       {
-        "title": "Planning engine",
-        "text": "filters places by budget, group, opening hours and interests, scores them, and builds each day outward from the stay. Travel time comes from straight-line distance, adjusted for winding roads and a trike or jeepney's speed, plus time to find a ride."
+        "title": "Planner",
+        "text": "built a rule-based planner that centres each day on the best unused sight within about 3 km, puts outdoor places early and at sunset, times lunch and dinner, and caps a day at 8 stops. The same answers give the same plan."
       },
       {
-        "title": "Grounded AI",
-        "text": "Gemini only rewrites a stop's stored facts as a sentence or two and is told not to add any. If there's no key or the call fails, a template writes the text instead."
+        "title": "Drive times",
+        "text": "added OSRM drive times with rush-hour factors for the region. If OSRM doesn't answer, the planner falls back to a straight-line estimate and each day says so."
       },
       {
-        "title": "Traveller features",
-        "text": "editable plans, a rainy-day swap to indoor places, a day map, calendar and Markdown exports, saved drafts, and a guide for the day itself with a compass and directions. A service worker keeps the plan and guide working offline."
+        "title": "Access and warnings",
+        "text": "labelled each place's step-free access as known or not checked, and added warnings for rush-hour drives, light days and estimated drive times."
       },
       {
-        "title": "Owner sign-ups",
-        "text": "a form where small business owners add their place. Nothing goes live until I check it and approve it with a script."
+        "title": "Swaps",
+        "text": "built stop swaps: up to 5 places with the same role within 3 km. A version check stops two browser tabs from overwriting each other's plan."
       },
       {
-        "title": "Testing and deployment",
-        "text": "unit tests for the engine, browser tests with Playwright, and deployment on Render."
+        "title": "Website",
+        "text": "built the Nuxt 3, Vue 3 and TypeScript site with a Tailwind design system, a Leaflet map, light and dark mode, and a mock mode for designing without the backend."
+      },
+      {
+        "title": "Owner form",
+        "text": "built a form where business owners add their place. A person reviews every entry before anything is shown."
+      },
+      {
+        "title": "Testing and CI",
+        "text": "wrote 102 backend tests and set up GitHub Actions to run the linter, the tests and a check that the website's types still match the API."
       }
     ],
     "arch": [
       {
         "label": "Backend",
-        "text": "Python, FastAPI"
+        "text": "Python, FastAPI, Pydantic"
       },
       {
         "label": "Data",
-        "text": "SQLite, with every place record checked against a JSON Schema; OpenStreetMap import scripts"
+        "text": "SQLite, filled from a hand-checked list and OpenStreetMap places"
+      },
+      {
+        "label": "Routing",
+        "text": "OSRM for drive times, Nominatim to find the stay, with estimates as a fallback"
       },
       {
         "label": "Frontend",
-        "text": "HTML, CSS and JavaScript, Leaflet maps"
+        "text": "Nuxt 3, Vue 3, TypeScript, Tailwind, Leaflet"
+      },
+      {
+        "label": "Shared types",
+        "text": "Made from the API's OpenAPI file, so the website and backend can't drift apart"
       },
       {
         "label": "AI",
-        "text": "Google Gemini API, free tier, with a template fallback"
+        "text": "Designed in, switched off for the beta"
       },
       {
-        "label": "Offline",
-        "text": "service worker"
-      },
-      {
-        "label": "Hosting",
-        "text": "Render"
+        "label": "CI",
+        "text": "GitHub Actions"
       }
     ],
     "links": [
       {
-        "text": "Open the live site",
-        "href": "https://lakbay-lokal.onrender.com/"
+        "text": "View the code on GitHub",
+        "href": "https://github.com/caliync/AI-Powered-TripItinerary-"
       }
     ],
     "score": null

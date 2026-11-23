@@ -19,14 +19,14 @@ def tile_uri(slug):
     return "data:image/svg+xml;base64," + base64.b64encode(art.logo_svg(slug).encode()).decode()
 
 P = [
-    dict(slug="lakbay-lokal", bg="images/projects/lakbay-start.webp", floor="images/projects/lakbay-plan.webp",
-         fonts="family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@700;800",
-         wash="linear-gradient(180deg, rgba(238,240,242,.92) 0%, rgba(238,240,242,.84) 55%, rgba(28,33,39,.45) 100%)",
-         word='<span style="font-family:Bricolage Grotesque;font-weight:800;color:#1C2127;letter-spacing:-.03em">Lakbay</span> '
-              '<span style="font-family:Bricolage Grotesque;font-weight:800;color:#B36B00;letter-spacing:-.03em">Lokal</span>',
-         wsize=122, glow="#FFFFFF", sub_font="Figtree", sub_color="#1C2127",
-         sub="A day planner for small, local places<br>near where you're staying<br>Alabang, Muntinlupa",
-         floor_tint="rgba(28,33,39,.08)", base="#2A2F36"),
+    dict(slug="tripitinerary", bg="images/projects/trip-intake.webp", floor="images/projects/trip-plan.webp",
+         fonts="family=Plus+Jakarta+Sans:wght@700;800",
+         wash="linear-gradient(180deg, rgba(240,246,247,.93) 0%, rgba(240,246,247,.85) 55%, rgba(14,58,77,.50) 100%)",
+         word='<span style="font-family:Plus Jakarta Sans;font-weight:800;color:#0E3A4D;letter-spacing:-.03em">Trip</span>'
+              '<span style="font-family:Plus Jakarta Sans;font-weight:800;color:#C9780F;letter-spacing:-.03em">Itinerary</span>',
+         wsize=118, glow="#FFFFFF", sub_font="Plus Jakarta Sans", sub_color="#0E3A4D",
+         sub="Day-by-day trip plans<br>that fit the road and your needs<br>Calamba, Laguna",
+         floor_tint="rgba(14,58,77,.10)", base="#16303B"),
     dict(slug="wildwood-site", cover="wildwood", hero="images/projects/farm-title.webp", bg="images/projects/site-forest.webp", floor="images/projects/site-world.webp",
          fonts="family=Marcellus&family=Barlow+Condensed:wght@600;700",
          wash="linear-gradient(180deg, rgba(10,22,20,.55) 0%, rgba(10,22,20,.35) 50%, rgba(6,12,11,.80) 100%)",

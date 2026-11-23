@@ -5,7 +5,7 @@
 Writes data/github-stats.json, which the pages show at build time, so the numbers show without
 JavaScript. For public repos, the page also refreshes them live in the visitor's browser.
 
-Private repos (Lakbay Lokal) can only be read with a token: set GITHUB_TOKEN to one that can read them.
+Private repos can only be read with a token: set GITHUB_TOKEN to one that can read them.
 Only the count and the date are kept; nothing else about a private repo reaches the site.
 Uses only per-repository endpoints (/repos/owner/name/...).
 """
