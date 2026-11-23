@@ -88,6 +88,8 @@
   /* Fixed colours: the same in both themes, for text and rings that sit on photos or the dark intro */
   --gold: #F5C518; --cream: #F4EAE0; --hero-body: #EADBCC; --hero-role: #FF6B7C; --hero-label: #FF8A98; --media-bg: #12080A;
   --focus: var(--accent);
+  /* The role line under the name: yellow in dark mode, red in light mode */
+  --role-c: #F5C518;
   /* Motion: one curve, three speeds */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --t-quick: 150ms;
@@ -96,16 +98,16 @@
   color-scheme: dark;
 }
 :root[data-theme="light"] {
-    --bg: #F1EBE3; --ink: #2A1214; --muted: #6E5552; --line: rgba(42, 18, 20, .13);
-    --box: rgba(250, 246, 240, .92); --chip: rgba(163, 22, 42, .045);
-    --accent: #EBB30F; --accent-text: #A3162A; --on-accent: #2A1214; --link: #A3162A; --red: #B3122B; --shade: rgba(241, 235, 227, .7); --focus: #A3162A;
+    --bg: #DCD2C4; --ink: #261012; --muted: #5C4543; --line: rgba(42, 18, 20, .17);
+    --box: rgba(234, 225, 212, .94); --chip: rgba(163, 22, 42, .06);
+    --accent: #EBB30F; --accent-text: #A3162A; --on-accent: #2A1214; --link: #A3162A; --red: #B3122B; --shade: rgba(220, 210, 196, .7); --focus: #A3162A; --role-c: #B3122B;
     color-scheme: light;
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --bg: #F1EBE3; --ink: #2A1214; --muted: #6E5552; --line: rgba(42, 18, 20, .13);
-    --box: rgba(250, 246, 240, .92); --chip: rgba(163, 22, 42, .045);
-    --accent: #EBB30F; --accent-text: #A3162A; --on-accent: #2A1214; --link: #A3162A; --red: #B3122B; --shade: rgba(241, 235, 227, .7); --focus: #A3162A;
+    --bg: #DCD2C4; --ink: #261012; --muted: #5C4543; --line: rgba(42, 18, 20, .17);
+    --box: rgba(234, 225, 212, .94); --chip: rgba(163, 22, 42, .06);
+    --accent: #EBB30F; --accent-text: #A3162A; --on-accent: #2A1214; --link: #A3162A; --red: #B3122B; --shade: rgba(220, 210, 196, .7); --focus: #A3162A; --role-c: #B3122B;
     color-scheme: light;
   }
 }
@@ -178,7 +180,7 @@ h1, h2, h3 { font-weight: 400; }
   font-size: var(--fs-display); color: var(--ink);
   text-shadow: 0 2px 30px var(--shade);
 }
-.role { margin: var(--space-4) 0 0; font-family: var(--serif); font-size: var(--fs-role); line-height: 1.15; font-weight: 400; color: var(--red); }
+.role { margin: var(--space-4) 0 0; font-family: var(--serif); font-size: var(--fs-role); line-height: 1.15; font-weight: 400; color: var(--role-c); }
 .lede { max-width: 38em; margin: var(--space-4) 0 0; font-size: var(--fs-lede); line-height: 1.6; }
 .hero .lede { text-shadow: 0 1px 14px var(--bg); }
 .hero .name, .hero .role, .hero .where { text-shadow: 0 2px 24px var(--bg); }
@@ -682,3 +684,9 @@ mark.fill { background: #FFF1B8; color: #2A1214; padding: 0 var(--space-1); bord
 .hs-swipe .bar.menu-open nav { display: flex; }
 .hs-swipe .bar nav a, .hs-swipe .bar nav .nav-extra { display: flex; padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
 .hs-swipe .bar nav a:last-child { border-bottom: 0; }
+
+/* Light mode: the line under the current section in the top bar is red */
+:root[data-theme="light"] .bar nav a:hover, :root[data-theme="light"] .bar nav a[aria-current="true"] { border-bottom-color: var(--accent-text); }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .bar nav a:hover, :root:not([data-theme="dark"]) .bar nav a[aria-current="true"] { border-bottom-color: var(--accent-text); }
+}

@@ -9,8 +9,8 @@ definePageMeta({ alias: ['/index.html'] })
 // Same order as the panels. On phones only the links marked `essential` fit in the bar;
 // the others stay one swipe away.
 const nav = [
-  { text: 'Projects', href: '#projects', essential: true },
   { text: 'About', href: '#about', essential: true },
+  { text: 'Projects', href: '#projects', essential: true },
   { text: 'Experience', href: '#experience', essential: false },
   { text: 'Skills', href: '#skills', essential: false },
   { text: 'Credentials', href: '#credentials', essential: false },
@@ -72,18 +72,10 @@ useSiteHead({
             <h1 id="name" class="name">{{ site.name }}</h1>
             <p class="role">{{ about.role }}</p>
             <p class="where">{{ about.school }}</p>
-            <p class="avail">{{ about.availability }}</p>
             <div class="reach-row">
               <ContactIcons />
             </div>
             <p class="hs-hint" aria-hidden="true"><span class="h-scroll">Scroll to browse the shelves</span><span class="h-swipe">Swipe to browse the shelves</span> <span class="arrow">&rarr;</span></p>
-          </div>
-        </section>
-
-        <section v-for="(p, i) in projects" :id="nth('projects', i)" :key="p.slug" class="panel panel-proj">
-          <div class="box panel-box">
-            <h2 :id="hid('proj-h', i)">Projects<span class="count">{{ i + 1 }} of {{ projects.length }}</span></h2>
-            <ProjectCard :p="p" />
           </div>
         </section>
 
@@ -103,6 +95,13 @@ useSiteHead({
                 <ul class="list"><li v-for="t in about.interests" :key="t">{{ t }}</li></ul>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section v-for="(p, i) in projects" :id="nth('projects', i)" :key="p.slug" class="panel panel-proj">
+          <div class="box panel-box">
+            <h2 :id="hid('proj-h', i)">Projects<span class="count">{{ i + 1 }} of {{ projects.length }}</span></h2>
+            <ProjectCard :p="p" />
           </div>
         </section>
 
