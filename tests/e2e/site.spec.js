@@ -56,7 +56,6 @@ for (const path of PAGES) {
       document.querySelectorAll('a[href]').forEach((a) => add(a.getAttribute('href')));
       document.querySelectorAll('img[src], script[src], link[href]').forEach((e) => add(e.getAttribute('src') || e.getAttribute('href')));
       document.querySelectorAll('use').forEach((u) => add((u.getAttribute('href') || '').split('#')[0]));
-      document.querySelectorAll('[data-shots]').forEach((e) => JSON.parse(e.dataset.shots).forEach((s) => add(s.src)));
       return [...found];
     });
     expect(urls.length).toBeGreaterThan(5);

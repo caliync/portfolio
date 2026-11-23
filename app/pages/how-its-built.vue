@@ -24,7 +24,7 @@ useSiteHead({
 const parts = [
   ['Framework', 'Nuxt 4 and Vue 3, written in TypeScript with strict type checking. The pages are generated to plain HTML at build time, so they show up in search and link previews without any JavaScript. Vue runs only at build time; it is not sent to your browser.'],
   ['Content', 'Projects, skills, experience and credentials are typed JSON files. The two case studies are Markdown. A mistyped heading or a blank that was never filled in stops the build.'],
-  ['Behaviour', 'The theme switch, sideways scrolling, image viewer, cover reveals and live GitHub numbers are small TypeScript modules, bundled into one script of about 5 KB. Each one can undo what it set up.'],
+  ['Behaviour', 'The theme switch, sideways scrolling, image viewer and live GitHub numbers are small TypeScript modules, bundled into one script of about 5 KB. Each one can undo what it set up.'],
   ['Background', 'A 3D library drawn with three.js r128. Every texture is drawn in code, so there are no image files. It is fetched only for visitors who will see it move: reduced motion, data saver or no WebGL get a still picture instead.'],
   ['Styling', 'One hand-written stylesheet with tokens for spacing, type, colour and motion, in light and dark mode. No CSS framework.'],
   ['Fonts and icons', 'Karla and Young Serif are served from this site, and the brand icons come from one cached SVG file.'],
@@ -33,7 +33,7 @@ const parts = [
 
 const checks = [
   ['Type check', 'Strict TypeScript over the pages, components and browser modules.'],
-  ['Unit and component tests (Vitest)', 'The Markdown reader and the errors it must give, unfilled-blank handling, the GitHub numbers, the image viewer, cover reveal, copy guard and theme switch.'],
+  ['Unit and component tests (Vitest)', 'The Markdown reader and the errors it must give, unfilled-blank handling, the GitHub numbers, the image viewer, copy guard and theme switch.'],
   ['Browser tests (Playwright)', 'Every page on a phone, a tablet and a desktop width; automated accessibility checks (axe) in light and dark mode; broken links and files; link previews; the fallbacks for reduced motion and for no WebGL.'],
   ['Lighthouse', 'On a throttled phone profile. The build fails if performance drops under 85, or accessibility, best practices or SEO under 95.'],
 ]

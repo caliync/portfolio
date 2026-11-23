@@ -6,7 +6,7 @@ How this portfolio is built and run. The short introduction is in the [README](.
 
 - **Nuxt 4 and Vue 3**, in **TypeScript**. Nuxt builds every page into plain HTML ahead of time, so GitHub Pages serves finished pages and Vue never runs in the visitor's browser.
 - **Hand-written CSS** with design tokens for colour, spacing, type and motion, in light and dark mode. No CSS framework.
-- **Small TypeScript modules** for the parts that move (sideways scroll, theme switch, image viewer, cover reveal, live GitHub numbers), bundled with esbuild into one script of about 5 KB.
+- **Small TypeScript modules** for the parts that move (sideways scroll, theme switch, image viewer, live GitHub numbers), bundled with esbuild into one script of about 5 KB.
 - **three.js** (r128) for the 3D library, loaded only on the home page and only when it will move.
 - **Vitest**, **Playwright** with axe, and **Lighthouse** for the checks, run by **GitHub Actions**, which also deploys to **GitHub Pages**.
 

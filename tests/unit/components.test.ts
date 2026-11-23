@@ -69,14 +69,11 @@ describe('ProjectCard', () => {
     expect(w.get('.card-links').text()).toContain('How I built it')
   })
 
-  it('hands the screenshots to the cover reveal as JSON', () => {
-    const shots = JSON.parse(w.get('.art-box').attributes('data-shots')!)
-    expect(shots).toHaveLength(baylo.shots.length)
-    expect(shots[0]).toEqual({ src: baylo.shots[0]!.src, alt: baylo.shots[0]!.alt })
-  })
-
-  it('counts the screens and labels the cover button for screen readers', () => {
-    expect(w.get('.art-count').text()).toBe(`1 / ${baylo.shots.length}`)
-    expect(w.get('.art-scene').attributes('aria-label')).toBe('See the real screens of Baylo')
+  it('shows the cover as a plain image, with no button over it', () => {
+    const img = w.get('.card-img img')
+    expect(img.attributes('src')).toBe('images/covers/baylo.webp')
+    expect(img.attributes('alt')).toBe('Baylo cover')
+    expect(w.find('.card-img button').exists()).toBe(false)
+    expect(w.text()).not.toContain('See the real screens')
   })
 })

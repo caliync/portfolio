@@ -1,7 +1,7 @@
 // Image viewer: clicking a photo, screenshot or certificate opens it larger on this page.
 import { Listeners, type Cleanup } from './dom'
 
-const SELECTOR = '.job-photo img, .cert-img img, .shot img, .art-img'
+const SELECTOR = '.job-photo img, .cert-img img, .shot img'
 
 export function startImageViewer(): Cleanup {
   if (!document.querySelector(SELECTOR)) return () => {}

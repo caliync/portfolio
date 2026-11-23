@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { startCopyGuard } from '~/lib/copyGuard'
-import { startCoverReveal } from '~/lib/coverReveal'
 import { startGithubStats } from '~/lib/githubStats'
 import { startImageViewer } from '~/lib/imageViewer'
 import { startTheme } from '~/lib/theme'
@@ -73,45 +72,6 @@ describe('image viewer', () => {
   it('removes the viewer when cleaned up', () => {
     stop!(); stop = undefined
     expect(document.querySelector('.viewer')).toBeNull()
-  })
-})
-
-describe('cover reveal', () => {
-  beforeEach(() => {
-    const shots = JSON.stringify([{ src: '/1.webp', alt: 'one' }, { src: '/2.webp', alt: 'two' }, { src: '/3.webp', alt: 'three' }])
-    document.body.innerHTML = `<div class="art-box" data-shots='${shots}'>
-      <button class="art-scene"></button>
-      <div class="art-real" inert><img class="art-img" alt="">
-        <button class="art-prev"></button><span class="art-count"></span><button class="art-next"></button><button class="art-back"></button></div></div>`
-    stop = startCoverReveal()
-  })
-  const q = <T extends Element>(s: string) => document.querySelector<T>(s)!
-
-  it('reveals the first real screen when the cover is clicked, and swaps what is clickable', () => {
-    click(q('.art-scene'))
-    expect(q('.art-box').classList.contains('is-real')).toBe(true)
-    expect(q('.art-img').getAttribute('src')).toBe('/1.webp')
-    expect(q('.art-count').textContent).toBe('1 / 3')
-    expect(q('.art-scene').hasAttribute('inert')).toBe(true)
-    expect(q('.art-real').hasAttribute('inert')).toBe(false)
-  })
-
-  it('goes forward and back, and wraps around at both ends', () => {
-    click(q('.art-scene'))
-    click(q('.art-prev'))
-    expect(q('.art-count').textContent).toBe('3 / 3')
-    click(q('.art-next'))
-    expect(q('.art-count').textContent).toBe('1 / 3')
-    key(q('.art-box'), 'ArrowRight')
-    expect(q('.art-img').getAttribute('alt')).toBe('two')
-  })
-
-  it('goes back to the cover with the button or Escape', () => {
-    click(q('.art-scene')); click(q('.art-back'))
-    expect(q('.art-box').classList.contains('is-real')).toBe(false)
-    expect(q('.art-real').hasAttribute('inert')).toBe(true)
-    click(q('.art-scene')); key(q('.art-box'), 'Escape')
-    expect(q('.art-box').classList.contains('is-real')).toBe(false)
   })
 })
 
